@@ -1,4 +1,4 @@
-import HoursRecordings from './HoursRecording';
+import HoursRecordings from "./HoursRecording";
 
 function App() {
     return (

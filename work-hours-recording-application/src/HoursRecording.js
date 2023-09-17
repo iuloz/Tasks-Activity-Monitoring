@@ -3,34 +3,32 @@ import HoursRecordingsItem from "./HoursRecordingsItem";
 
 function HoursRecordings() {
     const [hoursRecords, setHoursRecords] = useState([]);
-    const [newHoursRecord, setNewHoursRecord] = useState({ id: "", hours: "" });
-    const [timeFrom, setTimeFrom] = useState("");
-    const [timeTill, setTimeTill] = useState("");
+    const [newHoursRecord, setNewHoursRecord] = useState({ id: "", start: "", end: "" });
 
     const recordHours = async (event) => {
         await event.preventDefault();
-        if (newHoursRecord.hours === "") {
+        if (newHoursRecord.start === "" || newHoursRecord.end === "") {
             return;
         } else {
             setHoursRecords([...hoursRecords, newHoursRecord]);
         }
-        setNewHoursRecord({ id: "", hours: "" });
+        setNewHoursRecord({ id: "", start: "", end: "" });
     }
 
-    const inputChanged = (event) => {
-        setNewHoursRecord({ id: "", hours: event.target.value });
+    const hoursChanged = (event) => {
+        setNewHoursRecord({ ...newHoursRecord, id: "", [event.target.name]: event.target.value });
     }
+
 
     return (
         <>
             <h1>Work Hours Recording</h1>
             <form onSubmit={recordHours}>
-                <input id="input" type="text" placeholder="Work hours" name="name" value={newHoursRecord.hours} onChange={inputChanged}></input>
+                <input type="text" placeholder="Start time" name="start" value={newHoursRecord.start} onChange={hoursChanged}></input>
+                <input type="text" placeholder="End time" name="end" value={newHoursRecord.end} onChange={hoursChanged}></input>
                 <input id="submitBtn" type="submit" value="Add" />
-                <input type="text" placeholder="Time from" name="name"></input>
-
             </form>
-            <HoursRecordingsItem hoursRecords={hoursRecords} timeFrom={timeFrom} timeTill={timeTill} />
+            <HoursRecordingsItem hoursRecords={hoursRecords} />
         </>
     )
 }

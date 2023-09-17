@@ -1,4 +1,4 @@
-// This is recordings list, made during whole time
+// This is recordings list view, made during whole time
 function AllRecordings(){
 
 }

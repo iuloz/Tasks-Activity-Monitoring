@@ -1,9 +1,9 @@
-import './App.css';
+import HoursRecordings from './HoursRecording';
 
 function App() {
     return (
         <div className="App">
-
+            <HoursRecordings />
         </div>
     );
 }

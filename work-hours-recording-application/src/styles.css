@@ -1,0 +1,32 @@
+body {
+    font-family: arial;
+}
+
+.link {
+    padding-right: 50px;
+    font-size: 20px;
+}
+
+th {
+    padding:0px 20px;
+    font-size: 15px;
+    border-bottom: 3px solid darkgray;
+    font-size: 2vh;
+}
+
+td {
+    padding:0px 20px;
+    border-bottom: 1px solid darkgray;
+}
+
+input {
+    height: 3vh;
+    width: 6vw;
+    margin-right: 30px;
+    font-size: 2vh;
+    text-align: center;
+}
+
+label {
+    font-size: 2vh;
+}

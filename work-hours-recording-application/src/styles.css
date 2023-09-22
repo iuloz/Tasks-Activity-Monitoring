@@ -4,14 +4,13 @@ body {
 
 .link {
     padding-right: 50px;
-    font-size: 20px;
+    font-size: 1.5rem;
 }
 
 th {
     padding:0px 20px;
-    font-size: 15px;
+    font-size: 1.2rem;
     border-bottom: 3px solid darkgray;
-    font-size: 2vh;
 }
 
 td {
@@ -20,13 +19,21 @@ td {
 }
 
 input {
-    height: 3vh;
-    width: 6vw;
+    height: 1.5rem;
+    width: 4rem;
     margin-right: 30px;
-    font-size: 2vh;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#taskInput {
+    height: 1.5rem;
+    width: 15rem;
+    margin-right: 30px;
+    font-size: 1rem;
     text-align: center;
 }
 
 label {
-    font-size: 2vh;
+    font-size: 1.2rem;
 }

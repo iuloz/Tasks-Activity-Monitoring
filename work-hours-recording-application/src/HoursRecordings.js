@@ -47,7 +47,7 @@ function HoursRecordings() {
             <h2>Hours Recording</h2>
             <form onSubmit={recordHours}>
                 <label htmlFor="task">Task: </label>
-                <input type="text"  placeholder="Type the task" name="task" value={newHoursRecord.task} onChange={hoursChanged}></input>
+                <input id="taskInput" type="text"  placeholder="Type the task" name="task" value={newHoursRecord.task} onChange={hoursChanged}></input>
                 <label htmlFor="start">Start time: </label>
                 <input type="text"  placeholder="hh:mm" name="start" value={newHoursRecord.start} onChange={hoursChanged}></input>
                 <label htmlFor="end">End time: </label>

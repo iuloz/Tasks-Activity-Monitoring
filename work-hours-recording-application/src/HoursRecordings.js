@@ -3,7 +3,7 @@ import HoursRecordingsItem from "./HoursRecordingsItem";
 
 function HoursRecordings() {
     const [hoursRecords, setHoursRecords] = useState([]);
-    const [newHoursRecord, setNewHoursRecord] = useState({ id: "", date: "", task: "", start: "", end: "", hours: ""});
+    const [newHoursRecord, setNewHoursRecord] = useState({date: "", task: "", start: "", end: "", hours: ""});
 
     const recordHours = async (event) => {
         await event.preventDefault();

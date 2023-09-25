@@ -1,6 +1,6 @@
 import "./styles.css"
 
-function HoursRecordingsItem(props){
+function TasksItem(props){
 
 
     return (
@@ -30,4 +30,4 @@ function HoursRecordingsItem(props){
         </>
     );
 }
-export default HoursRecordingsItem;
+export default TasksItem;

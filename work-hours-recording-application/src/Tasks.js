@@ -1,11 +1,12 @@
 import { useState } from "react";
 import TasksItem from "./TasksItem";
+import Form from "./Form";
 
 function Tasks() {
     const [taskList, setTaskList] = useState([]);
     const [task, setTask] = useState({date: "", task: "", tags: [], start: "", end: "", hours: ""});
 
-    const recordHours = async (event) => {
+    const recordTask = async (event) => {
         await event.preventDefault();
         if (task.start === "" || task.end === "") {
             return;
@@ -32,7 +33,7 @@ function Tasks() {
         setTask(prev => ({ ...prev, task: "", start: "", end: "" }));
     }
 
-    const hoursChanged = (event) => {
+    const inputChanged = (event) => {
         const date = (new Date()).toLocaleDateString("fi-FI", {
             day: "2-digit",
             month: "2-digit",
@@ -45,19 +46,20 @@ function Tasks() {
 
     return (
         <>
-            <h2>Create your task</h2>
-            <form onSubmit={recordHours}>
+            {/* <h2>Create your task</h2>
+            <form onSubmit={recordTask}>
                 <label htmlFor="taskInput">Task: </label>
-                <input id="taskInput" type="text"  placeholder="Type the task" name="task" value={task.task} onChange={hoursChanged}></input>
-                {/* <label htmlFor="start">Start time: </label>
-                <input id="start" type="text"  placeholder="hh:mm" name="start" value={task.start} onChange={hoursChanged}></input> */}
-                {/* <label htmlFor="end">End time: </label>
-                <input id="end" type="text" placeholder="hh:mm" name="end" value={task.end} onChange={hoursChanged}></input> */}
+                <input id="taskInput" type="text"  placeholder="Type the task" name="task" value={task.task} onChange={inputChanged}></input>
+                <label htmlFor="start">Start time: </label>
+                <input id="start" type="text"  placeholder="hh:mm" name="start" value={task.start} onChange={inputChanged}></input>
+                <label htmlFor="end">End time: </label>
+                <input id="end" type="text" placeholder="hh:mm" name="end" value={task.end} onChange={inputChanged}></input>
                 <input id="submitBtn" type="submit" value="Add" />
-            </form>
+            </form> */}
+            <Form task={task} inputChanged={inputChanged} recordTask={recordTask}/>
             <TasksItem taskList={taskList} />
         </>
-    )
+    );
 }
 
 export default Tasks;

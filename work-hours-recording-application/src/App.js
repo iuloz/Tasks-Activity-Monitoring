@@ -1,6 +1,6 @@
 import Menu from "./Menu";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import HoursRecordings from "./HoursRecordings";
+import Tasks from "./Tasks";
 import About from "./About";
 import AllRecordings from "./AllRecordings";
 
@@ -9,7 +9,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Menu/>}/>
-                <Route path="/make-recording" element={<HoursRecordings/>}/>
+                <Route path="/make-recording" element={<Tasks/>}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/recordings" element={<AllRecordings/>}/>
             </Routes>

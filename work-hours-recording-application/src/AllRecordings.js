@@ -15,7 +15,7 @@ function AllRecordings(){
 
     return(
         <>
-            <h2>All hours recordings</h2>
+            <h2>All recordings</h2>
             <div style={{paddingTop:"30px"}}></div>
             <table id="table">
                 <tbody>

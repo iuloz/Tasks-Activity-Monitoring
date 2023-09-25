@@ -2,6 +2,7 @@ import "./styles.css"
 
 function HoursRecordingsItem(props){
 
+
     return (
         <>
             <div style={{paddingTop:"30px"}}></div>
@@ -15,7 +16,7 @@ function HoursRecordingsItem(props){
                         <th>Hours</th>
                     </tr>
                 {
-                    props.hoursRecords.map((record, index) =>
+                    props.taskList.map((record, index) =>
                     <tr key={index}>
                         <td>{record.date}</td>
                         <td>{record.task}</td>

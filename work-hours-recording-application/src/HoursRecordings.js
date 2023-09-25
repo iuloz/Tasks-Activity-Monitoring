@@ -3,26 +3,27 @@ import HoursRecordingsItem from "./HoursRecordingsItem";
 
 function HoursRecordings() {
     const [hoursRecords, setHoursRecords] = useState([]);
-    const [newHoursRecord, setNewHoursRecord] = useState({date: "", task: "", start: "", end: "", hours: ""});
+    const [newHoursRecord, setNewHoursRecord] = useState({date: "", task: "", tags: [], start: "", end: "", hours: ""});
 
     const recordHours = async (event) => {
         await event.preventDefault();
         if (newHoursRecord.start === "" || newHoursRecord.end === "") {
             return;
+
         } else {
-            // Calculating time difference between star and end time
+            // Calculating time difference between start and end time
             const [hoursStart, minutesStart] = newHoursRecord.start.split(':').map(Number);
             const [hoursEnd, minutesEnd] = newHoursRecord.end.split(':').map(Number);
             if (minutesStart > 59 || minutesStart < 0 || hoursStart > 23 || hoursStart < 0
                 || minutesEnd > 59 || minutesEnd < 0 || hoursEnd > 23 || hoursEnd < 0){
                 alert('Please, provide time in correct format: "hh:mm"');
                 return;
+
             } else {
                 const dateStart = new Date(0, 0, 0, hoursStart, minutesStart);
                 const dateEnd = new Date(0, 0, 0, hoursEnd, minutesEnd);
                 const timeDifference = Math.abs(dateEnd < dateStart ? dateEnd-dateStart+24*1000*60*60 : dateEnd-dateStart);
                 const hoursDifference = (timeDifference / (1000 * 60 * 60)).toFixed(1);
-
                 setNewHoursRecord(prev => ({ ...prev, hours: hoursDifference }));
                 setHoursRecords(prev => [...prev, { ...newHoursRecord, hours: hoursDifference }]);
             }

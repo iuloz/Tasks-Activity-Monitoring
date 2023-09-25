@@ -7,7 +7,7 @@ function Menu() {
 
     return (
         <div>
-                <Link className="link" to="/make-recording">Record hours</Link>
+                <Link className="link" to="/make-recording">Add task</Link>
                 <Link className="link" to="/recordings">See all recordings</Link>
                 <Link className="link" to="/about">About</Link>
         </div>

@@ -1,33 +1,16 @@
 import "./styles.css"
 
-function TasksItem(props){
-
+function TasksItem({ date, task, tags, start, end, hours }) {
 
     return (
-        <>
-            <div style={{paddingTop:"30px"}}></div>
-            <table id="table">
-                <tbody>
-                    <tr>
-                        <th>Date</th>
-                        <th>Task</th>
-                        <th>Start time</th>
-                        <th>End time</th>
-                        <th>Hours</th>
-                    </tr>
-                {
-                    props.taskList.map((record, index) =>
-                    <tr key={index}>
-                        <td>{record.date}</td>
-                        <td>{record.task}</td>
-                        <td>{record.start}</td>
-                        <td>{record.end}</td>
-                        <td>{record.hours}</td>
-                    </tr>)
-                }
-                </tbody>
-            </table>
-        </>
+        <div className="task-item">
+            <p>Date: {date}</p>
+            <p>{task}</p>
+            <p>Tags: {tags}</p>
+            <p>Starts: {start}</p>
+            <p>Ends: {end}</p>
+            <p>Hours: {hours}</p>
+        </div>
     );
 }
 export default TasksItem;

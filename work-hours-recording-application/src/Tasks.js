@@ -46,18 +46,10 @@ function Tasks() {
 
     return (
         <>
-            {/* <h2>Create your task</h2>
-            <form onSubmit={recordTask}>
-                <label htmlFor="taskInput">Task: </label>
-                <input id="taskInput" type="text"  placeholder="Type the task" name="task" value={task.task} onChange={inputChanged}></input>
-                <label htmlFor="start">Start time: </label>
-                <input id="start" type="text"  placeholder="hh:mm" name="start" value={task.start} onChange={inputChanged}></input>
-                <label htmlFor="end">End time: </label>
-                <input id="end" type="text" placeholder="hh:mm" name="end" value={task.end} onChange={inputChanged}></input>
-                <input id="submitBtn" type="submit" value="Add" />
-            </form> */}
             <Form task={task} inputChanged={inputChanged} recordTask={recordTask}/>
-            <TasksItem taskList={taskList} />
+            {
+                taskList.map((item, index) => <TasksItem key={index} date={item.date} task={item.task} tags={item.tags} start={item.start} end={item.end} hours={item.hours}/>)
+            }
         </>
     );
 }

@@ -1,15 +1,18 @@
-function Form(props){
+function Form({ task, recordTask, inputChanged }){
+
     return (
         <>
             <h2>Create your task</h2>
-            <form onSubmit={props.recordTask}>
-                <label htmlFor="taskInput">Task: </label>
-                <input id="taskInput" type="text"  placeholder="Type the task" name="task" value={props.task.task} onChange={props.inputChanged}></input>
+            <form onSubmit={recordTask}>
+                <label htmlFor="task_input">Task: </label>
+                <input id="task_input" type="text"  placeholder="Type the task" name="task" value={task.task} onChange={inputChanged}></input>
+                <label htmlFor="tag_input">Tags: </label>
+                <input id="tag_input" type="text" placeholder="Type the tag" name="tags" value={task.tags} onChange={inputChanged}></input>
                 <label htmlFor="start">Start time: </label>
-                <input id="start" type="text"  placeholder="hh:mm" name="start" value={props.task.start} onChange={props.inputChanged}></input>
+                <input id="start" type="text"  placeholder="hh:mm" name="start" value={task.start} onChange={inputChanged}></input>
                 <label htmlFor="end">End time: </label>
-                <input id="end" type="text" placeholder="hh:mm" name="end" value={props.task.end} onChange={props.inputChanged}></input>
-                <input id="submitBtn" type="submit" value="Add" />
+                <input id="end" type="text" placeholder="hh:mm" name="end" value={task.end} onChange={inputChanged}></input>
+                <input id="submit_btn" type="submit" value="Add" />
             </form>
         </>
     );

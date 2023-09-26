@@ -26,7 +26,7 @@ input {
     text-align: center;
 }
 
-#taskInput {
+#task_input {
     height: 1.5rem;
     width: 15rem;
     margin-right: 30px;
@@ -36,4 +36,11 @@ input {
 
 label {
     font-size: 1.2rem;
+}
+
+.task-item {
+    background-color: rgb(255, 194, 114);
+    padding: 5px 10px;
+    margin: 10px;
+    display: inline-block;
 }

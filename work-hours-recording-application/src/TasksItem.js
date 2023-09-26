@@ -14,7 +14,7 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
     return (
         <div key={id} className="task-item" style={{backgroundColor: color}}>
             <p style={{display:"inline"}}>Date: {date}</p><span onClick={changeStatus} className="status">{status}</span>
-            <p>Task: {task}</p>
+            <p style={{fontWeight:"bold"}}>{task}</p>
             <p>Tag: {tag}</p>
             <p>Starts: {start}</p>
             <p>Ends: {end}</p>

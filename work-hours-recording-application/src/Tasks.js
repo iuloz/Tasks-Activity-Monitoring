@@ -2,7 +2,7 @@ import { useState } from "react";
 import TasksItem from "./TasksItem";
 import Form from "./Form";
 
-function Tasks({status}) {
+function Tasks() {
     const [taskList, setTaskList] = useState([]);
     const [task, setTask] = useState({id: 0, date: "", task: "", tag: "", start: "", end: "", hours: ""});
 
@@ -57,8 +57,7 @@ function Tasks({status}) {
                                tag={item.tag}
                                start={item.start}
                                end={item.end}
-                               hours={item.hours}
-                               status={item.status} />)
+                               hours={item.hours} />)
             }
         </>
     );

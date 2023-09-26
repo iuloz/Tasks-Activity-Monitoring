@@ -2,13 +2,14 @@ import { useState } from "react";
 import TasksItem from "./TasksItem";
 import Form from "./Form";
 
-function Tasks() {
+function Tasks({status}) {
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({date: "", task: "", tags: [], start: "", end: "", hours: ""});
+    const [task, setTask] = useState({id: 0, date: "", task: "", tag: "", start: "", end: "", hours: ""});
 
     const recordTask = async (event) => {
         await event.preventDefault();
-        if (task.start === "" || task.end === "") {
+        if (task.start === "" || task.end === "" || task.task === "") {
+            // alert('Fill the fields!');
             return;
 
         } else {
@@ -25,12 +26,12 @@ function Tasks() {
                 const dateEnd = new Date(0, 0, 0, hoursEnd, minutesEnd);
                 const timeDifference = Math.abs(dateEnd < dateStart ? dateEnd-dateStart+24*1000*60*60 : dateEnd-dateStart);
                 const hoursDifference = (timeDifference / (1000 * 60 * 60)).toFixed(1);
-                setTask(prev => ({ ...prev, hours: hoursDifference }));
-                setTaskList(prev => [...prev, { ...task, hours: hoursDifference }]);
+                setTaskList(prev => [...prev, { ...task, id: task.id++, hours: hoursDifference}]);
             }
         }
+
         // Setting empty fields for start and end to make input fields empty after form submit
-        setTask(prev => ({ ...prev, task: "", start: "", end: "" }));
+        setTask(prev => ({ ...prev, id: task.id-1, task: "", tag: "", start: "", end: "" }));
     }
 
     const inputChanged = (event) => {
@@ -48,7 +49,16 @@ function Tasks() {
         <>
             <Form task={task} inputChanged={inputChanged} recordTask={recordTask}/>
             {
-                taskList.map((item, index) => <TasksItem key={index} date={item.date} task={item.task} tags={item.tags} start={item.start} end={item.end} hours={item.hours}/>)
+                taskList.map((item, index) =>
+                    <TasksItem key={index}
+                               id={item.id}
+                               date={item.date}
+                               task={item.task}
+                               tag={item.tag}
+                               start={item.start}
+                               end={item.end}
+                               hours={item.hours}
+                               status={item.status} />)
             }
         </>
     );

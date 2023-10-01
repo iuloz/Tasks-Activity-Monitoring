@@ -66,6 +66,7 @@ form {
 .task-item p:nth-child(2) {
     font-weight: bold;
     padding-bottom: 10px;
+    padding-top: 5px;
 }
 
 span {

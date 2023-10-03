@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function TasksItem({ id, date, task, tag, start, end, hours }) {
+function TasksItem({ date, task, tag, start, end, hours }) {
     const [isActive, setIsActive] = useState(true);
     const [status, setStatus] = useState("Inactive");
     const [color, setColor] = useState("#ffd5bb");
@@ -8,6 +8,7 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
     const [taskEditing, setTaskEditing] = useState(false);
     const [tagName, setTagName] = useState(tag);
     const [tagEditing, setTagEditing] = useState(false);
+
 
     const changeStatus = () => {
         setStatus(isActive ? "Active" : "Inactive");
@@ -41,7 +42,7 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
 
 
     return (
-        <div key={id} className="task-item" style={{backgroundColor: color}}>
+        <div className="task-item" style={{backgroundColor: color}}>
             <p style={{display:"inline"}}>{date}</p><span onClick={changeStatus} className="status">{status}</span>
             <p class="task">
                 {taskEditing ?

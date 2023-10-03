@@ -59,18 +59,22 @@ form {
     margin: 5px 0;
 }
 
-.task-item p:first-child {
+/* .task-item p:first-child {
     color: #555;
-}
+} */
 
-.task-item p:nth-child(2) {
+/* .task-item p:nth-child(2) {
     font-weight: bold;
     padding-bottom: 10px;
     padding-top: 5px;
-}
+} */
 
-span {
-    color: red;
+.task {
+    color:black;
+    font-weight:bold;
+    padding-bottom: 10px;
+    padding-top: 5px;
+    cursor: pointer;
 }
 
 .status {
@@ -87,4 +91,29 @@ span {
     padding: 2px;
     background-color: lightgray;
     border-radius: 4px;
+}
+
+.tag-span {
+    color: black;
+    font-style: italic;
+    cursor: pointer;
+}
+
+#delete_task {
+    float: right;
+    font-size: 1.5rem;
+    color: red;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+#delete_task:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.asterisk {
+    color: red;
 }

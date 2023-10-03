@@ -5,7 +5,9 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
     const [status, setStatus] = useState("Inactive");
     const [color, setColor] = useState("#ffd5bb");
     const [taskName, setTaskName] = useState(task);
-    const [editing, setEditing] = useState(false);
+    const [taskEditing, setTaskEditing] = useState(false);
+    const [tagName, setTagName] = useState(tag);
+    const [tagEditing, setTagEditing] = useState(false);
 
     const changeStatus = () => {
         setStatus(isActive ? "Active" : "Inactive");
@@ -15,32 +17,59 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
 
     const renameTask = (e) => {
         setTaskName(e.target.value);
-        setEditing(false);
+        setTaskEditing(false);
     }
 
-    const startEditing = () => {
-        setEditing(true);
+    const editTask = () => {
+        setTaskEditing(true);
     }
+
+    const renameTag = (e) => {
+        setTagName(e.target.value);
+        setTagEditing(false);
+    }
+
+    const editTag = () => {
+        setTagEditing(true);
+    }
+
+    const deleteTaskComponent = () => {
+
+    }
+
+
+
 
     return (
         <div key={id} className="task-item" style={{backgroundColor: color}}>
-            <p style={{display:"inline"}}>Date: {date}</p><span onClick={changeStatus} className="status">{status}</span>
-            <p style={{fontWeight:"bold", paddingBottom:"10px", paddingTop:"5px", cursor:"pointer"}}>
-                {editing ?
+            <p style={{display:"inline"}}>{date}</p><span onClick={changeStatus} className="status">{status}</span>
+            <p class="task">
+                {taskEditing ?
                     (<input type="text"
                             value={taskName}
-                            onChange={e=>setTaskName(e.target.value)}
+                            onChange={e => setTaskName(e.target.value)}
                             onBlur={renameTask}
                             autoFocus
                             style={{height:"10px"}}
                     />)
                     :
-                    (<p onDoubleClick={startEditing}>{taskName}</p>)}
+                    (<p onDoubleClick={editTask}>{taskName}</p>)}
             </p>
-            <p>Tag: {tag}</p>
+            <p style={{display:"inline-block"}}>Tag: <span class="tag-span">
+                {tagEditing ?
+                    (<input type="text"
+                            value={tagName}
+                            onChange={e => setTagName(e.target.value)}
+                            onBlur={renameTag}
+                            autoFocus
+                            style={{height:"10px", width:"130px"}}
+                    />)
+                    :
+                    (<span class="tag-span" onDoubleClick={editTag}>{tagName}</span>)}
+            </span></p>
             <p>Starts: {start}</p>
             <p>Ends: {end}</p>
-            <p>Hours: {hours}</p>
+            <p>Hours: {hours}<span id="delete_task" onClick={deleteTaskComponent}>⤬</span></p>
         </div>
     );
 }

@@ -7,7 +7,7 @@
       "tag": "Relax",
       "start": "8:00",
       "end": "10:30",
-      "hours": 2.5
+      "hours": "2.5"
     },
     {
       "id": 2,
@@ -16,7 +16,7 @@
       "tag": "Nature",
       "start": "11:00",
       "end": "16:30",
-      "hours": 5.5
+      "hours": "5.5"
     },
     {
       "id": 3,
@@ -25,34 +25,7 @@
       "tag": "Food",
       "start": "17:00",
       "end": "18:00",
-      "hours": 1
-    },
-    {
-      "date": "03.10.2023",
-      "task": "Go there",
-      "tag": "I am tag",
-      "start": "13:40",
-      "end": "15:33",
-      "hours": "",
-      "id": 4
-    },
-    {
-      "date": "03.10.2023",
-      "task": "Go there",
-      "tag": "I am tag",
-      "start": "13:40",
-      "end": "15:33",
-      "hours": "",
-      "id": 5
-    },
-    {
-      "date": "03.10.2023",
-      "task": "Some task",
-      "tag": "Some tag",
-      "start": "13:40",
-      "end": "12:00",
-      "hours": "",
-      "id": 6
+      "hours": "1"
     }
   ]
 }

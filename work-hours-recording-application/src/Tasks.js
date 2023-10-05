@@ -8,7 +8,7 @@ function Tasks() {
 
 
     const addToApi = async () => {
-        await fetch("http://localhost:3010/records", {
+        await fetch("http://127.0.0.1:3010/records", {
                     method: "POST",
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(task)

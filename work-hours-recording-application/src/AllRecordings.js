@@ -6,7 +6,7 @@ function AllRecordings(){
     const [recordingsList, setRecordingList] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3010/records')
+        fetch('http://127.0.0.1:3010/records')
           .then(response => response.json())
           .then(data => setRecordingList(data))
           .catch(error => console.error('Error fetching data:', error));

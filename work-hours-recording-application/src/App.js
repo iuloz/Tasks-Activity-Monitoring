@@ -7,8 +7,9 @@ import AllRecordings from "./AllRecordings";
 function App() {
     return (
         <BrowserRouter>
+            <Menu />
             <Routes>
-                <Route path="/" element={<Menu/>}/>
+                <Route path="/" element={null}/>
                 <Route path="/make-recording" element={<Tasks/>}/>
                 <Route path="/about" element={<About/>}/>
                 <Route path="/recordings" element={<AllRecordings/>}/>

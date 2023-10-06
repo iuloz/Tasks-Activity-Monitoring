@@ -1,15 +1,15 @@
-import { useState } from "react";
-import TasksItem from "./TasksItem";
-import Form from "./Form";
+import { useState } from 'react';
+import TasksItem from './TasksItem';
+import Form from './Form';
 
 function Tasks() {
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({date: "", task: "", tag: "", start: "", end: "", hours: ""});
+    const [task, setTask] = useState({date: '', task: '', tag: '', start: '', end: '', hours: ''});
 
 
     const addToApi = async () => {
-        await fetch("http://127.0.0.1:3010/records", {
-                    method: "POST",
+        await fetch('http://127.0.0.1:3010/records', {
+                    method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(task)
                 })
@@ -25,7 +25,7 @@ function Tasks() {
         const [hoursEnd, minutesEnd] = task.end.split(':').map(Number);
         if (minutesStart > 59 || minutesStart < 0 || hoursStart > 23 || hoursStart < 0
             || minutesEnd > 59 || minutesEnd < 0 || hoursEnd > 23 || hoursEnd < 0){
-            alert('Please, provide time in correct format: "hh:mm"');
+            alert(`Please, provide time in correct format: 'hh:mm'`);
             return;
 
         } else {
@@ -40,7 +40,7 @@ function Tasks() {
 
     const recordTask = async (event) => {
         await event.preventDefault();
-        if (task.start === "" || task.end === "" || task.task === "") {
+        if (task.start === '' || task.end === '' || task.task === '') {
             return;
 
         } else {
@@ -49,14 +49,14 @@ function Tasks() {
         }
 
         // Setting empty fields for start and end to make input fields empty after form submit
-        setTask(prev => ({ ...prev, task: "", tag: "", start: "", end: "" }));
+        setTask(prev => ({ ...prev, task: '', tag: '', start: '', end: '' }));
     }
 
     const inputChanged = (event) => {
-        const date = (new Date()).toLocaleDateString("fi-FI", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
+        const date = (new Date()).toLocaleDateString('fi-FI', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
         });
 
         setTask({ ...task, date: date, [event.target.name]: event.target.value });

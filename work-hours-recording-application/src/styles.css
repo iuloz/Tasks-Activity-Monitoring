@@ -2,9 +2,17 @@ body {
     font-family: arial;
 }
 
+.menu {
+    padding: 15px 0;
+    text-align: center;
+    background-color: rgb(50,50,50);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
 .link {
     padding-right: 50px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    color: whitesmoke;
 }
 
 form {
@@ -75,6 +83,10 @@ form {
     padding-bottom: 10px;
     padding-top: 5px;
     cursor: pointer;
+    padding-left: 3px;
+}
+.task:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .status {
@@ -97,6 +109,9 @@ form {
     color: black;
     font-style: italic;
     cursor: pointer;
+}
+.tag-span:hover {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #delete_task {

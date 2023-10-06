@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import TasksItem from "./TasksItem";
+import { useState, useEffect } from 'react';
+import TasksItem from './TasksItem';
 
 // This is recordings list view, made during whole time
 function AllRecordings(){

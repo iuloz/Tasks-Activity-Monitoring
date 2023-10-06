@@ -41,13 +41,13 @@ function TasksItem({ date, task, tag, start, end, hours }) {
             setNewTag('');
         }
         setAddingTag(false);
+        setEditTagIndex(null);
     }
 
     const handleTagEdit = (index, editedTag) => {
         const updatedTags = [...tags];
         updatedTags[index] = editedTag;
         setTags(updatedTags);
-        setEditTagIndex(null);
     }
 
 
@@ -78,8 +78,10 @@ function TasksItem({ date, task, tag, start, end, hours }) {
                                     type="text"
                                     value={tags[index]}
                                     onChange={e => handleTagEdit(index, e.target.value)}
+                                    onBlur={addTag}
+                                    autoFocus
                                 />
-                                <button onClick={()=>setEditTagIndex(null)}>Cancel</button>
+                                {/* <button onClick={()=>setEditTagIndex(null)}>Cancel</button> */}
                             </div>
                         ) : (
                             <div onClick={() => setEditTagIndex(index)}>{tag}</div>
@@ -92,6 +94,7 @@ function TasksItem({ date, task, tag, start, end, hours }) {
                         value={newTag}
                         onChange={e => setNewTag(e.target.value)}
                         onBlur={addTag}
+                        autoFocus
                     />
                 ) : (
                     <div className="add-tag" onClick={()=>setAddingTag(true)}>+</div>

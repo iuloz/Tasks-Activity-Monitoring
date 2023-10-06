@@ -132,3 +132,7 @@ form {
 .asterisk {
     color: red;
 }
+
+.component-input {
+    height: 5px;
+}

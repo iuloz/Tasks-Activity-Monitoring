@@ -9,9 +9,6 @@ function TasksItem({ date, task, tag, start, end, hours }) {
     const [taskName, setTaskName] = useState(task);
     const [taskEditing, setTaskEditing] = useState(false);
 
-    // const [tagName, setTagName] = useState(tag);
-    // const [tagEditing, setTagEditing] = useState(false);
-
     const [remove, setRemove] = useState(false);
 
     const [addingTag, setAddingTag] = useState(false);
@@ -24,16 +21,6 @@ function TasksItem({ date, task, tag, start, end, hours }) {
         setColor(isActive ? 'lightgreen' : '#ffd5bb');
         setIsActive(!isActive);
     }
-
-    const renameTask = (e) => {
-        setTaskName(e.target.value);
-        setTaskEditing(false);
-    }
-
-    // const renameTag = (e) => {
-    //     setTagName(e.target.value);
-    //     setTagEditing(false);
-    // }
 
     const addTag = () => {
         if (newTag.trim() !== '') {
@@ -58,12 +45,12 @@ function TasksItem({ date, task, tag, start, end, hours }) {
 
             {taskEditing ? (
                 <input
+                    className='component-input'
                     type='text'
                     value={taskName}
                     onChange={e => setTaskName(e.target.value)}
-                    onBlur={renameTask}
+                    onBlur={e => {setTaskName(e.target.value); setTaskEditing(false)}}
                     autoFocus
-                    style={{ height: '10px' }}
                 />
             ) : (
                 <p className='task' onClick={() => setTaskEditing(true)}>{taskName}</p>
@@ -71,25 +58,24 @@ function TasksItem({ date, task, tag, start, end, hours }) {
 
             <div>
                 {tags.map((tag, index) => (
-                    <div key={index}>
+                    <p key={index}>
                         {editTagIndex === index ? (
-                            <div>
                                 <input
+                                    className='component-input'
                                     type="text"
                                     value={tags[index]}
                                     onChange={e => handleTagEdit(index, e.target.value)}
                                     onBlur={addTag}
                                     autoFocus
                                 />
-                                {/* <button onClick={()=>setEditTagIndex(null)}>Cancel</button> */}
-                            </div>
                         ) : (
-                            <div onClick={() => setEditTagIndex(index)}>{tag}</div>
+                            <span onClick={() => setEditTagIndex(index)}>{tag}</span>
                         )}
-                    </div>
+                    </p>
                 ))}
                 {addingTag ? (
                     <input
+                        className='component-input'
                         type="text"
                         value={newTag}
                         onChange={e => setNewTag(e.target.value)}
@@ -97,7 +83,7 @@ function TasksItem({ date, task, tag, start, end, hours }) {
                         autoFocus
                     />
                 ) : (
-                    <div className="add-tag" onClick={()=>setAddingTag(true)}>+</div>
+                    <span onClick={()=>setAddingTag(true)} style={{color:'green', fontSize:'0.7rem'}}>➕</span>
                 )}
             </div>
 

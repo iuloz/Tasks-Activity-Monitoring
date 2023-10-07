@@ -136,3 +136,14 @@ form {
 .component-input {
     height: 5px;
 }
+
+.tag-delete {
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    color: red;
+    border-radius: 50%;
+    background-color: bisque;
+    cursor: pointer;
+}

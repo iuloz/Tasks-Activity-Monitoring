@@ -12,7 +12,7 @@ function TasksItem({ date, task, tag, start, end, hours }) {
     const [remove, setRemove] = useState(false);
 
     const [addingTag, setAddingTag] = useState(false);
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState([tag]);
     const [newTag, setNewTag] = useState('');
     const [editTagIndex, setEditTagIndex] = useState(null);
 
@@ -37,11 +37,19 @@ function TasksItem({ date, task, tag, start, end, hours }) {
         setTags(updatedTags);
     }
 
+    const deleteTag = (index) => {
+        if(tags.length > 1){
+            let updatedTags = [...tags];
+            updatedTags.splice(index, 1);
+            setTags(updatedTags);
+        }
+    }
+
 
 
     return remove ? null : (
         <div className='task-item' style={{ backgroundColor: color }}>
-            <p style={{ display: 'inline' }}>{date}</p><span onClick={changeStatus} className='status'>{status}</span>
+            <p style={{ display: 'inline', fontSize:'0.7rem' }}>{date}</p><span onClick={changeStatus} className='status'>{status}</span>
 
             {taskEditing ? (
                 <input
@@ -56,7 +64,7 @@ function TasksItem({ date, task, tag, start, end, hours }) {
                 <p className='task' onClick={() => setTaskEditing(true)}>{taskName}</p>
             )}
 
-            <div>
+            <p style={{textDecoration:'underline'}}>Tags: </p>
                 {tags.map((tag, index) => (
                     <p key={index}>
                         {editTagIndex === index ? (
@@ -69,7 +77,10 @@ function TasksItem({ date, task, tag, start, end, hours }) {
                                     autoFocus
                                 />
                         ) : (
-                            <span onClick={() => setEditTagIndex(index)}>{tag}</span>
+                            <>
+                                <span className='tag-span' onClick={() => setEditTagIndex(index)}>{tag} </span>
+                                <span className='tag-delete' onClick={()=>deleteTag(index)}> ⤬</span>
+                            </>
                         )}
                     </p>
                 ))}
@@ -83,10 +94,8 @@ function TasksItem({ date, task, tag, start, end, hours }) {
                         autoFocus
                     />
                 ) : (
-                    <span onClick={()=>setAddingTag(true)} style={{color:'green', fontSize:'0.7rem'}}>➕</span>
+                    <span className='tag-span' onClick={()=>setAddingTag(true)} style={{color:'green', fontSize:'1.2rem', cursor:'pointer'}}> +</span>
                 )}
-            </div>
-
             <p>Starts: {start}</p>
             <p>Ends: {end}</p>
             <p>Hours: {hours}<span id='delete_task' onClick={() => setRemove(true)}>⤬</span></p>

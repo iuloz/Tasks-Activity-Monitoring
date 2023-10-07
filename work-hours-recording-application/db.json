@@ -1,49 +1,39 @@
 {
   "records": [
     {
-      "id": 1,
-      "date": "20.09.2023",
-      "task": "Watch a movie",
-      "tag": "Relax",
-      "start": "8:00",
-      "end": "10:30",
-      "hours": "2.5"
-    },
-    {
-      "id": 2,
-      "date": "20.09.2023",
-      "task": "Go to fishing",
-      "tag": "Nature",
-      "start": "11:00",
-      "end": "16:30",
-      "hours": "5.5"
-    },
-    {
-      "id": 3,
-      "date": "20.09.2023",
-      "task": "Cook a dinner",
-      "tag": "Food",
-      "start": "17:00",
-      "end": "18:00",
-      "hours": "1"
-    },
-    {
-      "date": "05.10.2023",
+      "date": "07.10.2023",
       "task": "Go there",
-      "tag": "I am tag",
+      "tags": [
+        "Good tag",
+        "Bad tag"
+      ],
       "start": "13:40",
       "end": "15:33",
       "hours": "",
-      "id": 4
+      "id": 1
     },
     {
       "date": "07.10.2023",
-      "task": "Go there",
-      "tag": "Some tag",
+      "task": "some task",
+      "tags": [
+        "first",
+        "second",
+        "lj",
+        "hoho"
+      ],
       "start": "13:40",
       "end": "15:33",
       "hours": "",
-      "id": 5
+      "id": 2
+    },
+    {
+      "date": "07.10.2023",
+      "task": "Take some course",
+      "tags": "Nice tag",
+      "start": "13:40",
+      "end": "15:33",
+      "hours": "",
+      "id": 1
     }
   ]
 }

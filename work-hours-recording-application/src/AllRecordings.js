@@ -21,6 +21,7 @@ function AllRecordings(){
                     <TasksItem key={index}
                             id={item.id}
                             date={item.date}
+                            status={item.status}
                             task={item.task}
                             tag={item.tags}
                             start={item.start}

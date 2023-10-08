@@ -2,6 +2,7 @@
   "records": [
     {
       "date": "07.10.2023",
+      "status": "Active",
       "task": "Go there",
       "tags": [
         "Good tag",
@@ -14,10 +15,9 @@
     },
     {
       "date": "07.10.2023",
+      "status": "Active",
       "task": "Go there",
-      "tags": [
-        "run"
-      ],
+      "tags": "Some tag",
       "start": "13:40",
       "end": "15:33",
       "hours": "",
@@ -25,25 +25,15 @@
     },
     {
       "date": "07.10.2023",
-      "task": "Go here",
+      "status": "Inactive",
+      "task": "Go somewhere",
       "tags": [
-        "hoho"
+        "dsf"
       ],
       "start": "13:40",
       "end": "15:33",
       "hours": "",
       "id": 3
-    },
-    {
-      "date": "07.10.2023",
-      "task": "Take some course",
-      "tags": [
-        "Nice tag"
-      ],
-      "start": "13:40",
-      "end": "15:33",
-      "hours": "",
-      "id": 4
     }
   ]
 }

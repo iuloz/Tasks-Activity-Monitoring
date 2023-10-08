@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function TasksItem( props ) {
+function TasksItem(props) {
     const [isActive, setIsActive] = useState(props.status === 'Active' ? false : true);
     const [status, setStatus] = useState(props.status);
     const [color, setColor] = useState(props.status === 'Active' ? 'lightgreen' : '#ffd5bb');
@@ -8,7 +8,7 @@ function TasksItem( props ) {
     const [taskEditing, setTaskEditing] = useState(false);
     const [remove, setRemove] = useState(false);
     const [addingTag, setAddingTag] = useState(false);
-    const [tags, setTags] = useState([props.tag]);
+    const [tags, setTags] = useState(props.tags);
     const [newTag, setNewTag] = useState('');
     const [editTagIndex, setEditTagIndex] = useState(null);
 
@@ -40,27 +40,29 @@ function TasksItem( props ) {
         }
     }
 
-    const handleTagEdit = async (index, editedTag) => {
+    const handleTagEdit = (index, editedTag) => {
         const updatedTags = [...tags];
         updatedTags[index] = editedTag;
         setTags(updatedTags);
     }
 
-    const addTag = async (index, editedTag) => {
+    const addTag = () => {
         if (newTag.trim() !== '') {
             setTags([...tags, newTag]);
             setNewTag('');
             addToApi('tags', [...tags, newTag]);
-        } else {
-            if (editedTag.trim() !== '') {
-                const updatedTags = [...tags];
-                updatedTags[index] = editedTag;
-                setTags(updatedTags);
-                addToApi('tags', [...tags]);
-                setEditTagIndex(null);
-            }
         }
         setAddingTag(false);
+    }
+
+    const editTag = (index, editedTag) => {
+        if (editedTag.trim() !== '') {
+            const updatedTags = [...tags];
+            updatedTags[index] = editedTag;
+            setTags(updatedTags);
+            addToApi('tags', [...tags]);
+            setEditTagIndex(null);
+        }
     }
 
     const deleteTag = index => {
@@ -101,7 +103,7 @@ function TasksItem( props ) {
             )}
 
             <p style={{ textDecoration: 'underline' }}>Tags: </p>
-            {tags.map((tag, index) => (
+            {props.tags && tags.map((tag, index) => (
                 <div key={index}>
                     {editTagIndex === index ? (
                         <input
@@ -109,7 +111,7 @@ function TasksItem( props ) {
                             type="text"
                             value={tags[index]}
                             onChange={e => handleTagEdit(index, e.target.value)}
-                            onBlur={e => addTag(index, e.target.value)}
+                            onBlur={e => editTag(index, e.target.value)}
                             autoFocus
                         />
                     ) : (

@@ -23,7 +23,7 @@ function AllRecordings(){
                             date={item.date}
                             status={item.status}
                             task={item.task}
-                            tag={item.tags}
+                            tags={item.tags}
                             start={item.start}
                             end={item.end}
                             hours={item.hours} />)

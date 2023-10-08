@@ -3,14 +3,10 @@ import { useState } from 'react';
 function TasksItem({ id, date, task, tag, start, end, hours }) {
     const [isActive, setIsActive] = useState(true);
     const [status, setStatus] = useState('Inactive');
-
     const [color, setColor] = useState('#ffd5bb');
-
     const [taskName, setTaskName] = useState(task);
     const [taskEditing, setTaskEditing] = useState(false);
-
     const [remove, setRemove] = useState(false);
-
     const [addingTag, setAddingTag] = useState(false);
     const [tags, setTags] = useState([tag]);
     const [newTag, setNewTag] = useState('');
@@ -35,7 +31,7 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
         setIsActive(!isActive);
     }
 
-    const editTask = (e) => {
+    const editTask = e => {
         if (e.target.value.trim() !== '') {
             setTaskName(e.target.value);
             setTaskEditing(false);
@@ -53,44 +49,25 @@ function TasksItem({ id, date, task, tag, start, end, hours }) {
         if (newTag.trim() !== '') {
             setTags([...tags, newTag]);
             setNewTag('');
-            await fetch(`http://127.0.0.1:3010/records/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    tags: [...tags, newTag]
-                })
-            })
-                .then(resp => resp.json())
-                .then(data => {
-                    console.log(data);
-                });
+            addToApi('tags', [...tags, newTag]);
         } else {
             if (editedTag.trim() !== '') {
                 const updatedTags = [...tags];
                 updatedTags[index] = editedTag;
                 setTags(updatedTags);
-                await fetch(`http://127.0.0.1:3010/records/${id}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        tags: [...tags]
-                    })
-                })
-                    .then(resp => resp.json())
-                    .then(data => {
-                        console.log(data);
-                    });
+                addToApi('tags', [...tags]);
                 setEditTagIndex(null);
             }
         }
         setAddingTag(false);
     }
 
-    const deleteTag = (index) => {
+    const deleteTag = index => {
         if (tags.length > 1) {
             let updatedTags = [...tags];
             updatedTags.splice(index, 1);
             setTags(updatedTags);
+            addToApi('tags', updatedTags);
         }
     }
 

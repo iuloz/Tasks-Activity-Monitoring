@@ -14,12 +14,9 @@
     },
     {
       "date": "07.10.2023",
-      "task": "some task",
+      "task": "Go there",
       "tags": [
-        "first",
-        "second",
-        "lj",
-        "hoho"
+        "run"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -28,12 +25,25 @@
     },
     {
       "date": "07.10.2023",
-      "task": "Take some course",
-      "tags": "Nice tag",
+      "task": "Go here",
+      "tags": [
+        "hoho"
+      ],
       "start": "13:40",
       "end": "15:33",
       "hours": "",
-      "id": 1
+      "id": 3
+    },
+    {
+      "date": "07.10.2023",
+      "task": "Take some course",
+      "tags": [
+        "Nice tag"
+      ],
+      "start": "13:40",
+      "end": "15:33",
+      "hours": "",
+      "id": 4
     }
   ]
 }

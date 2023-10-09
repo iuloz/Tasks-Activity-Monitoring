@@ -2,7 +2,7 @@
   "records": [
     {
       "date": "07.10.2023",
-      "status": "Active",
+      "status": "Inactive",
       "task": "Go there",
       "tags": [
         "Good tag"
@@ -14,7 +14,7 @@
     },
     {
       "date": "07.10.2023",
-      "status": "Inactive",
+      "status": "Active",
       "task": "Go there",
       "tags": [
         "Some tag"
@@ -29,7 +29,7 @@
       "status": "Inactive",
       "task": "Go here",
       "tags": [
-        "Old"
+        "New"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -38,11 +38,10 @@
     },
     {
       "date": "07.10.2023",
-      "status": "Active",
+      "status": "Inactive",
       "task": "Take some course",
       "tags": [
-        "Nice tagddd",
-        "hello"
+        "good Tag"
       ],
       "start": "13:40",
       "end": "15:33",

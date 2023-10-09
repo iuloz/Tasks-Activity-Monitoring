@@ -7,7 +7,7 @@ body {
     text-align: center;
     background-color: rgb(50,50,50);
     border-radius: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .link {
     padding-right: 50px;
@@ -66,16 +66,6 @@ form {
 .task-item p {
     margin: 5px 0;
 }
-
-/* .task-item p:first-child {
-    color: #555;
-} */
-
-/* .task-item p:nth-child(2) {
-    font-weight: bold;
-    padding-bottom: 10px;
-    padding-top: 5px;
-} */
 
 .task {
     color:black;
@@ -147,3 +137,23 @@ form {
     background-color: bisque;
     cursor: pointer;
 }
+
+.filtering {
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+  }
+
+  .filtering:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid #0064cf;
+  }

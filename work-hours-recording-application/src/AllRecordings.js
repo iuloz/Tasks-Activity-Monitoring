@@ -27,7 +27,6 @@ function AllRecordings() {
     }, [recordingsList]);
 
 
-
     const toggleTag = (tag) => {
         setSelectedTags(prevTags => (
             prevTags.includes(tag) ? prevTags.filter(t => t !== tag) : [...prevTags, tag]));
@@ -48,6 +47,7 @@ function AllRecordings() {
                     {uniqueTags.map(tag => (
                         <label key={tag}>
                             <input
+                                name='checkbox'
                                 type='checkbox'
                                 checked={selectedTags.includes(tag)}
                                 onChange={() => toggleTag(tag)}
@@ -76,6 +76,7 @@ function AllRecordings() {
                             start={item.start}
                             end={item.end}
                             hours={item.hours}
+                            existingTags={uniqueTags}
                         />
                     )
                 ))
@@ -91,6 +92,7 @@ function AllRecordings() {
                         start={item.start}
                         end={item.end}
                         hours={item.hours}
+                        existingTags={uniqueTags}
                     />
                 ))
             )

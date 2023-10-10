@@ -21,7 +21,7 @@ function TasksItem(props) {
         })
             .then(resp => resp.json())
             .then(data => {
-                console.log(`${key} changed to "${value}"`);
+                console.log(`${key} changed to '${value}'`);
             });
     }
 
@@ -91,6 +91,7 @@ function TasksItem(props) {
 
             {taskEditing ? (
                 <input
+                    name='editTask'
                     className='component-input'
                     type='text'
                     value={task}
@@ -107,8 +108,9 @@ function TasksItem(props) {
                 <div key={index}>
                     {editTagIndex === index ? (
                         <input
+                            name='editTag'
                             className='component-input'
-                            type="text"
+                            type='text'
                             value={tags[index]}
                             onChange={e => handleTagEdit(index, e.target.value)}
                             onBlur={e => editTag(index, e.target.value)}
@@ -122,15 +124,25 @@ function TasksItem(props) {
                     )}
                 </div>
             ))}
+
             {addingTag ? (
-                <input
-                    className='component-input'
-                    type="text"
-                    value={newTag}
-                    onChange={e => setNewTag(e.target.value)}
-                    onBlur={addTag}
-                    autoFocus
-                />
+                <div>
+                    <input
+                        name='addTag'
+                        className='component-input'
+                        type='text'
+                        value={newTag}
+                        onChange={e => setNewTag(e.target.value)}
+                        onBlur={addTag}
+                        autoFocus
+                        list='existingTags'
+                    />
+                    <datalist id='existingTags'>
+                        {props.existingTags.map(tag => (
+                            <option key={tag} value={tag} />
+                        ))}
+                    </datalist>
+                </div>
             ) : (
                 <span className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
             )}

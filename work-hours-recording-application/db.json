@@ -5,7 +5,8 @@
       "status": "Inactive",
       "task": "Go there",
       "tags": [
-        "Good tag"
+        "Good tag",
+        "second"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -17,7 +18,8 @@
       "status": "Active",
       "task": "Go there",
       "tags": [
-        "Some tag"
+        "Some tag",
+        "first"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -26,10 +28,13 @@
     },
     {
       "date": "07.10.2023",
-      "status": "Inactive",
+      "status": "Active",
       "task": "Go here",
       "tags": [
-        "New"
+        "New",
+        "Ugly",
+        "hah",
+        "second"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -41,7 +46,8 @@
       "status": "Inactive",
       "task": "Take some course",
       "tags": [
-        "good Tag"
+        "good Tag",
+        "third"
       ],
       "start": "13:40",
       "end": "15:33",

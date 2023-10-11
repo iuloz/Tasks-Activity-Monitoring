@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+
 function TasksItem(props) {
     const [isActive, setIsActive] = useState(props.status === 'Active' ? false : true);
     const [status, setStatus] = useState(props.status);
@@ -11,6 +12,7 @@ function TasksItem(props) {
     const [tags, setTags] = useState(props.tags);
     const [newTag, setNewTag] = useState('');
     const [editTagIndex, setEditTagIndex] = useState(null);
+
 
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
@@ -85,6 +87,7 @@ function TasksItem(props) {
 
 
 
+
     return remove ? null : (
         <div className='task-item' style={{ backgroundColor: color }}>
             <p style={{ display: 'inline', fontSize: '0.7rem' }}>{props.date}</p><span onClick={changeStatus} className='status'>{status}</span>
@@ -104,7 +107,7 @@ function TasksItem(props) {
             )}
 
             <p style={{ textDecoration: 'underline' }}>Tags: </p>
-            {props.tags && tags.map((tag, index) => (
+            {Array.isArray(tags) && tags.map((tag, index) => (
                 <div key={index}>
                     {editTagIndex === index ? (
                         <input

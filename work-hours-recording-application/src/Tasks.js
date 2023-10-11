@@ -4,7 +4,7 @@ import Form from './Form';
 
 function Tasks() {
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({ date: '', task: '', tags: '', start: '', end: '', hours: '' });
+    const [task, setTask] = useState({ date: '', status: 'Inactive', task: '', tags: [], start: '', end: '', hours: '' });
 
 
     const addToApi = async () => {
@@ -49,7 +49,7 @@ function Tasks() {
         }
 
         // Setting empty fields for start and end to make input fields empty after form submit
-        setTask(prev => ({ ...prev, task: '', tags: '', start: '', end: '' }));
+        setTask(prev => ({ ...prev, task: '', tags: [], start: '', end: '' }));
     }
 
     const inputChanged = (event) => {
@@ -58,8 +58,9 @@ function Tasks() {
             month: '2-digit',
             year: 'numeric',
         });
-
-        setTask({ ...task, date: date, [event.target.name]: event.target.value });
+        let key = event.target.name;
+        let value = event.target.value;
+        setTask({ ...task, date: date, [key]: key === 'tags' ? [value] : value });
     }
 
 
@@ -72,8 +73,9 @@ function Tasks() {
                         key={index}
                         id={item.id}
                         date={item.date}
+                        status={item.status}
                         task={item.task}
-                        tag={item.tags}
+                        tags={item.tags}
                         start={item.start}
                         end={item.end}
                         hours={item.hours} />)

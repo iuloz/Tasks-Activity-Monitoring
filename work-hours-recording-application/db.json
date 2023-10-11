@@ -31,10 +31,7 @@
       "status": "Active",
       "task": "Go here",
       "tags": [
-        "New",
-        "Ugly",
-        "hah",
-        "second"
+        "New"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -43,16 +40,38 @@
     },
     {
       "date": "07.10.2023",
-      "status": "Inactive",
+      "status": "Active",
       "task": "Take some course",
       "tags": [
         "good Tag",
-        "third"
+        "third3"
       ],
       "start": "13:40",
       "end": "15:33",
       "hours": "",
       "id": 4
+    },
+    {
+      "date": "10.10.2023",
+      "task": "just do it",
+      "tags": [
+        "General"
+      ],
+      "start": "13:40",
+      "end": "12:00",
+      "hours": "",
+      "id": 5
+    },
+    {
+      "date": "10.10.2023",
+      "task": "Here we go again",
+      "tags": [
+        "Again"
+      ],
+      "start": "13:40",
+      "end": "15:33",
+      "hours": "",
+      "id": 6
     }
   ]
 }

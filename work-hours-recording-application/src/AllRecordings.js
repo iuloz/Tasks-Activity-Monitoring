@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import TasksItem from './TasksItem';
 
+
 // This is recordings list view, made during whole time
 function AllRecordings() {
     const [recordingsList, setRecordingList] = useState([]);
@@ -39,6 +40,8 @@ function AllRecordings() {
 
 
 
+
+
     return (
         <div>
             <button className='filtering' onClick={() => setShowFilterDropdown(!showFilterDropdown)}>Filter by Tags &#9660;</button>
@@ -61,7 +64,7 @@ function AllRecordings() {
             <button className='filtering' onClick={() => {
                 setSelectedTags([]);
                 setFilterActive(false);
-            }}>Reset Filter</button><br/>
+            }}>Reset Filter</button><br />
 
             {filterActive ? (
                 recordingsList.map((item, index) => (
@@ -97,9 +100,9 @@ function AllRecordings() {
                 ))
             )
             }
-
         </div>
     );
+
 }
 
 

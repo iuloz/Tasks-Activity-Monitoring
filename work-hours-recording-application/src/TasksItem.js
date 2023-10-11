@@ -137,7 +137,8 @@ function TasksItem(props) {
 
             {taskEditing ? (
                 <input
-                    // name='editTask'
+                    name='editTask'
+                    autoComplete='off'
                     className='component-input'
                     type='text'
                     value={task}
@@ -154,7 +155,8 @@ function TasksItem(props) {
                 <div key={index}>
                     {editTagIndex === index ? (
                         <input
-                            // name='editTag'
+                            name='editTag'
+                            autoComplete='off'
                             className='component-input'
                             type='text'
                             value={tags[index]}
@@ -174,7 +176,8 @@ function TasksItem(props) {
             {addingTag ? (
                 <div>
                     <input
-                        // name='addTag'
+                        name='addTag'
+                        autoComplete='off'
                         className='component-input'
                         type='text'
                         value={newTag}

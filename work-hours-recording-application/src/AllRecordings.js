@@ -70,7 +70,7 @@ function AllRecordings() {
 
             {filterActive ? (
                 recordingsList.map((item, index) => (
-                    selectedTags.every(tag => item.tags.some(itemTag => itemTag.toLowerCase() === tag.toLowerCase())) && (
+                    selectedTags.every(tag => item.tags.includes(tag)) && (
                         <TasksItem
                             key={index}
                             id={item.id}

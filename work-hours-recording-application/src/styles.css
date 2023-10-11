@@ -62,12 +62,8 @@ input[type="text"] {
     margin: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 200px;
-    transition: transform 0.3s;
+    transition: 0.3s;
 }
-
-.task-item.active-drop {
-    transform: translateX(10px); /* Adjust the translation value as needed */
-  }
 
 
 .task-item p {
@@ -77,7 +73,7 @@ input[type="text"] {
 .task {
     color: black;
     font-weight: bold;
-    padding-bottom: 10px;
+    /* padding-bottom: 10px; */
     padding-top: 5px;
     cursor: pointer;
     padding-left: 3px;
@@ -91,7 +87,7 @@ input[type="text"] {
     padding: 2px;
     float: right;
     cursor: pointer;
-    border: solid 1px gray;
+    border: solid 1px lightgray;
     border-radius: 4px;
     color: black;
     background-color: whitesmoke;
@@ -110,7 +106,8 @@ input[type="text"] {
 }
 
 .tag-span:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
 }
 
 #delete_task {
@@ -121,7 +118,7 @@ input[type="text"] {
     height: 30px;
     text-align: center;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #delete_task:hover {

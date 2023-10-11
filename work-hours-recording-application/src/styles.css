@@ -5,10 +5,11 @@ body {
 .menu {
     padding: 15px 0;
     text-align: center;
-    background-color: rgb(50,50,50);
+    background-color: rgb(50, 50, 50);
     border-radius: 10px;
     margin-bottom: 10px;
 }
+
 .link {
     padding-right: 50px;
     font-size: 1.3rem;
@@ -23,23 +24,23 @@ form {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     float: left;
-  }
+}
 
-  label,
-  input {
+label,
+input {
     display: inline-block;
     margin-bottom: 10px;
     font-size: 16px;
-  }
+}
 
-  input[type="text"] {
+input[type="text"] {
     width: calc(100% - 22px);
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+}
 
-  #submit_btn {
+#submit_btn {
     background-color: #007bff;
     color: #fff;
     padding: 10px 20px;
@@ -47,11 +48,11 @@ form {
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-  }
+}
 
-  #submit_btn:hover {
+#submit_btn:hover {
     background-color: #0056b3;
-  }
+}
 
 .task-item {
     display: inline-block;
@@ -61,20 +62,27 @@ form {
     margin: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 200px;
+    transition: transform 0.3s;
 }
+
+.task-item.active-drop {
+    transform: translateX(10px); /* Adjust the translation value as needed */
+  }
+
 
 .task-item p {
     margin: 5px 0;
 }
 
 .task {
-    color:black;
-    font-weight:bold;
+    color: black;
+    font-weight: bold;
     padding-bottom: 10px;
     padding-top: 5px;
     cursor: pointer;
     padding-left: 3px;
 }
+
 .task:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -100,8 +108,9 @@ form {
     font-style: italic;
     cursor: pointer;
 }
+
 .tag-span:hover {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 #delete_task {
@@ -114,6 +123,7 @@ form {
     border-radius: 50%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 #delete_task:hover {
     background-color: lightgray;
     cursor: pointer;
@@ -150,10 +160,10 @@ form {
     margin: 4px 2px;
     transition-duration: 0.2s;
     cursor: pointer;
-  }
+}
 
-  .filtering:hover {
+.filtering:hover {
     background-color: white;
     color: black;
     border: 1px solid #0064cf;
-  }
+}

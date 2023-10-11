@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import TasksItem from './TasksItem';
 
 
+
 // This is recordings list view, made during whole time
 function AllRecordings() {
     const [recordingsList, setRecordingList] = useState([]);
@@ -9,6 +10,7 @@ function AllRecordings() {
     const [uniqueTags, setUniqueTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [filterActive, setFilterActive] = useState(false);
+
 
     // Fetching all recordings from db.json
     useEffect(() => {

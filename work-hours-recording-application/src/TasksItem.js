@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 
 function TasksItem(props) {
@@ -12,6 +12,7 @@ function TasksItem(props) {
     const [tags, setTags] = useState(props.tags);
     const [newTag, setNewTag] = useState('');
     const [editTagIndex, setEditTagIndex] = useState(null);
+    const dragElementRef = useRef(null);
 
 
     const addToApi = async (key, value) => {
@@ -86,10 +87,48 @@ function TasksItem(props) {
     }
 
 
+    const onDragStart = (e) => {
+        e.dataTransfer.setData('text/plain', e.target.id);
+    }
+
+    const onDragOver = (e) => {
+        e.preventDefault();
+    }
+
+    const onDrop = (e) => {
+        e.preventDefault();
+        const data = e.dataTransfer.getData('text/plain');
+        const draggedElement = document.getElementById(data);
+
+        const dropTarget = e.target.closest('.task-item');
+        if (dropTarget) {
+            const rect = dropTarget.getBoundingClientRect();
+            const mouseX = e.clientX;
+            const targetX = rect.left + rect.width / 2;
+
+            if (mouseX < targetX) {
+                dropTarget.parentNode.insertBefore(draggedElement, dropTarget);
+            } else {
+                dropTarget.parentNode.insertBefore(draggedElement, dropTarget.nextElementSibling);
+            }
+        }
+    }
+
+
+
 
 
     return remove ? null : (
-        <div className='task-item' style={{ backgroundColor: color }}>
+        <div
+            className='task-item'
+            style={{ backgroundColor: color }}
+            draggable='true'
+            onDragStart={onDragStart}
+            ref={dragElementRef}
+            id={props.id}
+            onDragOver={onDragOver}
+            onDrop={onDrop}
+        >
             <p style={{ display: 'inline', fontSize: '0.7rem' }}>{props.date}</p><span onClick={changeStatus} className='status'>{status}</span>
 
             {taskEditing ? (

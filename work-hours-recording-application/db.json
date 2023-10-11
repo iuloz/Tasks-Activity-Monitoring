@@ -2,24 +2,12 @@
   "records": [
     {
       "date": "07.10.2023",
-      "status": "Inactive",
-      "task": "Go there",
-      "tags": [
-        "Good tag",
-        "second"
-      ],
-      "start": "13:40",
-      "end": "15:33",
-      "hours": "",
-      "id": 1
-    },
-    {
-      "date": "07.10.2023",
       "status": "Active",
       "task": "Go there",
       "tags": [
         "Some tag",
-        "first"
+        "Joker",
+        "Quinn"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -29,10 +17,10 @@
     {
       "date": "07.10.2023",
       "status": "Inactive",
-      "task": "Go here",
+      "task": "Sing the song",
       "tags": [
         "New",
-        "Some tag"
+        "Easy"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -44,8 +32,7 @@
       "status": "Active",
       "task": "Take some course",
       "tags": [
-        "good Tag",
-        "third3"
+        "good Tag"
       ],
       "start": "13:40",
       "end": "15:33",
@@ -55,7 +42,7 @@
     {
       "date": "11.10.2023",
       "status": "Inactive",
-      "task": "Think",
+      "task": "Think the thought",
       "tags": [
         "Good tag"
       ],
@@ -63,6 +50,30 @@
       "end": "15:33",
       "hours": "",
       "id": 5
+    },
+    {
+      "id": "c64a48dd-9a86-4850-85a7-3722231fd0fa",
+      "date": "11.10.2023",
+      "status": "Inactive",
+      "task": "Go there",
+      "tags": [
+        "See"
+      ],
+      "start": "13:40",
+      "end": "15:33",
+      "hours": ""
+    },
+    {
+      "id": "790630be-196d-4a59-9d8b-c49efdc763f6",
+      "date": "11.10.2023",
+      "status": "Inactive",
+      "task": "asdf",
+      "tags": [
+        "Wall"
+      ],
+      "start": "13:40",
+      "end": "15:33",
+      "hours": ""
     }
   ]
 }

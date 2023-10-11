@@ -1,10 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import TasksItem from './TasksItem';
 import Form from './Form';
 
 function Tasks() {
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({ date: '', status: 'Inactive', task: '', tags: [], start: '', end: '', hours: '' });
+    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: '', end: '', hours: '' });
+    const [uniqueTags, setUniqueTags] = useState([]);
+    const [updateTags, setUpdateTags] = useState(false);
+
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:3010/records')
+            .then(response => response.json())
+            .then(data => {
+                const tagsSet = new Set();
+                data.forEach(item => {
+                    item.tags.forEach(tag => tagsSet.add(tag));
+                });
+                setUniqueTags(Array.from(tagsSet));
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [updateTags]);
+
+
 
 
     const addToApi = async () => {
@@ -40,12 +59,13 @@ function Tasks() {
 
     const recordTask = async (event) => {
         await event.preventDefault();
-        if (task.start === '' || task.end === '' || task.task === '') {
+        if (task.start === '' || task.end === '' || task.task === '' || task.tags.length < 1) {
             return;
 
         } else {
             timeDifference();
-            await addToApi();
+            addToApi();
+            setUpdateTags(!updateTags);
         }
 
         // Setting empty fields for start and end to make input fields empty after form submit
@@ -60,7 +80,11 @@ function Tasks() {
         });
         let key = event.target.name;
         let value = event.target.value;
-        setTask({ ...task, date: date, [key]: key === 'tags' ? [value] : value });
+        setTask({ ...task,id: uuidv4(), date: date, [key]: key === 'tags' ? [value] : value });
+    }
+
+    const newTagsFromTaskItem = () => {
+        setUpdateTags(!updateTags);
     }
 
 
@@ -78,7 +102,9 @@ function Tasks() {
                         tags={item.tags}
                         start={item.start}
                         end={item.end}
-                        hours={item.hours} />)
+                        hours={item.hours}
+                        existingTags={uniqueTags}
+                        uniqueTagsUpdate={newTagsFromTaskItem} />)
             }
         </>
     );

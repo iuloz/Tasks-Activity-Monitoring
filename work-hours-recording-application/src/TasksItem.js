@@ -43,19 +43,20 @@ function TasksItem(props) {
         }
     }
 
-    const handleTagEdit = (index, editedTag) => {
-        const updatedTags = [...tags];
-        updatedTags[index] = editedTag;
-        setTags(updatedTags);
-    }
-
     const addTag = () => {
         if (newTag.trim() !== '') {
             setTags([...tags, newTag]);
             setNewTag('');
             addToApi('tags', [...tags, newTag]);
+            props.uniqueTagsUpdate();
         }
         setAddingTag(false);
+    }
+
+    const handleTagEdit = (index, editedTag) => {
+        const updatedTags = [...tags];
+        updatedTags[index] = editedTag;
+        setTags(updatedTags);
     }
 
     const editTag = (index, editedTag) => {
@@ -65,6 +66,7 @@ function TasksItem(props) {
             setTags(updatedTags);
             addToApi('tags', [...tags]);
             setEditTagIndex(null);
+            props.uniqueTagsUpdate();
         }
     }
 
@@ -74,6 +76,7 @@ function TasksItem(props) {
             updatedTags.splice(index, 1);
             setTags(updatedTags);
             addToApi('tags', updatedTags);
+            props.uniqueTagsUpdate();
         }
     }
 
@@ -84,6 +87,7 @@ function TasksItem(props) {
         })
             .then(resp => resp.json())
             .then(() => console.log('Deleted succesfully'));
+        props.uniqueTagsUpdate();
     }
 
 
@@ -133,7 +137,7 @@ function TasksItem(props) {
 
             {taskEditing ? (
                 <input
-                    name='editTask'
+                    // name='editTask'
                     className='component-input'
                     type='text'
                     value={task}
@@ -150,7 +154,7 @@ function TasksItem(props) {
                 <div key={index}>
                     {editTagIndex === index ? (
                         <input
-                            name='editTag'
+                            // name='editTag'
                             className='component-input'
                             type='text'
                             value={tags[index]}
@@ -170,7 +174,7 @@ function TasksItem(props) {
             {addingTag ? (
                 <div>
                     <input
-                        name='addTag'
+                        // name='addTag'
                         className='component-input'
                         type='text'
                         value={newTag}

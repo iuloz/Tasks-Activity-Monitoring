@@ -10,6 +10,7 @@ function AllRecordings() {
     const [uniqueTags, setUniqueTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [filterActive, setFilterActive] = useState(false);
+    const [updateTags, setUpdateTags] = useState(false);
 
 
     // Fetching all recordings from db.json
@@ -18,7 +19,7 @@ function AllRecordings() {
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
-    }, [showFilterDropdown]);
+    }, [showFilterDropdown, updateTags]);
 
     // Setting array of unique tags
     useEffect(() => {
@@ -40,8 +41,9 @@ function AllRecordings() {
         setShowFilterDropdown(false);
     }
 
-
-
+    const newTagsFromTaskItem = () => {
+        setUpdateTags(!updateTags);
+    }
 
 
     return (
@@ -82,6 +84,7 @@ function AllRecordings() {
                             end={item.end}
                             hours={item.hours}
                             existingTags={uniqueTags}
+                            uniqueTagsUpdate={newTagsFromTaskItem}
                         />
                     )
                 ))
@@ -98,6 +101,7 @@ function AllRecordings() {
                         end={item.end}
                         hours={item.hours}
                         existingTags={uniqueTags}
+                        uniqueTagsUpdate={newTagsFromTaskItem}
                     />
                 ))
             )

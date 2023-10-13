@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 
 function TasksItem(props) {
@@ -12,12 +12,37 @@ function TasksItem(props) {
     const [tags, setTags] = useState(props.tags);
     const [newTag, setNewTag] = useState('');
     const [editTagIndex, setEditTagIndex] = useState(null);
+    const [startTimes, setStartTimes] = useState(props.startTimes);
+    const [endTimes, setEndTimes] = useState(props.endTimes);
     const dragElementRef = useRef(null);
+    const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    const [timeTotal, setTimeTotal] = useState(0);
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (status === 'Active') {
+                setTimer(prevTime => {
+                    const newSeconds = prevTime.seconds + 1;
+                    const newMinutes = prevTime.minutes + Math.floor(newSeconds / 60);
+                    const newHours = prevTime.hours + Math.floor(newMinutes / 60);
+                    return {
+                        hours: newHours,
+                        minutes: newMinutes % 60,
+                        seconds: newSeconds % 60,
+                    };
+                });
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [status]);
+
 
 
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
-        await fetch(`http://127.0.0.1:3010/records/${props.id}`, {
+        await fetch(`http://localhost:3010/records/${props.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -28,12 +53,56 @@ function TasksItem(props) {
             });
     }
 
+
     const changeStatus = () => {
         setStatus(isActive ? 'Active' : 'Inactive');
         setColor(isActive ? 'lightgreen' : '#ffd5bb');
         setIsActive(!isActive);
         addToApi('status', isActive ? 'Active' : 'Inactive');
+        const dateTime = (new Date()).toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        });
+        isActive ? setStartTimes([...startTimes, dateTime]) : setEndTimes([...endTimes, dateTime]);
+        addToApi(isActive ? 'start' : 'end', isActive ? [...startTimes, dateTime] : [...endTimes, dateTime]);
+
+
+        // if (startTimes.length === endTimes.length && startTimes.length > 0) {
+        //     const date1String = startTimes[startTimes.length - 1];
+        //     const date2String = startTimes[startTimes.length - 1];
+        //     const date1 = new Date(date1String.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+        //     const date2 = new Date(date2String.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+        //     const differenceInMilliseconds = date2 - date1;
+        //     const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+        //     const hours = Math.floor(differenceInSeconds / 3600);
+        //     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+        //     const seconds = differenceInSeconds % 60;
+        //     setTimeTotal(`${hours}:${minutes}:${seconds}`);
+        //     console.log(timeTotal);
+        //     // console.log(`Difference: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+        // }
+
+
+        // if (startTimes.length === endTimes.length && startTimes.length > 0) {
+        //     const dateStartString = startTimes[startTimes.length - 1];
+        //     const dateEndString = endTimes[endTimes.length - 1];
+        //     const dateStart = parseDate(dateStartString);
+        //     const dateEnd = parseDate(dateEndString);
+        //     const differenceInMilliseconds = dateEnd - dateStart;
+        //     const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+        //     const hours = Math.floor(differenceInSeconds / 3600);
+        //     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+        //     const seconds = differenceInSeconds % 60;
+        //     const formattedDifference = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        //     // setTimeTotal(formattedDifference);
+        //     console.log(`Formatted difference: ${formattedDifference}`);
+        // }
     }
+
 
     const editTask = e => {
         if (e.target.value.trim() !== '') {
@@ -82,7 +151,7 @@ function TasksItem(props) {
 
     const removeComponent = async () => {
         setRemove(true);
-        await fetch(`http://127.0.0.1:3010/records/${props.id}`, {
+        await fetch(`http://localhost:3010/records/${props.id}`, {
             method: 'DELETE'
         })
             .then(resp => resp.json())
@@ -195,9 +264,11 @@ function TasksItem(props) {
             ) : (
                 <span className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
             )}
-            <p>Starts: {props.start}</p>
-            <p>Ends: {props.end}</p>
-            <p>Hours: {props.hours}<span id='delete_task' onClick={removeComponent}>⤬</span></p>
+            {/* <p>Starts: {props.start}</p>
+            <p>Ends: {props.end}</p> */}
+            <p>Total active: {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')}
+                <span id='delete_task' onClick={removeComponent}>⤬</span>
+            </p>
         </div>
     );
 }

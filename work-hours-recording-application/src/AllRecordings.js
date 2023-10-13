@@ -15,7 +15,7 @@ function AllRecordings() {
 
     // Fetching all recordings from db.json
     useEffect(() => {
-        fetch('http://127.0.0.1:3010/records')
+        fetch('http://localhost:3010/records')
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -80,8 +80,8 @@ function AllRecordings() {
                             status={item.status}
                             task={item.task}
                             tags={item.tags}
-                            start={item.start}
-                            end={item.end}
+                            startTimes={item.start}
+                            endTimes={item.end}
                             hours={item.hours}
                             existingTags={uniqueTags}
                             uniqueTagsUpdate={newTagsFromTaskItem}
@@ -97,11 +97,12 @@ function AllRecordings() {
                         status={item.status}
                         task={item.task}
                         tags={item.tags}
-                        start={item.start}
-                        end={item.end}
+                        startTimes={item.start}
+                        endTimes={item.end}
                         hours={item.hours}
                         existingTags={uniqueTags}
                         uniqueTagsUpdate={newTagsFromTaskItem}
+                        timeTotal={item.timeTotal}
                     />
                 ))
             )

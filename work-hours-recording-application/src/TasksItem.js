@@ -20,6 +20,8 @@ function TasksItem(props) {
 
 
     useEffect(() => {
+        const [hours, minutes, seconds] = timeTotal.split(':').map(Number);
+        setTimer({ hours, minutes, seconds });
         const interval = setInterval(() => {
             if (status === 'Active') {
                 setTimer(prevTime => {
@@ -36,7 +38,7 @@ function TasksItem(props) {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [status]);
+    }, [status, timeTotal]);
 
 
 
@@ -94,7 +96,6 @@ function TasksItem(props) {
             newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
             newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
             setTimeTotal(newTimeTotal);
-            console.log(newTimeTotal);
             await addToApi('timeTotal', newTimeTotal);
         }
     }

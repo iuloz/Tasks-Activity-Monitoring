@@ -9,9 +9,13 @@
         "Joker",
         "Quinn"
       ],
-      "start": [],
-      "end": [],
-      "timeTotal": "",
+      "start": [
+
+      ],
+      "end": [
+
+      ],
+      "timeTotal": "00:00:00",
       "id": "2"
     },
     {
@@ -24,7 +28,7 @@
       ],
       "start": [],
       "end": [],
-      "timeTotal": "",
+      "timeTotal": "00:00:00 ",
       "id": "3"
     },
     {
@@ -59,54 +63,6 @@
       "tags": [
         "See",
         "Easy"
-      ],
-      "start": [],
-      "end": [],
-      "timeTotal": ""
-    },
-    {
-      "id": "790630be-196d-4a59-9d8b-c49efdc763f6",
-      "date": "11.10.2023",
-      "status": "Inactive",
-      "task": "asdf",
-      "tags": [
-        "Wall"
-      ],
-      "start": [],
-      "end": [],
-      "timeTotal": ""
-    },
-    {
-      "id": "f713b265-424e-4669-a92c-81bea2528fc1",
-      "date": "13.10.2023",
-      "status": "Inactive",
-      "task": "Go there",
-      "tags": [
-        "some"
-      ],
-      "start": [],
-      "end": [],
-      "timeTotal": ""
-    },
-    {
-      "id": "12d6fbb1-117c-4b46-8ef3-ea0a19774e93",
-      "date": "13.10.2023",
-      "status": "Inactive",
-      "task": "just do it",
-      "tags": [
-        "super puper tag"
-      ],
-      "start": [],
-      "end": [],
-      "timeTotal": ""
-    },
-    {
-      "id": "77c55d53-2343-4df8-8cb7-7628c7cd6ea7",
-      "date": "13.10.2023",
-      "status": "Inactive",
-      "task": "Go there",
-      "tags": [
-        "General"
       ],
       "start": [],
       "end": [],

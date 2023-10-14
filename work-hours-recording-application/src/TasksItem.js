@@ -16,7 +16,7 @@ function TasksItem(props) {
     const [endTimes, setEndTimes] = useState(props.endTimes);
     const dragElementRef = useRef(null);
     const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
-    const [timeTotal, setTimeTotal] = useState(0);
+    const [timeTotal, setTimeTotal] = useState(props.timeTotal);
 
 
     useEffect(() => {
@@ -42,7 +42,7 @@ function TasksItem(props) {
 
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
-        await fetch(`http://localhost:3010/records/${props.id}`, {
+        await fetch(`/records/${props.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -54,11 +54,11 @@ function TasksItem(props) {
     }
 
 
-    const changeStatus = () => {
+    const changeStatus = async () => {
+        setIsActive(!isActive);
         setStatus(isActive ? 'Active' : 'Inactive');
         setColor(isActive ? 'lightgreen' : '#ffd5bb');
-        setIsActive(!isActive);
-        addToApi('status', isActive ? 'Active' : 'Inactive');
+        await addToApi('status', isActive ? 'Active' : 'Inactive');
         const dateTime = (new Date()).toLocaleString('ru-RU', {
             day: '2-digit',
             month: '2-digit',
@@ -67,40 +67,36 @@ function TasksItem(props) {
             minute: '2-digit',
             second: '2-digit',
         });
-        isActive ? setStartTimes([...startTimes, dateTime]) : setEndTimes([...endTimes, dateTime]);
-        addToApi(isActive ? 'start' : 'end', isActive ? [...startTimes, dateTime] : [...endTimes, dateTime]);
+        let updatedStartTimes = startTimes;
+        let updatedEndTimes = endTimes;
+        if (isActive) {
+            updatedStartTimes = [...updatedStartTimes, dateTime];
+            setStartTimes(updatedStartTimes);
+            await addToApi('start', updatedStartTimes);
+        } else {
+            updatedEndTimes = [...updatedEndTimes, dateTime];
+            setEndTimes(updatedEndTimes);
+            await addToApi('end', updatedEndTimes);
+        }
 
-
-        // if (startTimes.length === endTimes.length && startTimes.length > 0) {
-        //     const date1String = startTimes[startTimes.length - 1];
-        //     const date2String = startTimes[startTimes.length - 1];
-        //     const date1 = new Date(date1String.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-        //     const date2 = new Date(date2String.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-        //     const differenceInMilliseconds = date2 - date1;
-        //     const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-        //     const hours = Math.floor(differenceInSeconds / 3600);
-        //     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
-        //     const seconds = differenceInSeconds % 60;
-        //     setTimeTotal(`${hours}:${minutes}:${seconds}`);
-        //     console.log(timeTotal);
-        //     // console.log(`Difference: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
-        // }
-
-
-        // if (startTimes.length === endTimes.length && startTimes.length > 0) {
-        //     const dateStartString = startTimes[startTimes.length - 1];
-        //     const dateEndString = endTimes[endTimes.length - 1];
-        //     const dateStart = parseDate(dateStartString);
-        //     const dateEnd = parseDate(dateEndString);
-        //     const differenceInMilliseconds = dateEnd - dateStart;
-        //     const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-        //     const hours = Math.floor(differenceInSeconds / 3600);
-        //     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
-        //     const seconds = differenceInSeconds % 60;
-        //     const formattedDifference = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-        //     // setTimeTotal(formattedDifference);
-        //     console.log(`Formatted difference: ${formattedDifference}`);
-        // }
+        if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
+            const dateStartString = updatedStartTimes[updatedStartTimes.length - 1];
+            const dateEndString = updatedEndTimes[updatedEndTimes.length - 1];
+            const dateStart = new Date(dateStartString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+            const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+            const differenceInMilliseconds = dateEnd - dateStart;
+            const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+            const hours = Math.floor(differenceInSeconds / 3600);
+            const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+            const seconds = differenceInSeconds % 60;
+            const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
+            let newTimeTotal = new Date();
+            newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+            newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+            setTimeTotal(newTimeTotal);
+            console.log(newTimeTotal);
+            await addToApi('timeTotal', newTimeTotal);
+        }
     }
 
 
@@ -151,7 +147,7 @@ function TasksItem(props) {
 
     const removeComponent = async () => {
         setRemove(true);
-        await fetch(`http://localhost:3010/records/${props.id}`, {
+        await fetch(`/records/${props.id}`, {
             method: 'DELETE'
         })
             .then(resp => resp.json())

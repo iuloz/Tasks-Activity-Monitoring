@@ -5,13 +5,13 @@ import Form from './Form';
 
 function Tasks() {
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [], timeTotal: '' });
+    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [], timeTotal: '00:00:00' });
     const [uniqueTags, setUniqueTags] = useState([]);
     const [updateTags, setUpdateTags] = useState(false);
 
 
     useEffect(() => {
-        fetch('http://localhost:3010/records')
+        fetch('/records')
             .then(response => response.json())
             .then(data => {
                 const tagsSet = new Set();
@@ -27,7 +27,7 @@ function Tasks() {
 
 
     const addToApi = async () => {
-        await fetch('http://localhost:3010/records', {
+        await fetch('/records', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task)
@@ -37,25 +37,6 @@ function Tasks() {
                 console.log(data);
             });
     }
-
-
-    // const timeDifference = () => {
-    //     const [hoursStart, minutesStart] = task.start.split(':').map(Number);
-    //     const [hoursEnd, minutesEnd] = task.end.split(':').map(Number);
-    //     if (minutesStart > 59 || minutesStart < 0 || hoursStart > 23 || hoursStart < 0
-    //         || minutesEnd > 59 || minutesEnd < 0 || hoursEnd > 23 || hoursEnd < 0) {
-    //         alert(`Please, provide time in correct format: 'hh:mm'`);
-    //         return;
-
-    //     } else {
-    //         const dateStart = new Date(0, 0, 0, hoursStart, minutesStart);
-    //         const dateEnd = new Date(0, 0, 0, hoursEnd, minutesEnd);
-    //         const timeDifference = Math.abs(dateEnd < dateStart ? dateEnd - dateStart + 24 * 1000 * 60 * 60 : dateEnd - dateStart);
-    //         const hoursDifference = (timeDifference / (1000 * 60 * 60)).toFixed(1);
-    //         setTaskList(prev => [...prev, { ...task, timeTotal: hoursDifference }]);
-    //     }
-    // }
-
 
     const recordTask = async (event) => {
         await event.preventDefault();
@@ -69,7 +50,7 @@ function Tasks() {
         }
 
         // Setting empty fields for start and end to make input fields empty after form submit
-        setTask(prev => ({ ...prev, task: '', tags: []}));
+        setTask(prev => ({ ...prev, task: '', tags: [] }));
     }
 
     const inputChanged = (event) => {
@@ -104,7 +85,8 @@ function Tasks() {
                         endTimes={item.end}
                         timeTotal={item.timeTotal}
                         existingTags={uniqueTags}
-                        uniqueTagsUpdate={newTagsFromTaskItem} />)
+                        uniqueTagsUpdate={newTagsFromTaskItem}
+                    />)
             }
         </>
     );

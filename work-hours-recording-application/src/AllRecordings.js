@@ -15,7 +15,7 @@ function AllRecordings() {
 
     // Fetching all recordings from db.json
     useEffect(() => {
-        fetch('http://localhost:3010/records')
+        fetch('/records')
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -85,6 +85,7 @@ function AllRecordings() {
                             hours={item.hours}
                             existingTags={uniqueTags}
                             uniqueTagsUpdate={newTagsFromTaskItem}
+                            timeTotal={item.timeTotal}
                         />
                     )
                 ))

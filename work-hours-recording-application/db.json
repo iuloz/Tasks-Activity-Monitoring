@@ -6,8 +6,7 @@
       "task": "Go there",
       "tags": [
         "Some tag",
-        "Joker",
-        "Quinn"
+        "Joker"
       ],
       "start": [
 
@@ -26,12 +25,8 @@
         "New",
         "Easy"
       ],
-      "start": [
-
-      ],
-      "end": [
-
-      ],
+      "start": [],
+      "end": [],
       "timeTotal": "00:00:00",
       "id": "3"
     },
@@ -52,7 +47,7 @@
       "status": "Inactive",
       "task": "Think the thought",
       "tags": [
-        "Good tag"
+        "Philosofy"
       ],
       "start": [],
       "end": [],
@@ -65,12 +60,15 @@
       "status": "Inactive",
       "task": "Go there",
       "tags": [
-        "See",
-        "Easy"
+        "See"
       ],
       "start": [],
       "end": [],
       "timeTotal": "00:00:00"
     }
-  ]
+  ],
+  "settings": {
+    "theme": "light",
+    "activeTasksMode": "multiple"
+  }
 }

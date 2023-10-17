@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Tasks from './Tasks';
 import About from './About';
 import AllRecordings from './AllRecordings';
+import Settings from './Settings';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
                 <Route path='/make-recording' element={<Tasks/>}/>
                 <Route path='/about' element={<About/>}/>
                 <Route path='/recordings' element={<AllRecordings/>}/>
+                <Route path='/settings' element={<Settings/>}/>
             </Routes>
         </BrowserRouter>
     );

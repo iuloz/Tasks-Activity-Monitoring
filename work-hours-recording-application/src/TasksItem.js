@@ -199,7 +199,7 @@ function TasksItem(props) {
             onDragOver={onDragOver}
             onDrop={onDrop}
         >
-            <p style={{ display: 'inline', fontSize: '0.7rem' }}>{props.date}</p><span onClick={changeStatus} className='status'>{status}</span>
+            <p style={{ display: 'inline', fontSize: '0.7rem' }}>Created: {props.date}</p><span onClick={changeStatus} className='status'>{status}</span>
 
             {taskEditing ? (
                 <input
@@ -251,7 +251,7 @@ function TasksItem(props) {
                         onBlur={addTag}
                         autoFocus
                         list='existingTags'
-                    />
+                    />0
                     <datalist id='existingTags'>
                         {props.existingTags.map(tag => (
                             <option key={tag} value={tag} />

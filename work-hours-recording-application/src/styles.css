@@ -8,10 +8,12 @@ body {
     background-color: rgb(50, 50, 50);
     border-radius: 10px;
     margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .link {
-    padding-right: 50px;
+    margin-right: 50px;
     font-size: 1.3rem;
     color: whitesmoke;
 }
@@ -164,3 +166,21 @@ input[type="text"] {
     color: black;
     border: 1px solid #0064cf;
 }
+
+.settings-btn {
+    float: right;
+    margin-right: 50px;
+    height: 28px;
+    font-size: 15px;
+}
+
+@media only screen and (max-width: 500px) {
+    .link, .menu {
+        display: block;
+        float: none;
+    }
+    .settings-btn {
+        float: none;
+    }
+}
+

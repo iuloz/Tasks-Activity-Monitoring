@@ -172,6 +172,17 @@ input[type="text"] {
     margin-right: 50px;
     height: 28px;
     font-size: 15px;
+    cursor: pointer;
+}
+
+#apply_settings {
+    background-color: #0064cf;
+    border-radius: 3px;
+    border: solid black 0.5px;
+    cursor: pointer;
+}
+#apply_settings:hover {
+    background-color: whitesmoke;
 }
 
 @media only screen and (max-width: 500px) {
@@ -183,4 +194,5 @@ input[type="text"] {
         float: none;
     }
 }
+
 

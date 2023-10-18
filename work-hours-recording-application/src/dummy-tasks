@@ -1,107 +1,90 @@
 {
     "records": [
-        {
-            "date": "07.10.2023",
-            "status": "Active",
-            "task": "Go there",
-            "tags": [
-                "Good tag",
-                "Bad tag"
-            ],
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 1
-        },
-        {
-            "date": "07.10.2023",
-            "status": "Inactive",
-            "task": "Go there",
-            "tags": "Some tag",
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 2
-        },
-        {
-            "date": "07.10.2023",
-            "status": "Inactive",
-            "task": "Go here",
-            "tags": "Certain tag",
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 3
-        },
-        {
-            "date": "07.10.2023",
-            "status": "Active",
-            "task": "Take some course",
-            "tags": "Nice tag",
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 4
-        }
-    ]
-}
+      {
+        "date": "07.10.2023",
+        "status": "Inactive",
+        "task": "Go there",
+        "tags": [
+          "Some tag",
+          "Joker"
+        ],
+        "start": [
 
+        ],
+        "end": [
 
+        ],
+        "timeTotal": "00:00:00",
+        "id": "2"
+      },
+      {
+        "date": "07.10.2023",
+        "status": "Inactive",
+        "task": "Sing the song",
+        "tags": [
+          "New",
+          "Easy"
+        ],
+        "start": [
 
+        ],
+        "end": [
 
+        ],
+        "timeTotal": "00:00:00",
+        "id": "3"
+      },
+      {
+        "date": "07.10.2023",
+        "status": "Inactive",
+        "task": "Take some course now",
+        "tags": [
+          "good Tag"
+        ],
+        "start": [
 
+        ],
+        "end": [
 
+        ],
+        "timeTotal": "00:00:00",
+        "id": "4"
+      },
+      {
+        "date": "11.10.2023",
+        "status": "Inactive",
+        "task": "Think the thought",
+        "tags": [
+          "Philosofy"
+        ],
+        "start": [
 
-{
-    "records": [
-        {
-            "date": "07.10.2023",
-            "status": "Active",
-            "task": "Go there",
-            "tags": [
-                "Good tag",
-                "Bad tag"
-            ],
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 1
-        },
-        {
-            "date": "07.10.2023",
-            "status": "Inactive",
-            "task": "Go there",
-            "tags": [
-                "Some tag"
-            ],
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 2
-        },
-        {
-            "date": "07.10.2023",
-            "status": "Inactive",
-            "task": "Go here",
-            "tags": [
-                "Certain tag"
-            ],
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 3
-        },
-        {
-            "date": "07.10.2023",
-            "status": "Active",
-            "task": "Take some course",
-            "tags": [
-                "Nice tag"
-            ],
-            "start": "13:40",
-            "end": "15:33",
-            "hours": "",
-            "id": 4
-        }
-    ]
-}
+        ],
+        "end": [
+
+        ],
+        "timeTotal": "00:00:00",
+        "id": "5"
+      },
+      {
+        "id": "c64a48dd-9a86-4850-85a7-3722231fd0fa",
+        "date": "11.10.2023",
+        "status": "Inactive",
+        "task": "Go there",
+        "tags": [
+          "See"
+        ],
+        "start": [
+
+        ],
+        "end": [
+
+        ],
+        "timeTotal": "00:00:00"
+      }
+    ],
+    "settings": {
+      "theme": "light",
+      "mode": "multiple"
+    }
+  }

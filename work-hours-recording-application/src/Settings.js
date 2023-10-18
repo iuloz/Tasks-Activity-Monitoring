@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Settings() {
     const [theme, setTheme] = useState('');
     const [mode, setMode] = useState('');
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        fetch('/records')
+            .then(response => response.json())
+            .then(data => setTasks(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
 
-    const addToApi = async (key, value) => {
+    const addToApi = (key, value) => {
         const requestBody = { [key]: value };
-        await fetch('/settings', {
+        fetch('/settings', {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -19,10 +27,10 @@ function Settings() {
     }
 
 
-    const applySettings = () => {
+    const applySettings = async () => {
         const newTheme = document.getElementById('theme').value;
         const newMode = document.getElementById('mode').value;
-        if (theme !== newTheme) {
+        if (theme !== newTheme && newTheme !== 'default') {
             setTheme(newTheme);
             const body = document.getElementsByTagName('body')[0];
             body.style.backgroundColor = (newTheme === 'light') ? 'whitesmoke' : '#354657';
@@ -31,6 +39,24 @@ function Settings() {
         }
         if (mode !== newMode) {
             setMode(newMode);
+            if (newMode === 'one') {
+                for (const task of tasks) {
+                    const requestBody = { status: 'Inactive' };
+                    if (task.status !== 'Inactive') {
+                        fetch(`/records/${task.id}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(requestBody)
+                        })
+                            .then(resp => resp.json())
+                            .then(() => console.log('Mode has been changed'))
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                }
+            }
         }
     }
 
@@ -46,7 +72,7 @@ function Settings() {
             <br />
             <label htmlFor='mode' style={{ marginRight: '20px' }}>Number of active tasks at a time: </label>
             <select id='mode' name='mode'>
-                <option value='all'>Multiple</option>
+                <option value='multiple'>Multiple</option>
                 <option value='one'>One</option>
             </select>
             <br />

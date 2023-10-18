@@ -60,6 +60,7 @@ function TasksItem(props) {
         setIsActive(!isActive);
         setStatus(isActive ? 'Active' : 'Inactive');
         setColor(isActive ? 'lightgreen' : '#ffd5bb');
+        await new Promise(resolve => setTimeout(resolve, 200));
         await addToApi('status', isActive ? 'Active' : 'Inactive');
         const dateTime = (new Date()).toLocaleString('ru-RU', {
             day: '2-digit',
@@ -74,10 +75,12 @@ function TasksItem(props) {
         if (isActive) {
             updatedStartTimes = [...updatedStartTimes, dateTime];
             setStartTimes(updatedStartTimes);
+            await new Promise(resolve => setTimeout(resolve, 200));
             await addToApi('start', updatedStartTimes);
         } else {
             updatedEndTimes = [...updatedEndTimes, dateTime];
             setEndTimes(updatedEndTimes);
+            await new Promise(resolve => setTimeout(resolve, 200));
             await addToApi('end', updatedEndTimes);
         }
 
@@ -96,6 +99,7 @@ function TasksItem(props) {
             newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
             newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
             setTimeTotal(newTimeTotal);
+            await new Promise(resolve => setTimeout(resolve, 200));
             await addToApi('timeTotal', newTimeTotal);
         }
     }

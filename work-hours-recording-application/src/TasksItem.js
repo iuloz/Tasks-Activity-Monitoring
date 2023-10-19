@@ -17,6 +17,15 @@ function TasksItem(props) {
     const dragElementRef = useRef(null);
     const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [timeTotal, setTimeTotal] = useState(props.timeTotal);
+    // const [allTasks, setAllTasks] = useState([]);
+
+
+    // useEffect(() => {
+    //     fetch('/records')
+    //         .then(response => response.json())
+    //         .then(data => setAllTasks(data))
+    //         .catch(error => console.error('Error fetching data:', error));
+    // }, []);
 
 
     useEffect(() => {
@@ -57,6 +66,32 @@ function TasksItem(props) {
 
 
     const changeStatus = async () => {
+
+        let mode = null;
+        await fetch('/settings')
+            .then(response => response.json())
+            .then(data => {
+                mode = data.mode;
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        console.log(mode);
+        if (mode === 'one' && isActive) {
+            props.recordingsList.forEach(async item => {
+                await new Promise(resolve => setTimeout(resolve, 200));
+                if (item.id !== props.id && item.status === 'Active') {
+                    await fetch(`/records/${item.id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: 'Inactive' })
+                    })
+                        .then(resp => resp.json())
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            });
+        }
+
         setIsActive(!isActive);
         setStatus(isActive ? 'Active' : 'Inactive');
         setColor(isActive ? 'lightgreen' : '#ffd5bb');
@@ -102,6 +137,9 @@ function TasksItem(props) {
             await new Promise(resolve => setTimeout(resolve, 200));
             await addToApi('timeTotal', newTimeTotal);
         }
+
+        props.setItemStatus(!props.itemStatus);
+
     }
 
 
@@ -255,7 +293,7 @@ function TasksItem(props) {
                         onBlur={addTag}
                         autoFocus
                         list='existingTags'
-                    />0
+                    />
                     <datalist id='existingTags'>
                         {props.existingTags.map(tag => (
                             <option key={tag} value={tag} />
@@ -265,8 +303,6 @@ function TasksItem(props) {
             ) : (
                 <span className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
             )}
-            {/* <p>Starts: {props.start}</p>
-            <p>Ends: {props.end}</p> */}
             <p>Total active: {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')}
                 <span id='delete_task' onClick={removeComponent}>⤬</span>
             </p>

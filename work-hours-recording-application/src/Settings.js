@@ -38,11 +38,11 @@ function Settings() {
             const body = document.getElementsByTagName('body')[0];
             body.style.backgroundColor = (newTheme === 'light') ? 'whitesmoke' : '#354657';
             body.style.color = (newTheme === 'light') ? 'black' : 'whitesmoke';
-            addToApi('theme', newTheme);
+            await addToApi('theme', newTheme);
         }
         if (mode !== newMode) {
             setMode(newMode);
-            addToApi('mode', newMode);
+            await addToApi('mode', newMode);
             if (newMode === 'one') {
                 let lastActive = null;
                 for (const task of tasks) {
@@ -89,7 +89,8 @@ function Settings() {
             </select>
             <br />
             <label htmlFor='mode' style={{ marginRight: '20px', fontSize: '1.2rem' }}>Number of active tasks at a time: </label>
-            <select id='mode' name='mode'>
+            <select id='mode' name='mode' defaultValue={'default'}>
+                <option disabled value='default'>Select Mode</option>
                 <option value='multiple'>Multiple</option>
                 <option value='one'>One</option>
             </select>

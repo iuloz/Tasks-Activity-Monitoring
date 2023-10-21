@@ -66,7 +66,14 @@ function TasksItem(props) {
 
 
     const changeStatus = async () => {
-
+        const dateTime = (new Date()).toLocaleString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        });
         let mode = null;
         await fetch('/settings')
             .then(response => response.json())
@@ -74,7 +81,6 @@ function TasksItem(props) {
                 mode = data.mode;
             })
             .catch(error => console.error('Error fetching data:', error));
-        console.log(mode);
         if (mode === 'one' && isActive) {
             props.recordingsList.forEach(async item => {
                 await new Promise(resolve => setTimeout(resolve, 200));
@@ -82,7 +88,7 @@ function TasksItem(props) {
                     await fetch(`/records/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status: 'Inactive' })
+                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime] })
                     })
                         .then(resp => resp.json())
                         .catch(error => {
@@ -97,14 +103,6 @@ function TasksItem(props) {
         setColor(isActive ? 'lightgreen' : '#ffd5bb');
         await new Promise(resolve => setTimeout(resolve, 200));
         await addToApi('status', isActive ? 'Active' : 'Inactive');
-        const dateTime = (new Date()).toLocaleString('ru-RU', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-        });
         let updatedStartTimes = startTimes;
         let updatedEndTimes = endTimes;
         if (isActive) {
@@ -275,7 +273,7 @@ function TasksItem(props) {
                     ) : (
                         <p>
                             <span className='tag-span' onClick={() => setEditTagIndex(index)}>{tag} </span>
-                            <span className='tag-delete' onClick={() => deleteTag(index)}> ⤬</span>
+                            <span className='tag-delete' onClick={() => deleteTag(index)}>⤬</span>
                         </p>
                     )}
                 </div>

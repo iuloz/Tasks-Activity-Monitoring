@@ -75,10 +75,10 @@ input[type="text"] {
 .task {
     color: black;
     font-weight: bold;
-    /* padding-bottom: 10px; */
     padding-top: 5px;
     cursor: pointer;
     padding-left: 3px;
+    border-radius: 4px;
 }
 
 .task:hover {
@@ -93,6 +93,7 @@ input[type="text"] {
     border-radius: 4px;
     color: black;
     background-color: whitesmoke;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .status:hover {
@@ -105,6 +106,8 @@ input[type="text"] {
     color: black;
     font-style: italic;
     cursor: pointer;
+    margin-right: 10px;
+    padding: 0 5px;
 }
 
 .tag-span:hover {
@@ -115,17 +118,17 @@ input[type="text"] {
 #delete_task {
     float: right;
     font-size: 1.5rem;
+    border-color: #0064cf;
     color: red;
     width: 30px;
     height: 30px;
     text-align: center;
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #delete_task:hover {
-    background-color: lightgray;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .asterisk {
@@ -137,14 +140,18 @@ input[type="text"] {
 }
 
 .tag-delete {
+    display: inline-block;
     font-size: 1rem;
-    width: 30px;
-    height: 30px;
+    width: 17px;
+    height: 17px;
     text-align: center;
     color: red;
     border-radius: 50%;
-    background-color: bisque;
     cursor: pointer;
+}
+
+.tag-delete:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .filtering {

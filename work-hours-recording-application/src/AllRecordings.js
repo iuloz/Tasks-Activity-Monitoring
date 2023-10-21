@@ -113,7 +113,8 @@ function AllRecordings() {
                         itemStatus={itemStatus}
                         recordingsList={recordingsList}
                     />
-                ))
+                )
+                )
             )
             }
         </div>

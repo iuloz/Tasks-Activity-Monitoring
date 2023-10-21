@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 
 function TasksItem(props) {
@@ -15,39 +15,31 @@ function TasksItem(props) {
     const [startTimes, setStartTimes] = useState(props.startTimes);
     const [endTimes, setEndTimes] = useState(props.endTimes);
     const dragElementRef = useRef(null);
-    const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
+    // const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [timeTotal, setTimeTotal] = useState(props.timeTotal);
-    // const [allTasks, setAllTasks] = useState([]);
+
 
 
     // useEffect(() => {
-    //     fetch('/records')
-    //         .then(response => response.json())
-    //         .then(data => setAllTasks(data))
-    //         .catch(error => console.error('Error fetching data:', error));
-    // }, []);
+    //     const [hours, minutes, seconds] = timeTotal.split(':').map(Number);
+    //     setTimer({ hours, minutes, seconds });
+    //     const interval = setInterval(() => {
+    //         if (status === 'Active') {
+    //             setTimer(prevTime => {
+    //                 const newSeconds = prevTime.seconds + 1;
+    //                 const newMinutes = prevTime.minutes + Math.floor(newSeconds / 60);
+    //                 const newHours = prevTime.hours + Math.floor(newMinutes / 60);
+    //                 return {
+    //                     hours: newHours,
+    //                     minutes: newMinutes % 60,
+    //                     seconds: newSeconds % 60,
+    //                 };
+    //             });
+    //         }
+    //     }, 1000);
 
-
-    useEffect(() => {
-        const [hours, minutes, seconds] = timeTotal.split(':').map(Number);
-        setTimer({ hours, minutes, seconds });
-        const interval = setInterval(() => {
-            if (status === 'Active') {
-                setTimer(prevTime => {
-                    const newSeconds = prevTime.seconds + 1;
-                    const newMinutes = prevTime.minutes + Math.floor(newSeconds / 60);
-                    const newHours = prevTime.hours + Math.floor(newMinutes / 60);
-                    return {
-                        hours: newHours,
-                        minutes: newMinutes % 60,
-                        seconds: newSeconds % 60,
-                    };
-                });
-            }
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [status, timeTotal]);
+    //     return () => clearInterval(interval);
+    // }, [status, timeTotal]);
 
 
 
@@ -74,6 +66,7 @@ function TasksItem(props) {
             minute: '2-digit',
             second: '2-digit',
         });
+
         let mode = null;
         await fetch('/settings')
             .then(response => response.json())
@@ -136,7 +129,7 @@ function TasksItem(props) {
             await addToApi('timeTotal', newTimeTotal);
         }
 
-        props.setItemStatus(!props.itemStatus);
+        props.setItemStatus(false);
 
     }
 
@@ -239,7 +232,9 @@ function TasksItem(props) {
             onDragOver={onDragOver}
             onDrop={onDrop}
         >
-            <p style={{ display: 'inline', fontSize: '0.7rem' }}>Created: {props.date}</p><span onClick={changeStatus} className='status'>{status}</span>
+            <p style={{ display: 'inline', fontSize: '0.7rem' }}>Created: {props.date}</p>
+            <span id='delete_task' onClick={removeComponent}>⤬</span>
+
 
             {taskEditing ? (
                 <input
@@ -301,9 +296,10 @@ function TasksItem(props) {
             ) : (
                 <span className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
             )}
-            <p>Total active: {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')}
-                <span id='delete_task' onClick={removeComponent}>⤬</span>
+            <p>Total active when last paused: {timeTotal}
+                {/* {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')} */}
             </p>
+            <p onClick={changeStatus} className='status'>{status}</p>
         </div>
     );
 }

@@ -11,7 +11,20 @@ function AllRecordings() {
     const [selectedTags, setSelectedTags] = useState([]);
     const [filterActive, setFilterActive] = useState(false);
     const [updateTags, setUpdateTags] = useState(false);
-    const [itemStatus, setItemStatus] = useState(false);
+    // const [itemStatus, setItemStatus] = useState(false);
+    const [render, setRender] = useState(false);
+
+
+
+
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setRender(true);
+        }, 1000); // Render after 2 seconds
+
+        return () => clearTimeout(timer); // Clean up the timer on component unmount
+    }, [render]);
 
 
     // Fetching all recordings from db.json
@@ -20,7 +33,7 @@ function AllRecordings() {
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
-    }, [showFilterDropdown, updateTags, itemStatus]);
+    }, [showFilterDropdown, updateTags]);
 
     // Setting array of unique tags
     useEffect(() => {
@@ -46,9 +59,13 @@ function AllRecordings() {
         setUpdateTags(!updateTags);
     }
 
+    const setItemStatus = (stat) => {
+        setRender(stat);
+    }
 
 
-    return (
+
+    return !render ? <p>LOADING...</p> : (
         <div>
             <button className='filtering' onClick={() => setShowFilterDropdown(!showFilterDropdown)}>Filter by Tags &#9660;</button>
             {showFilterDropdown && (
@@ -89,7 +106,7 @@ function AllRecordings() {
                             uniqueTagsUpdate={newTagsFromTaskItem}
                             timeTotal={item.timeTotal}
                             setItemStatus={setItemStatus}
-                            itemStatus={itemStatus}
+                            // itemStatus={itemStatus}
                             recordingsList={recordingsList}
                         />
                     )
@@ -110,7 +127,7 @@ function AllRecordings() {
                         uniqueTagsUpdate={newTagsFromTaskItem}
                         timeTotal={item.timeTotal}
                         setItemStatus={setItemStatus}
-                        itemStatus={itemStatus}
+                        // itemStatus={itemStatus}
                         recordingsList={recordingsList}
                     />
                 )

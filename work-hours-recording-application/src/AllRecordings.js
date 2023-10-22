@@ -21,7 +21,7 @@ function AllRecordings() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setRender(true);
-        }, 1000); // Render after 2 seconds
+        }, 200); // Render after 2 seconds
 
         return () => clearTimeout(timer); // Clean up the timer on component unmount
     }, [render]);
@@ -61,6 +61,10 @@ function AllRecordings() {
 
     const setItemStatus = (stat) => {
         setRender(stat);
+    }
+
+    const setNewTaskList = (list) => {
+        setRecordingList(list);
     }
 
 
@@ -129,6 +133,7 @@ function AllRecordings() {
                         setItemStatus={setItemStatus}
                         // itemStatus={itemStatus}
                         recordingsList={recordingsList}
+                        setNewTaskList={setNewTaskList}
                     />
                 )
                 )

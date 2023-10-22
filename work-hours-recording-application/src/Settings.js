@@ -34,6 +34,7 @@ function Settings() {
         const newTheme = document.getElementById('theme').value;
         const newMode = document.getElementById('mode').value;
         if (theme !== newTheme && newTheme !== 'default') {
+            console.log('test');
             setTheme(newTheme);
             const body = document.getElementsByTagName('body')[0];
             body.style.backgroundColor = (newTheme === 'light') ? 'whitesmoke' : '#354657';
@@ -54,7 +55,6 @@ function Settings() {
                             body: JSON.stringify({ status: 'Inactive' })
                         })
                             .then(resp => resp.json())
-                            .then(() => console.log('Mode has been changed'))
                             .catch(error => {
                                 console.error('Error:', error);
                             });
@@ -73,6 +73,7 @@ function Settings() {
                         .catch(error => {
                             console.error('Error:', error);
                         });
+                    console.log('Disabled all tasks but one');
                 }
             }
         }

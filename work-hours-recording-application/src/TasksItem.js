@@ -89,47 +89,98 @@ function TasksItem(props) {
                         });
                 }
             });
-        }
-
-        setIsActive(!isActive);
-        setStatus(isActive ? 'Active' : 'Inactive');
-        setColor(isActive ? 'lightgreen' : '#ffd5bb');
-        await new Promise(resolve => setTimeout(resolve, 200));
-        await addToApi('status', isActive ? 'Active' : 'Inactive');
-        let updatedStartTimes = startTimes;
-        let updatedEndTimes = endTimes;
-        if (isActive) {
-            updatedStartTimes = [...updatedStartTimes, dateTime];
-            setStartTimes(updatedStartTimes);
+            setIsActive(!isActive);
+            setStatus(isActive ? 'Active' : 'Inactive');
+            setColor(isActive ? 'lightgreen' : '#ffd5bb');
             await new Promise(resolve => setTimeout(resolve, 200));
-            await addToApi('start', updatedStartTimes);
+            await addToApi('status', isActive ? 'Active' : 'Inactive');
+            let updatedStartTimes = startTimes;
+            let updatedEndTimes = endTimes;
+
+            if (isActive) {
+                updatedStartTimes = [...updatedStartTimes, dateTime];
+                setStartTimes(updatedStartTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
+                await addToApi('start', updatedStartTimes);
+            } else {
+                updatedEndTimes = [...updatedEndTimes, dateTime];
+                setEndTimes(updatedEndTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
+                await addToApi('end', updatedEndTimes);
+            }
+
+            if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
+                const dateStartString = updatedStartTimes[updatedStartTimes.length - 1];
+                const dateEndString = updatedEndTimes[updatedEndTimes.length - 1];
+                const dateStart = new Date(dateStartString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                const differenceInMilliseconds = dateEnd - dateStart;
+                const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+                const hours = Math.floor(differenceInSeconds / 3600);
+                const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+                const seconds = differenceInSeconds % 60;
+                const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
+                let newTimeTotal = new Date();
+                newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+                newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                setTimeTotal(newTimeTotal);
+                await new Promise(resolve => setTimeout(resolve, 200));
+                await addToApi('timeTotal', newTimeTotal);
+            }
+
+            fetch('/records')
+                .then(response => response.json())
+                .then(data => props.setNewTaskList(data))
+                .catch(error => console.error('Error fetching data:', error));
+            props.setItemStatus(false);
+
         } else {
-            updatedEndTimes = [...updatedEndTimes, dateTime];
-            setEndTimes(updatedEndTimes);
+
+            setIsActive(!isActive);
+            setStatus(isActive ? 'Active' : 'Inactive');
+            setColor(isActive ? 'lightgreen' : '#ffd5bb');
             await new Promise(resolve => setTimeout(resolve, 200));
-            await addToApi('end', updatedEndTimes);
+            await addToApi('status', isActive ? 'Active' : 'Inactive');
+            let updatedStartTimes = startTimes;
+            let updatedEndTimes = endTimes;
+            if (isActive) {
+                updatedStartTimes = [...updatedStartTimes, dateTime];
+                setStartTimes(updatedStartTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
+                await addToApi('start', updatedStartTimes);
+            } else {
+                updatedEndTimes = [...updatedEndTimes, dateTime];
+                setEndTimes(updatedEndTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
+                await addToApi('end', updatedEndTimes);
+            }
+
+            if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
+                const dateStartString = updatedStartTimes[updatedStartTimes.length - 1];
+                const dateEndString = updatedEndTimes[updatedEndTimes.length - 1];
+                const dateStart = new Date(dateStartString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                const differenceInMilliseconds = dateEnd - dateStart;
+                const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+                const hours = Math.floor(differenceInSeconds / 3600);
+                const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+                const seconds = differenceInSeconds % 60;
+                const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
+                let newTimeTotal = new Date();
+                newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+                newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                setTimeTotal(newTimeTotal);
+                await new Promise(resolve => setTimeout(resolve, 200));
+                await addToApi('timeTotal', newTimeTotal);
+            }
         }
 
-        if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
-            const dateStartString = updatedStartTimes[updatedStartTimes.length - 1];
-            const dateEndString = updatedEndTimes[updatedEndTimes.length - 1];
-            const dateStart = new Date(dateStartString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-            const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-            const differenceInMilliseconds = dateEnd - dateStart;
-            const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-            const hours = Math.floor(differenceInSeconds / 3600);
-            const minutes = Math.floor((differenceInSeconds % 3600) / 60);
-            const seconds = differenceInSeconds % 60;
-            const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-            let newTimeTotal = new Date();
-            newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-            newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
-            setTimeTotal(newTimeTotal);
-            await new Promise(resolve => setTimeout(resolve, 200));
-            await addToApi('timeTotal', newTimeTotal);
-        }
 
-        props.setItemStatus(false);
+        // fetch('/records')
+        //     .then(response => response.json())
+        //     .then(data => props.setNewTaskList(data))
+        //     .catch(error => console.error('Error fetching data:', error));
+        // props.setItemStatus(false);
 
     }
 

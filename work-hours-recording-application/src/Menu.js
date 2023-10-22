@@ -1,26 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import './styles.css'
 
 
 
 function Menu() {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const body = document.getElementsByTagName('body')[0];
-        fetch('/settings')
-            .then(response => response.json())
-            .then(data => {
-                body.style.backgroundColor = (data.theme === 'dark') ? '#354657' : 'whitesmoke';
-                body.style.color = (data.theme === 'dark') ? 'whitesmoke' : 'black';
-            })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
-
-
-
-
 
     return (
         <div className='menu'>

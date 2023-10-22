@@ -69,13 +69,13 @@ function AllRecordings() {
 
 
 
-    return !render ? <p>LOADING...</p> : (
+    return !render ? null : (
         <div>
             <button className='filtering' onClick={() => setShowFilterDropdown(!showFilterDropdown)}>Filter by Tags &#9660;</button>
             {showFilterDropdown && (
                 <div className='filter-dropdown'>
                     {uniqueTags.map(tag => (
-                        <label key={tag}>
+                        <label id='filter_tag' key={tag}>
                             <input
                                 name='checkbox'
                                 type='checkbox'
@@ -110,8 +110,8 @@ function AllRecordings() {
                             uniqueTagsUpdate={newTagsFromTaskItem}
                             timeTotal={item.timeTotal}
                             setItemStatus={setItemStatus}
-                            // itemStatus={itemStatus}
                             recordingsList={recordingsList}
+                            setNewTaskList={setNewTaskList}
                         />
                     )
                 ))
@@ -131,7 +131,6 @@ function AllRecordings() {
                         uniqueTagsUpdate={newTagsFromTaskItem}
                         timeTotal={item.timeTotal}
                         setItemStatus={setItemStatus}
-                        // itemStatus={itemStatus}
                         recordingsList={recordingsList}
                         setNewTaskList={setNewTaskList}
                     />

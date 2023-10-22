@@ -19,7 +19,7 @@ function TasksItem(props) {
     const [timeTotal, setTimeTotal] = useState(props.timeTotal);
 
 
-
+    // Timer
     // useEffect(() => {
     //     const [hours, minutes, seconds] = timeTotal.split(':').map(Number);
     //     setTimer({ hours, minutes, seconds });
@@ -78,10 +78,20 @@ function TasksItem(props) {
             props.recordingsList.forEach(async item => {
                 await new Promise(resolve => setTimeout(resolve, 200));
                 if (item.id !== props.id && item.status === 'Active') {
+                    const lastStartTime = new Date(item.start[item.start.length - 1].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                    const lastEndTime = new Date(dateTime.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                    const differenceInSeconds = Math.floor((lastEndTime - lastStartTime) / 1000);
+                    const hours = Math.floor(differenceInSeconds / 3600);
+                    const minutes = Math.floor((differenceInSeconds % 3600) / 60);
+                    const seconds = differenceInSeconds % 60;
+                    const [prevHours, prevMinutes, prevSeconds] = item.timeTotal.split(':').map(Number);
+                    let newTimeTotal = new Date();
+                    newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+                    newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                     await fetch(`/records/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime] })
+                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime], timeTotal: newTimeTotal })
                     })
                         .then(resp => resp.json())
                         .catch(error => {
@@ -174,14 +184,6 @@ function TasksItem(props) {
                 await addToApi('timeTotal', newTimeTotal);
             }
         }
-
-
-        // fetch('/records')
-        //     .then(response => response.json())
-        //     .then(data => props.setNewTaskList(data))
-        //     .catch(error => console.error('Error fetching data:', error));
-        // props.setItemStatus(false);
-
     }
 
 

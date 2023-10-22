@@ -33,15 +33,15 @@ function Settings() {
     const applySettings = async () => {
         const newTheme = document.getElementById('theme').value;
         const newMode = document.getElementById('mode').value;
+
         if (theme !== newTheme && newTheme !== 'default') {
-            console.log('test');
             setTheme(newTheme);
             const body = document.getElementsByTagName('body')[0];
             body.style.backgroundColor = (newTheme === 'light') ? 'whitesmoke' : '#354657';
-            body.style.color = (newTheme === 'light') ? 'black' : 'whitesmoke';
             await addToApi('theme', newTheme);
         }
-        if (mode !== newMode) {
+
+        if (mode !== newMode && newMode !== 'default') {
             setMode(newMode);
             await addToApi('mode', newMode);
             if (newMode === 'one') {
@@ -82,19 +82,20 @@ function Settings() {
 
     return (
         <div className='settings'>
-            <label htmlFor='theme' style={{ marginRight: '20px', fontSize: '1.2rem' }}>Color theme: </label>
-            <select id='theme' name='theme' style={{ marginRight: '30px' }} defaultValue={'default'}>
+            <label className='settings-label' htmlFor='theme' style={{ marginRight: '20px', fontSize: '1.1rem' }}>Theme: </label>
+            <select id='theme' name='theme' defaultValue={'default'}>
                 <option disabled value='default'>Select Theme</option>
                 <option id='light' value='light'>Light</option>
                 <option id='dark' value='dark'>Dark</option>
             </select>
             <br />
-            <label htmlFor='mode' style={{ marginRight: '20px', fontSize: '1.2rem' }}>Number of active tasks at a time: </label>
+            <label className='settings-label' htmlFor='mode' style={{ marginRight: '20px', fontSize: '1.1rem' }}>Number of active tasks at a time: </label>
             <select id='mode' name='mode' defaultValue={'default'}>
                 <option disabled value='default'>Select Mode</option>
                 <option value='multiple'>Multiple</option>
                 <option value='one'>One</option>
             </select>
+            <br />
             <br />
             <button id='apply_settings' onClick={applySettings}>Apply</button>
         </div>

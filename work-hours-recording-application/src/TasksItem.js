@@ -17,6 +17,12 @@ function TasksItem(props) {
     const dragElementRef = useRef(null);
     // const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [timeTotal, setTimeTotal] = useState(props.timeTotal);
+    const buttonRef1 = useRef();
+    const buttonRef2 = useRef();
+    const buttonRef3 = useRef();
+    const buttonRef4 = useRef();
+    const myTagRefs = useRef([]);
+    const myTagDeleteRefs = useRef([]);
 
 
     // Timer
@@ -243,7 +249,7 @@ function TasksItem(props) {
     }
 
 
-    const onDragStart = (e) => {
+    const onDragStartHandler = (e) => {
         e.dataTransfer.setData('text/plain', e.target.id);
     }
 
@@ -270,6 +276,19 @@ function TasksItem(props) {
         }
     }
 
+    const handleKeyDown = (e, buttonRef) => {
+        if (buttonRef.current && (e.key === ' ' || e.key === 'Spacebar')) {
+            e.preventDefault();
+            buttonRef.current.click();
+        }
+    };
+
+    const handleKeyDownTags = (e, index, refs) => {
+        if (refs.current[index] && (e.key === ' ' || e.key === 'Spacebar')) {
+            e.preventDefault();
+            refs.current[index].click();
+        }
+    };
 
 
 
@@ -279,14 +298,14 @@ function TasksItem(props) {
             className='task-item'
             style={{ backgroundColor: color }}
             draggable='true'
-            onDragStart={onDragStart}
+            onDragStart={onDragStartHandler}
             ref={dragElementRef}
             id={props.id}
             onDragOver={onDragOver}
             onDrop={onDrop}
         >
             <p style={{ display: 'inline', fontSize: '0.7rem' }}>Created: {props.date}</p>
-            <span id='delete_task' onClick={removeComponent}>⤬</span>
+            <span tabIndex={0} ref={buttonRef1} onKeyDown={e => handleKeyDown(e, buttonRef1)} id='delete_task' onClick={removeComponent}>⤬</span>
 
 
             {taskEditing ? (
@@ -301,7 +320,7 @@ function TasksItem(props) {
                     autoFocus
                 />
             ) : (
-                <p className='task' onClick={() => setTaskEditing(true)}>{task}</p>
+                <p tabIndex={0} ref={buttonRef2} onKeyDown={e => handleKeyDown(e, buttonRef2)} className='task' onClick={() => setTaskEditing(true)}>{task}</p>
             )}
 
             <p style={{ textDecoration: 'underline' }}>Tags: </p>
@@ -320,8 +339,22 @@ function TasksItem(props) {
                         />
                     ) : (
                         <p>
-                            <span className='tag-span' onClick={() => setEditTagIndex(index)}>{tag} </span>
-                            <span className='tag-delete' onClick={() => deleteTag(index)}>⤬</span>
+                            <span
+                                tabIndex={0}
+                                className='tag-span'
+                                onClick={() => setEditTagIndex(index)}
+                                ref={ref => myTagRefs.current[index] = ref}
+                                id={index}
+                                onKeyDown={e => handleKeyDownTags(e, index, myTagRefs)}
+                            >{tag} </span>
+                            <span
+                                tabIndex={0}
+                                className='tag-delete'
+                                onClick={() => deleteTag(index)}
+                                ref={ref => myTagDeleteRefs.current[index] = ref}
+                                id={index}
+                                onKeyDown={e => handleKeyDownTags(e, index, myTagDeleteRefs)}
+                            >⤬</span>
                         </p>
                     )}
                 </div>
@@ -348,12 +381,12 @@ function TasksItem(props) {
                     </datalist>
                 </div>
             ) : (
-                <span className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
+                <span tabIndex={0} ref={buttonRef3} onKeyDown={e => handleKeyDown(e, buttonRef3)} className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
             )}
             <p>Total active when last paused: {timeTotal}
                 {/* {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')} */}
             </p>
-            <p onClick={changeStatus} className='status'>{status}</p>
+            <p tabIndex={0} ref={buttonRef4} onKeyDown={e => handleKeyDown(e, buttonRef4)} onClick={changeStatus} className='status'>{status}</p>
         </div>
     );
 }

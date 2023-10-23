@@ -26,7 +26,7 @@ function Tasks() {
 
 
 
-    const addToApi = async () => {
+    const addTaskToApi = async () => {
         await fetch('/records', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ function Tasks() {
         } else {
             // timeDifference();
             setTaskList([...taskList, task]);
-            addToApi();
+            addTaskToApi();
             setUpdateTags(!updateTags);
         }
 

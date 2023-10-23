@@ -2,7 +2,7 @@ function Form({ task, recordTask, inputChanged }){
 
     return (
         <div>
-            <form onSubmit={recordTask}>
+            <form onSubmit={recordTask} style={{marginRight: '20px', marginTop:'10px'}}>
                 <label htmlFor='task_input'>Task:<span className='asterisk'>*</span> </label>
                 <input id='task_input' type='text'  placeholder='Type the task' name='task' value={task.task} onChange={inputChanged}></input>
                 <label htmlFor='tag_input'>Tag:<span className='asterisk'>*</span> </label>

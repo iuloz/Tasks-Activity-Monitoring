@@ -174,11 +174,11 @@ input[type="text"] {
     border: 1px solid #0064cf;
 }
 
-.settings-btn {
+#settings_link {
     float: right;
     margin-right: 50px;
     height: 28px;
-    font-size: 15px;
+    /* font-size: 15px; */
     cursor: pointer;
 }
 

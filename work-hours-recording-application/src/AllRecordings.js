@@ -134,24 +134,6 @@ function AllRecordings() {
                 setFilterActive(false);
             }}>Reset Filter</button><br />
             <Form task={task} inputChanged={inputChanged} recordTask={recordTask} />
-            {
-                taskList.map((item, index) =>
-                    <TasksItem
-                        key={index}
-                        id={item.id}
-                        date={item.date}
-                        status={item.status}
-                        task={item.task}
-                        tags={item.tags}
-                        startTimes={item.start}
-                        endTimes={item.end}
-                        timeTotal={item.timeTotal}
-                        existingTags={uniqueTags}
-                        uniqueTagsUpdate={newTagsFromTaskItem}
-                    />)
-            }
-
-
 
             {filterActive ? (
                 recordingsList.map((item, index) => (
@@ -165,7 +147,6 @@ function AllRecordings() {
                             tags={item.tags}
                             startTimes={item.start}
                             endTimes={item.end}
-                            hours={item.hours}
                             existingTags={uniqueTags}
                             uniqueTagsUpdate={newTagsFromTaskItem}
                             timeTotal={item.timeTotal}
@@ -186,7 +167,6 @@ function AllRecordings() {
                         tags={item.tags}
                         startTimes={item.start}
                         endTimes={item.end}
-                        hours={item.hours}
                         existingTags={uniqueTags}
                         uniqueTagsUpdate={newTagsFromTaskItem}
                         timeTotal={item.timeTotal}

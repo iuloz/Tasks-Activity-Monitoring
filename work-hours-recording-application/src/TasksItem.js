@@ -330,6 +330,7 @@ function TasksItem(props) {
             {addingTag ? (
                 <div>
                     <input
+                        placeholder='Click to see existing tags'
                         name='addTag'
                         autoComplete='off'
                         className='component-input'

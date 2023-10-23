@@ -6,4 +6,4 @@ start local server, using *db.json* file (command in terminal):
 + npx json-server -H localhost -p 3010 -w ./db.json
 
 run the app itself:
-+ npm run
++ npm start

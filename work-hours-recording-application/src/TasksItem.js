@@ -385,7 +385,7 @@ function TasksItem(props) {
             {addingTag ? (
                 <div>
                     <input
-                        placeholder='Click/arrow down key to see all tags'
+                        placeholder='Click or arrow down key to see all tags'
                         name='addTag'
                         autoComplete='off'
                         className='component-input'

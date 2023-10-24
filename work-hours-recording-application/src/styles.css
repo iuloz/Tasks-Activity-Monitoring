@@ -141,6 +141,10 @@ input[type="text"] {
     height: 5px;
 }
 
+.component-input::placeholder{
+    font-size: 0.8rem;
+}
+
 .tag-delete {
     display: inline-block;
     font-size: 1rem;

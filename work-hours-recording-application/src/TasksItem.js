@@ -21,8 +21,11 @@ function TasksItem(props) {
     const buttonRef2 = useRef();
     const buttonRef3 = useRef();
     const buttonRef4 = useRef();
-    const myTagRefs = useRef([]);
-    const myTagDeleteRefs = useRef([]);
+    const buttonRef5 = useRef();
+    const buttonRef6 = useRef();
+    const tagRefs = useRef([]);
+    const tagDeleteRefs = useRef([]);
+    const tagEditInputRefs = useRef([]);
 
 
     // Timer
@@ -283,10 +286,24 @@ function TasksItem(props) {
         }
     };
 
+    const handleKeyDownEnter = (e, buttonRef) => {
+        if (buttonRef.current && (e.key === 'Enter')) {
+            e.preventDefault();
+            buttonRef.current.blur();
+        }
+    };
+
     const handleKeyDownTags = (e, index, refs) => {
         if (refs.current[index] && (e.key === ' ' || e.key === 'Spacebar')) {
             e.preventDefault();
             refs.current[index].click();
+        }
+    };
+
+    const handleKeyDownTagsEdit = (e, index, refs) => {
+        if (refs.current[index] && (e.key === 'Enter')) {
+            e.preventDefault();
+            refs.current[index].blur();
         }
     };
 
@@ -318,6 +335,8 @@ function TasksItem(props) {
                     onChange={e => setTask(e.target.value)}
                     onBlur={editTask}
                     autoFocus
+                    ref={buttonRef5}
+                    onKeyDown={e => handleKeyDownEnter(e, buttonRef5)}
                 />
             ) : (
                 <p tabIndex={0} ref={buttonRef2} onKeyDown={e => handleKeyDown(e, buttonRef2)} className='task' onClick={() => setTaskEditing(true)}>{task}</p>
@@ -336,6 +355,9 @@ function TasksItem(props) {
                             onChange={e => handleTagEdit(index, e.target.value)}
                             onBlur={e => editTag(index, e.target.value)}
                             autoFocus
+                            ref={ref => tagEditInputRefs.current[index] = ref}
+                            id={index}
+                            onKeyDown={e => handleKeyDownTagsEdit(e, index, tagEditInputRefs)}
                         />
                     ) : (
                         <p>
@@ -343,17 +365,17 @@ function TasksItem(props) {
                                 tabIndex={0}
                                 className='tag-span'
                                 onClick={() => setEditTagIndex(index)}
-                                ref={ref => myTagRefs.current[index] = ref}
+                                ref={ref => tagRefs.current[index] = ref}
                                 id={index}
-                                onKeyDown={e => handleKeyDownTags(e, index, myTagRefs)}
-                            >{tag} </span>
+                                onKeyDown={e => handleKeyDownTags(e, index, tagRefs)}
+                            >{tag}</span>
                             <span
                                 tabIndex={0}
                                 className='tag-delete'
                                 onClick={() => deleteTag(index)}
-                                ref={ref => myTagDeleteRefs.current[index] = ref}
+                                ref={ref => tagDeleteRefs.current[index] = ref}
                                 id={index}
-                                onKeyDown={e => handleKeyDownTags(e, index, myTagDeleteRefs)}
+                                onKeyDown={e => handleKeyDownTags(e, index, tagDeleteRefs)}
                             >⤬</span>
                         </p>
                     )}
@@ -363,7 +385,7 @@ function TasksItem(props) {
             {addingTag ? (
                 <div>
                     <input
-                        placeholder='Click to see existing tags'
+                        placeholder='Click/arrow down key to see all tags'
                         name='addTag'
                         autoComplete='off'
                         className='component-input'
@@ -373,6 +395,8 @@ function TasksItem(props) {
                         onBlur={addTag}
                         autoFocus
                         list='existingTags'
+                        ref={buttonRef6}
+                        onKeyDown={e => handleKeyDownEnter(e, buttonRef6)}
                     />
                     <datalist id='existingTags'>
                         {props.existingTags.map(tag => (
@@ -381,7 +405,14 @@ function TasksItem(props) {
                     </datalist>
                 </div>
             ) : (
-                <span tabIndex={0} ref={buttonRef3} onKeyDown={e => handleKeyDown(e, buttonRef3)} className='tag-span' onClick={() => setAddingTag(true)} style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}> +</span>
+                <span
+                    tabIndex={0}
+                    ref={buttonRef3}
+                    onKeyDown={e => handleKeyDown(e, buttonRef3)}
+                    className='tag-span'
+                    onClick={() => setAddingTag(true)}
+                    style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}
+                >+</span>
             )}
             <p>Total active when last paused: {timeTotal}
                 {/* {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')} */}

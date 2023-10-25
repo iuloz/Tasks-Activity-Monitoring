@@ -15,6 +15,8 @@
 
         ],
         "timeTotal": "00:00:00",
+        "observationStart": "",
+        "observationEnd": "",
         "id": "2"
       },
       {
@@ -32,6 +34,8 @@
 
         ],
         "timeTotal": "00:00:00",
+        "observationStart": "",
+        "observationEnd": "",
         "id": "3"
       },
       {
@@ -48,6 +52,8 @@
 
         ],
         "timeTotal": "00:00:00",
+        "observationStart": "",
+        "observationEnd": "",
         "id": "4"
       },
       {
@@ -64,6 +70,8 @@
 
         ],
         "timeTotal": "00:00:00",
+        "observationStart": "",
+        "observationEnd": "",
         "id": "5"
       },
       {
@@ -80,7 +88,9 @@
         "end": [
 
         ],
-        "timeTotal": "00:00:00"
+        "timeTotal": "00:00:00",
+        "observationStart": "",
+        "observationEnd": ""
       }
     ],
     "settings": {

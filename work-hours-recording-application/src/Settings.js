@@ -89,7 +89,7 @@ function Settings() {
                 <option id='dark' value='dark'>Dark</option>
             </select>
             <br />
-            <label className='settings-label' htmlFor='mode' style={{ marginRight: '20px', fontSize: '1.1rem' }}>Number of active tasks at a time: </label>
+            <label className='settings-label' htmlFor='mode' style={{ marginRight: '20px', fontSize: '1.1rem' }}>Show active tasks at a time: </label>
             <select id='mode' name='mode' defaultValue={'default'}>
                 <option disabled value='default'>Select Mode</option>
                 <option value='multiple'>Multiple</option>

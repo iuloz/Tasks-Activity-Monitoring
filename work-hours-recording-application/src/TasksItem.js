@@ -1,8 +1,4 @@
 import { useState, useRef } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import TimePicker from 'react-time-picker';
-import 'react-time-picker/dist/TimePicker.css';
 
 
 function TasksItem(props) {
@@ -30,8 +26,6 @@ function TasksItem(props) {
     const tagRefs = useRef([]);
     const tagDeleteRefs = useRef([]);
     const tagEditInputRefs = useRef([]);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedTime, setSelectedTime] = useState('12:00');
 
 
     // Timer
@@ -313,14 +307,6 @@ function TasksItem(props) {
         }
     };
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const handleTimeChange = (time) => {
-        setSelectedTime(time);
-    };
-
 
 
 
@@ -430,23 +416,7 @@ function TasksItem(props) {
             )}
             <p>Total active when last paused: {timeTotal}
                 {/* {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')} */}
-            </p><br />
-            <div>
-                <p>Observation interval:</p>
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    showTimeSelect
-                    dateFormat="dd.MM.yyyy,  hh:mm"
-                    timeFormat="HH:mm"
-                />
-                <TimePicker
-                    onChange={handleTimeChange}
-                    value={selectedTime}
-                    format="HH:mm"
-                />
-                {/* <span>{props.observationStart} - {props.observationEnd}</span> */}
-            </div>
+            </p>
             <p tabIndex={0} ref={buttonRef4} onKeyDown={e => handleKeyDown(e, buttonRef4)} onClick={changeStatus} className='status'>{status}</p>
         </div>
     );

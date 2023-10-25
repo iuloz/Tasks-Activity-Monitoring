@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import About from './About';
 import AllRecordings from './AllRecordings';
 import Settings from './Settings';
+import Summary from './Summary';
 
 
 function App() {
@@ -24,9 +25,9 @@ function App() {
             <Menu />
             <Routes>
                 <Route path='/' element={null} />
-                {/* <Route path='/make-recording' element={<Tasks />} /> */}
                 <Route path='/about' element={<About />} />
                 <Route path='/recordings' element={<AllRecordings />} />
+                <Route path='/summary' element={<Summary />} />
                 <Route path='/settings' element={<Settings />} />
             </Routes>
         </BrowserRouter>

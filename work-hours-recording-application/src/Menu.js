@@ -10,9 +10,9 @@ function Menu() {
         <div className='menu'>
             {/* <Link className='link' to='/make-recording'>Add task</Link> */}
             <Link className='link' to='/recordings'>See all tasks</Link>
+            <Link className='link' to='/summary'>Summary</Link>
             <Link className='link' to='/about'>About</Link>
             <Link id='settings_link' className='link' to='/settings'>Settings</Link>
-            {/* <button className='settings-btn' onClick={() => navigate('/settings')}>Settings</button> */}
         </div>
     )
 }

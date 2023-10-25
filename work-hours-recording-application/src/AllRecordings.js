@@ -5,6 +5,7 @@ import Form from './Form';
 
 
 
+
 // This is recordings list view, made during whole time
 function AllRecordings() {
     const [recordingsList, setRecordingList] = useState([]);
@@ -15,8 +16,7 @@ function AllRecordings() {
     const [updateTags, setUpdateTags] = useState(false);
     const [render, setRender] = useState(false);
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [], timeTotal: '00:00:00', observationStart: '', observationEnd: '' });
-
+    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [], timeTotal: '00:00:00' });
 
 
 
@@ -105,7 +105,7 @@ function AllRecordings() {
         });
         let key = event.target.name;
         let value = event.target.value;
-        setTask({ ...task, id: uuidv4(), date: date, observationStart: `${date}, 00:00:00`, observationEnd: 'Current time', [key]: (key === 'tags') ? [value] : value });
+        setTask({ ...task, id: uuidv4(), date: date, [key]: (key === 'tags') ? [value] : value });
     }
 
 
@@ -132,7 +132,8 @@ function AllRecordings() {
             <button className='filtering' onClick={() => {
                 setSelectedTags([]);
                 setFilterActive(false);
-            }}>Reset Filter</button><br />
+            }}>Reset Filter</button>
+
             <Form task={task} inputChanged={inputChanged} recordTask={recordTask} />
 
             {filterActive ? (
@@ -153,8 +154,6 @@ function AllRecordings() {
                             setItemStatus={setItemStatus}
                             recordingsList={recordingsList}
                             setNewTaskList={setNewTaskList}
-                            observationStart={item.observationStart}
-                            observationEnd={item.observationEnd}
                         />
                     )
                 ))
@@ -175,8 +174,6 @@ function AllRecordings() {
                         setItemStatus={setItemStatus}
                         recordingsList={recordingsList}
                         setNewTaskList={setNewTaskList}
-                        observationStart={item.observationStart}
-                        observationEnd={item.observationEnd}
                     />
                 )
                 )

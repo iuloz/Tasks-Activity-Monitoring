@@ -8,11 +8,19 @@
         "Some tag",
         "Joker"
       ],
-      "start": [],
-      "end": [],
-      "timeTotal": "00:00:00",
-      "observationStart": "10",
-      "observationEnd": "20",
+      "start": [
+        "26.10.2023, 21:36:21",
+        "26.10.2023, 21:46:57",
+        "26.10.2023, 21:56:49"
+      ],
+      "end": [
+        "26.10.2023, 21:36:23",
+        "26.10.2023, 21:55:55",
+        "26.10.2023, 21:56:55"
+      ],
+      "timeTotal": "00:09:06",
+      "observationStart": "",
+      "observationEnd": "",
       "id": "2"
     },
     {
@@ -23,9 +31,13 @@
         "New",
         "Easy"
       ],
-      "start": [],
-      "end": [],
-      "timeTotal": "00:00:00",
+      "start": [
+        "26.10.2023, 21:47:01"
+      ],
+      "end": [
+        "26.10.2023, 21:55:56"
+      ],
+      "timeTotal": "00:08:55",
       "observationStart": "",
       "observationEnd": "",
       "id": "3"
@@ -37,9 +49,13 @@
       "tags": [
         "good Tag"
       ],
-      "start": [],
-      "end": [],
-      "timeTotal": "00:00:00",
+      "start": [
+        "26.10.2023, 21:47:02"
+      ],
+      "end": [
+        "26.10.2023, 21:55:58"
+      ],
+      "timeTotal": "00:08:56",
       "observationStart": "",
       "observationEnd": "",
       "id": "4"
@@ -71,20 +87,6 @@
       "timeTotal": "00:00:00",
       "observationStart": "",
       "observationEnd": ""
-    },
-    {
-      "id": "753cd24c-801c-4cca-ab51-463c47168197",
-      "date": "25.10.2023",
-      "status": "Inactive",
-      "task": "Create code",
-      "tags": [
-        "IT"
-      ],
-      "start": [],
-      "end": [],
-      "timeTotal": "00:00:00",
-      "observationStart": "25.10.2023, 00:00:00",
-      "observationEnd": "Current time"
     }
   ],
   "settings": {

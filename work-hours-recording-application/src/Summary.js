@@ -31,6 +31,7 @@ function Summary() {
     };
 
     const showTasksAndTimes = () => {
+        setTasksTimes([]);
         recordingsList.forEach(async item => {
             let totalTimeInSeconds = 0;
             const dateTime = new Date();
@@ -74,7 +75,7 @@ function Summary() {
 
     return (
         <div>
-            <p>Observation interval:</p>
+            <p style={{ display: 'inline-block', marginRight: '40px', fontSize: '1.3rem' }}>Observation interval:</p>
             <div style={{ display: 'inline-block' }}>
                 <p>Start:</p>
                 <DatePicker
@@ -101,7 +102,15 @@ function Summary() {
             {
                 tasksTimes.map((item, index) => {
                     if (item.totalTime !== '00:00:00') {
-                        return <p key={index}>{item.task}: {item.totalTime}</p>;
+                        return (
+                            <div key={index}>
+                                <div className='task-of-interest'>
+                                    <p><b>Task:</b> {item.task}</p>
+                                    <p><b>Total active time:</b> {item.totalTime}</p>
+                                </div>
+                                <br />
+                            </div>
+                        )
                     }
                     return null;
                 })

@@ -15,7 +15,7 @@ function About() {
                 <li>task element creation date</li>
                 <li>task description, which can be edited any time</li>
                 <li>close button (looks like X in upper right part of the element), which deletes whole task element from the view</li>
-                <li>tags, which can be edited (click on tag) and deleted (click 'x' on the right from each tag). It is possible to add new tag as well, pressing '+' sign at the bottom of tag list</li>
+                <li>tags, which can be edited (click on tag) and deleted (click 'x' on the right from each tag). It is possible to add new tag as well, pressing '+' sign at the bottom of tag list and writing new tag or selecting it from existing tags. To select existing tag user must click on input field or press arrow down key.</li>
                 <li>total activity time (hh:mm:ss), shows only time till last paused</li>
                 <li>status button. Can be 'Active'(green background of task element) or 'Inactive' (red background). Status can be changed by clicking the button. When status changed to inactive, total activity time is updated</li>
             </ul>

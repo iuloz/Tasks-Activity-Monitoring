@@ -77,7 +77,7 @@ function Summary() {
 
             item.tags.forEach(tag => {
                 const index = updatedTagsTimes.findIndex(obj => obj.tag === tag);
-                if (index !== -1) {
+                if (index !== -1) { // If there is same tag already
                     const temp = [...updatedTagsTimes];
                     const index = temp.findIndex(obj => obj.tag === tag);
                     const [hours, minutes, seconds] = temp[index].totalTime.split(':').map(Number);

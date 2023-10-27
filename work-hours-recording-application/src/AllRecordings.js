@@ -36,7 +36,7 @@ function AllRecordings() {
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
-    }, [showFilterDropdown, updateTags]);
+    }, [showFilterDropdown, updateTags, taskList]);
 
     // Setting array of unique tags
     useEffect(() => {

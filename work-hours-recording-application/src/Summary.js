@@ -68,9 +68,6 @@ function Summary() {
             const hours = Math.floor(totalTimeInSeconds / 3600);
             const minutes = Math.floor((totalTimeInSeconds % 3600) / 60);
             const seconds = totalTimeInSeconds % 60;
-            // let newTimeTotal = new Date();
-            // newTimeTotal.setHours(hours, minutes, seconds);
-            // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
             const newTimeTotal = `${hours}:${minutes}:${seconds}`;
             const components = newTimeTotal.split(':');
             let formattedTime = components.map(component => component.padStart(2, '0'));
@@ -89,10 +86,6 @@ function Summary() {
                     const h = Math.floor(newTagTotal / 3600);
                     const m = Math.floor((newTagTotal % 3600) / 60);
                     const s = newTagTotal % 60;
-                    // let newTimeTotal = new Date();
-                    // newTimeTotal.setHours(h, m, s);
-                    // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
-                    // newTimeTotal = `${d} day(s), ${newTimeTotal}`;
                     const newTimeTotal = `${h}:${m}:${s}`;
                     const components = newTimeTotal.split(':');
                     let formattedTime = components.map(component => component.padStart(2, '0'));

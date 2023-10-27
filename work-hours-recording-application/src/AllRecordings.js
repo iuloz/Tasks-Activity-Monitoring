@@ -87,7 +87,6 @@ function AllRecordings() {
         if (task.task === '' || task.tags.length < 1) {
             return;
         } else {
-            // timeDifference();
             setTaskList([...taskList, task]);
             addTaskToApi();
             setUpdateTags(!updateTags);

@@ -15,7 +15,6 @@ function TasksItem(props) {
     const [startTimes, setStartTimes] = useState(props.startTimes);
     const [endTimes, setEndTimes] = useState(props.endTimes);
     const dragElementRef = useRef(null);
-    // const [timer, setTimer] = useState({ hours: 0, minutes: 0, seconds: 0 });
     const [timeTotal, setTimeTotal] = useState(props.timeTotal);
     const buttonRef1 = useRef();
     const buttonRef2 = useRef();
@@ -26,29 +25,6 @@ function TasksItem(props) {
     const tagRefs = useRef([]);
     const tagDeleteRefs = useRef([]);
     const tagEditInputRefs = useRef([]);
-
-
-    // Timer
-    // useEffect(() => {
-    //     const [hours, minutes, seconds] = timeTotal.split(':').map(Number);
-    //     setTimer({ hours, minutes, seconds });
-    //     const interval = setInterval(() => {
-    //         if (status === 'Active') {
-    //             setTimer(prevTime => {
-    //                 const newSeconds = prevTime.seconds + 1;
-    //                 const newMinutes = prevTime.minutes + Math.floor(newSeconds / 60);
-    //                 const newHours = prevTime.hours + Math.floor(newMinutes / 60);
-    //                 return {
-    //                     hours: newHours,
-    //                     minutes: newMinutes % 60,
-    //                     seconds: newSeconds % 60,
-    //                 };
-    //             });
-    //         }
-    //     }, 1000);
-
-    //     return () => clearInterval(interval);
-    // }, [status, timeTotal]);
 
 
 
@@ -94,9 +70,6 @@ function TasksItem(props) {
                     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                     const seconds = differenceInSeconds % 60;
                     const [prevHours, prevMinutes, prevSeconds] = item.timeTotal.split(':').map(Number);
-                    // let newTimeTotal = new Date();
-                    // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-                    // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                     const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
                     const components = newTimeTotal.split(':');
                     let formattedTime = components.map(component => component.padStart(2, '0'));
@@ -143,9 +116,6 @@ function TasksItem(props) {
                 const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                 const seconds = differenceInSeconds % 60;
                 const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-                // let newTimeTotal = new Date();
-                // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-                // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                 const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
                 const components = newTimeTotal.split(':');
                 let formattedTime = components.map(component => component.padStart(2, '0'));
@@ -193,9 +163,6 @@ function TasksItem(props) {
                 const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                 const seconds = differenceInSeconds % 60;
                 const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-                // let newTimeTotal = new Date();
-                // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-                // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                 const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
                 const components = newTimeTotal.split(':');
                 let formattedTime = components.map(component => component.padStart(2, '0'));
@@ -427,7 +394,6 @@ function TasksItem(props) {
                 >+</span>
             )}
             <p>Total active when last paused: {timeTotal}
-                {/* {String(timer.hours).padStart(2, '0')}:{String(timer.minutes).padStart(2, '0')}:{String(timer.seconds).padStart(2, '0')} */}
             </p>
             <p tabIndex={0} ref={buttonRef4} onKeyDown={e => handleKeyDown(e, buttonRef4)} onClick={changeStatus} className='status'>{status}</p>
         </div>

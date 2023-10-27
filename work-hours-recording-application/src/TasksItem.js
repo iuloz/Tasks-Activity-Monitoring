@@ -227,7 +227,7 @@ function TasksItem(props) {
         })
             .then(resp => resp.json())
             .then(() => console.log('Deleted succesfully'));
-        props.uniqueTagsUpdate();
+        // props.uniqueTagsUpdate();
     }
 
 

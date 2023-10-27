@@ -9,7 +9,7 @@ function Settings() {
 
 
     useEffect(() => {
-        fetch('/records')
+        fetch('http://localhost:3010/records')
             .then(response => response.json())
             .then(data => setTasks(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -18,7 +18,7 @@ function Settings() {
 
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
-        await fetch('/settings', {
+        await fetch('http://localhost:3010/settings', {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -49,7 +49,7 @@ function Settings() {
                 for (const task of tasks) {
                     if (task.status === 'Active') {
                         lastActive = task;
-                        await fetch(`/records/${task.id}`, {
+                        await fetch(`http://localhost:3010/records/${task.id}`, {
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ status: 'Inactive' })
@@ -63,7 +63,7 @@ function Settings() {
                 }
                 if (lastActive !== null) {
                     await new Promise(resolve => setTimeout(resolve, 200));
-                    await fetch(`/records/${lastActive.id}`, {
+                    await fetch(`http://localhost:3010/records/${lastActive.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status: 'Active' })

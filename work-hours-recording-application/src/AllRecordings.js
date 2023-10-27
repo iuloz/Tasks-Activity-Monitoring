@@ -32,7 +32,7 @@ function AllRecordings() {
 
     // Fetching all recordings from db.json
     useEffect(() => {
-        fetch('/records')
+        fetch('http://localhost:3010/records')
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
@@ -71,7 +71,7 @@ function AllRecordings() {
     }
 
     const addTaskToApi = async () => {
-        await fetch('/records', {
+        await fetch('http://localhost:3010/records', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task)

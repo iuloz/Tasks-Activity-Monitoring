@@ -11,7 +11,7 @@ import Summary from './Summary';
 function App() {
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
-        fetch('/settings')
+        fetch('http://localhost:3010/settings')
             .then(response => response.json())
             .then(data => {
                 body.style.backgroundColor = (data.theme === 'dark') ? '#354657' : 'whitesmoke';

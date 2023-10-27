@@ -54,7 +54,7 @@ function TasksItem(props) {
 
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
-        await fetch(`/records/${props.id}`, {
+        await fetch(`http://localhost:3010/records/${props.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -77,7 +77,7 @@ function TasksItem(props) {
         });
 
         let mode = null;
-        await fetch('/settings')
+        await fetch('http://localhost:3010/settings')
             .then(response => response.json())
             .then(data => {
                 mode = data.mode;
@@ -94,10 +94,11 @@ function TasksItem(props) {
                     const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                     const seconds = differenceInSeconds % 60;
                     const [prevHours, prevMinutes, prevSeconds] = item.timeTotal.split(':').map(Number);
-                    let newTimeTotal = new Date();
-                    newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-                    newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
-                    await fetch(`/records/${item.id}`, {
+                    // let newTimeTotal = new Date();
+                    // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+                    // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                    const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
+                    await fetch(`http://localhost:3010/records/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime], timeTotal: newTimeTotal })
@@ -139,15 +140,16 @@ function TasksItem(props) {
                 const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                 const seconds = differenceInSeconds % 60;
                 const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-                let newTimeTotal = new Date();
-                newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-                newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                // let newTimeTotal = new Date();
+                // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+                // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
                 setTimeTotal(newTimeTotal);
                 await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('timeTotal', newTimeTotal);
             }
 
-            fetch('/records')
+            fetch('http://localhost:3010/records')
                 .then(response => response.json())
                 .then(data => props.setNewTaskList(data))
                 .catch(error => console.error('Error fetching data:', error));
@@ -181,6 +183,7 @@ function TasksItem(props) {
                 const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                 const differenceInMilliseconds = dateEnd - dateStart;
                 const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+                const days = Math.floor(differenceInSeconds / (3600 * 24));
                 const hours = Math.floor(differenceInSeconds / 3600);
                 const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                 const seconds = differenceInSeconds % 60;
@@ -188,6 +191,8 @@ function TasksItem(props) {
                 let newTimeTotal = new Date();
                 newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
                 newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                newTimeTotal = `${days} day(s), ${newTimeTotal}`;
+                // newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
                 setTimeTotal(newTimeTotal);
                 await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('timeTotal', newTimeTotal);
@@ -243,7 +248,7 @@ function TasksItem(props) {
 
     const removeComponent = async () => {
         setRemove(true);
-        await fetch(`/records/${props.id}`, {
+        await fetch(`http://localhost:3010/records/${props.id}`, {
             method: 'DELETE'
         })
             .then(resp => resp.json())

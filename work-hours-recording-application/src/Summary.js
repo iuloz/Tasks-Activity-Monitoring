@@ -65,58 +65,47 @@ function Summary() {
                     }
                 }
             }
-            const days = Math.floor(totalTimeInSeconds / (3600 * 24));
             const hours = Math.floor(totalTimeInSeconds / 3600);
             const minutes = Math.floor((totalTimeInSeconds % 3600) / 60);
             const seconds = totalTimeInSeconds % 60;
-            let newTimeTotal = new Date();
-            newTimeTotal.setHours(hours, minutes, seconds);
-            newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
-            // newTimeTotal = `${days} day(s), ${newTimeTotal}`;
-            setTasksTimes(prev => [...prev, { task: item.task, totalTime: newTimeTotal, days: days }]);
+            // let newTimeTotal = new Date();
+            // newTimeTotal.setHours(hours, minutes, seconds);
+            // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+            const newTimeTotal = `${hours}:${minutes}:${seconds}`;
+            const components = newTimeTotal.split(':');
+            let formattedTime = components.map(component => component.padStart(2, '0'));
+            formattedTime = formattedTime.join(':');
+            setTasksTimes(prev => [...prev, { task: item.task, totalTime: formattedTime }]);
 
 
             item.tags.forEach(tag => {
                 const index = updatedTagsTimes.findIndex(obj => obj.tag === tag);
                 if (index !== -1) {
-                    console.log(`COINCIDENCE on ${tag}`);
                     const temp = [...updatedTagsTimes];
                     const index = temp.findIndex(obj => obj.tag === tag);
                     const [hours, minutes, seconds] = temp[index].totalTime.split(':').map(Number);
                     const oldTotalTime = hours * 3600 + minutes * 60 + seconds;
                     const newTagTotal = oldTotalTime + totalTimeInSeconds;
-                    const d = Math.floor(newTagTotal / (3600 * 24));
                     const h = Math.floor(newTagTotal / 3600);
                     const m = Math.floor((newTagTotal % 3600) / 60);
                     const s = newTagTotal % 60;
-                    let newTimeTotal = new Date();
-                    newTimeTotal.setHours(h, m, s);
-                    newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
-                    const totalDays = d + temp[index].days;
+                    // let newTimeTotal = new Date();
+                    // newTimeTotal.setHours(h, m, s);
+                    // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                     // newTimeTotal = `${d} day(s), ${newTimeTotal}`;
-                    // const newTimeTotal = `${h}:${m}:${s}`;
-
-                    temp[index] = { tag: tag, totalTime: newTimeTotal , days: totalDays}
+                    const newTimeTotal = `${h}:${m}:${s}`;
+                    const components = newTimeTotal.split(':');
+                    let formattedTime = components.map(component => component.padStart(2, '0'));
+                    formattedTime = formattedTime.join(':');
+                    temp[index] = { tag: tag, totalTime: formattedTime }
                     updatedTagsTimes = [...temp];
                 } else {
-                    updatedTagsTimes.push({ tag: tag, totalTime: newTimeTotal, days: days });
+                    updatedTagsTimes.push({ tag: tag, totalTime: formattedTime });
                 }
             });
             setTagsTimes(updatedTagsTimes);
         })
     }
-
-
-    // const calculateTagTimes = (oldTime, newTime) => {
-    //     const [hours, minutes, seconds] = oldTime.split(':').map(Number);
-    //     const oldTotalTime = hours * 3600 + minutes * 60 + seconds;
-    //     const newTagTotal = oldTotalTime + newTime;
-    //     const h = Math.floor(newTagTotal / 3600);
-    //     const m = Math.floor((newTagTotal % 3600) / 60);
-    //     const s = newTagTotal % 60;
-    //     const newTimeTotal = `${h}:${m}:${s}`;
-    //     return newTimeTotal;
-    // }
 
 
 
@@ -152,7 +141,7 @@ function Summary() {
                         return (
                             <div key={index} className='task-of-interest'>
                                 <p><b>Task:</b> {item.task}</p>
-                                <p><b>Total active time: </b>{item.days} day(s), {item.totalTime}</p>
+                                <p><b>Total active time:</b> {item.totalTime}</p>
                             </div>
                         )
                     }
@@ -167,7 +156,7 @@ function Summary() {
                         return (
                             <div key={index} className='tag-of-interest'>
                                 <p><b>Tag:</b> {item.tag}</p>
-                                <p><b>Total active time: </b> {item.days} day(s), {item.totalTime}</p>
+                                <p><b>Total active time:</b> {item.totalTime}</p>
                             </div>
                         )
                     }

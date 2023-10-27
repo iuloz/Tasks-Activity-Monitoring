@@ -98,10 +98,13 @@ function TasksItem(props) {
                     // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
                     // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                     const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
+                    const components = newTimeTotal.split(':');
+                    let formattedTime = components.map(component => component.padStart(2, '0'));
+                    formattedTime = formattedTime.join(':');
                     await fetch(`http://localhost:3010/records/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime], timeTotal: newTimeTotal })
+                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime], timeTotal: formattedTime })
                     })
                         .then(resp => resp.json())
                         .catch(error => {
@@ -144,9 +147,12 @@ function TasksItem(props) {
                 // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
                 // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
                 const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
-                setTimeTotal(newTimeTotal);
+                const components = newTimeTotal.split(':');
+                let formattedTime = components.map(component => component.padStart(2, '0'));
+                formattedTime = formattedTime.join(':');
+                setTimeTotal(formattedTime);
                 await new Promise(resolve => setTimeout(resolve, 200));
-                await addToApi('timeTotal', newTimeTotal);
+                await addToApi('timeTotal', formattedTime);
             }
 
             fetch('http://localhost:3010/records')
@@ -183,19 +189,20 @@ function TasksItem(props) {
                 const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                 const differenceInMilliseconds = dateEnd - dateStart;
                 const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-                const days = Math.floor(differenceInSeconds / (3600 * 24));
                 const hours = Math.floor(differenceInSeconds / 3600);
                 const minutes = Math.floor((differenceInSeconds % 3600) / 60);
                 const seconds = differenceInSeconds % 60;
                 const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-                let newTimeTotal = new Date();
-                newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
-                newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
-                newTimeTotal = `${days} day(s), ${newTimeTotal}`;
-                // newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
-                setTimeTotal(newTimeTotal);
+                // let newTimeTotal = new Date();
+                // newTimeTotal.setHours(hours + prevHours, minutes + prevMinutes, seconds + prevSeconds);
+                // newTimeTotal = newTimeTotal.toTimeString().slice(0, 8);
+                const newTimeTotal = `${hours + prevHours}:${minutes + prevMinutes}:${seconds + prevSeconds}`;
+                const components = newTimeTotal.split(':');
+                let formattedTime = components.map(component => component.padStart(2, '0'));
+                formattedTime = formattedTime.join(':');
+                setTimeTotal(formattedTime);
                 await new Promise(resolve => setTimeout(resolve, 200));
-                await addToApi('timeTotal', newTimeTotal);
+                await addToApi('timeTotal', formattedTime);
             }
         }
     }

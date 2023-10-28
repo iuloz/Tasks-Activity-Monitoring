@@ -13,12 +13,20 @@ function Summary() {
     const [recordingsList, setRecordingList] = useState([]);
     const [tasksTimes, setTasksTimes] = useState([]);
     const [tagsTimes, setTagsTimes] = useState([]);
+    const [color, setColor] = useState('whitesmoke');
 
 
     useEffect(() => {
         fetch('http://localhost:3010/records')
             .then(response => response.json())
             .then(data => setRecordingList(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    useEffect(() => {
+        fetch('http://localhost:3010/settings')
+            .then(response => response.json())
+            .then(data => setColor(data.theme === 'light' ? 'black' : 'whitesmoke'))
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
@@ -76,8 +84,8 @@ function Summary() {
 
 
             item.tags.forEach(tag => {
-                const index = updatedTagsTimes.findIndex(obj => obj.tag === tag);
-                if (index !== -1) { // If there is same tag already
+                if (updatedTagsTimes.findIndex(obj => obj.tag === tag) !== -1) { // If there is same tag already
+                    console.log(`${tag} already exists`);
                     const temp = [...updatedTagsTimes];
                     const index = temp.findIndex(obj => obj.tag === tag);
                     const [hours, minutes, seconds] = temp[index].totalTime.split(':').map(Number);
@@ -104,9 +112,9 @@ function Summary() {
 
     return (
         <div>
-            <p style={{ display: 'inline-block', marginRight: '40px', fontSize: '1.3rem' }}>Observation interval:</p>
-            <div style={{ display: 'inline-block' }}>
-                <p>Start:</p>
+            <p style={{ display: 'inline-block', marginRight: '40px', fontSize: '1.3rem', color: color }}>Observation interval:</p>
+            <div style={{ display: 'inline-block', marginRight: '10px' }}>
+                <p style={{color: color}}>Start:</p>
                 <DatePicker
                     selected={observationStart}
                     onChange={handleObservationStart}
@@ -116,7 +124,7 @@ function Summary() {
                 />
             </div>
             <div style={{ display: 'inline-block' }}>
-                <p>End:</p>
+                <p style={{color: color}}>End:</p>
                 <DatePicker
                     selected={observationEnd}
                     onChange={handleObservationEnd}
@@ -127,7 +135,7 @@ function Summary() {
             </div>
             <button id='apply_interval' onClick={showTasksAndTimes}>Apply</button>
 
-            <p><b>Total active times for tasks:</b></p>
+            <p style={{color: color}}><b>Total active times for tasks:</b></p>
             {
                 tasksTimes.map((item, index) => {
                     if (item.totalTime !== '00:00:00') {
@@ -142,7 +150,7 @@ function Summary() {
                 })
             }
 
-            <p><b>Total active times for tags:</b></p>
+            <p style={{color: color}}><b>Total active times for tags:</b></p>
             {
                 tagsTimes.map((item, index) => {
                     if (item.totalTime !== '00:00:00') {

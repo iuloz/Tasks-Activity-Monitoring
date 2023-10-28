@@ -9,6 +9,7 @@ import Form from './Form';
 // This is recordings list view, made during whole time
 function AllRecordings() {
     const [recordingsList, setRecordingList] = useState([]);
+    const [color, setColor] = useState('whitesmoke');
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
     const [uniqueTags, setUniqueTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
@@ -19,6 +20,12 @@ function AllRecordings() {
     const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [], timeTotal: '00:00:00' });
 
 
+    useEffect(() => {
+        fetch('http://localhost:3010/settings')
+            .then(response => response.json())
+            .then(data => setColor(data.theme === 'light' ? 'black' : 'whitesmoke'))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
 
 
     useEffect(() => {
@@ -36,7 +43,7 @@ function AllRecordings() {
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
-    }, [showFilterDropdown, updateTags, taskList]);
+    }, [showFilterDropdown, updateTags]);
 
     // Setting array of unique tags
     useEffect(() => {
@@ -115,7 +122,7 @@ function AllRecordings() {
             {showFilterDropdown && (
                 <div className='filter-dropdown'>
                     {uniqueTags.map(tag => (
-                        <label id='filter_tag' key={tag}>
+                        <label id='filter_tag' key={tag} style={{color: color}}>
                             <input
                                 name='checkbox'
                                 type='checkbox'

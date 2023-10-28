@@ -1,6 +1,17 @@
+import { useState, useEffect } from "react";
+
 function About() {
+    const [color, setColor] = useState('whitesmoke');
+
+    useEffect(() => {
+        fetch('http://localhost:3010/settings')
+            .then(response => response.json())
+            .then(data => setColor(data.theme === 'light' ? 'black' : 'whitesmoke'))
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
     return (
-        <div id='about'>
+        <div id='about' style={{color: color, fontSize: '1.1rem'}}>
             <p>Author: Iurii Lozhkin</p>
             <p>
                 This application allows to make time recordings for different tasks. When application is launched (using "npm start"), user can see main page with three different links. First link - "See all tasks" - leads to the view where user can add new tasks via form and see all exiting tags and filter them. Second link - "About" - shows this page, third link - "Settings" - allows to change color theme and mode of displaying active tasks (multiple or one at a time).
@@ -25,8 +36,11 @@ function About() {
             <p>
                 Using of the app is possible as well with keyboard only (besides mouse or touchpad and such). To navigate between buttons, elements inside task component, input fields in the form 'Tab' button is used ('Tab' to move forward, 'Shift' + 'Tab' to move back). To perform click behavior 'Spacebar' is used. Input fields inside task elements are confirmed by pressing 'Enter'. Form (adding of a new task element) is submitted by pressing 'Enter' key.
             </p>
+            <p>
+                Order of task elements can be changed by dragging and dropping. To drop one task element to the left side of another element dropping should be done on left half of second element, to drop to the right side - on right half.
+            </p>
             <p>Approximately 150 hours were spend on this application.</p>
-            <p>Most difficult for me was implementing a behavior for single active task at a time mode, where previous active task must become inactive.</p>
+            <p>Most difficult for me was implementing a behavior for single active task at a time mode, where previous active task must become inactive automatically and this change is seen on UI right away.</p>
         </div>
     )
 }

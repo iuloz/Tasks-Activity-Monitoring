@@ -14,6 +14,7 @@ function Summary() {
     const [tasksTimes, setTasksTimes] = useState([]);
     const [tagsTimes, setTagsTimes] = useState([]);
     const [color, setColor] = useState('whitesmoke');
+    const [visibility, setVisibility] = useState('hidden');
 
 
     useEffect(() => {
@@ -41,6 +42,7 @@ function Summary() {
 
 
     const showTasksAndTimes = () => {
+        setVisibility('visible');
         setTasksTimes([]);
         let updatedTagsTimes = [];
         recordingsList.forEach(item => {
@@ -114,7 +116,7 @@ function Summary() {
         <div>
             <p style={{ display: 'inline-block', marginRight: '40px', fontSize: '1.3rem', color: color }}>Observation interval:</p>
             <div style={{ display: 'inline-block', marginRight: '10px' }}>
-                <p style={{color: color}}>Start:</p>
+                <p style={{ color: color }}>Start:</p>
                 <DatePicker
                     selected={observationStart}
                     onChange={handleObservationStart}
@@ -124,7 +126,7 @@ function Summary() {
                 />
             </div>
             <div style={{ display: 'inline-block' }}>
-                <p style={{color: color}}>End:</p>
+                <p style={{ color: color }}>End:</p>
                 <DatePicker
                     selected={observationEnd}
                     onChange={handleObservationEnd}
@@ -135,7 +137,7 @@ function Summary() {
             </div>
             <button id='apply_interval' onClick={showTasksAndTimes}>Apply</button>
 
-            <p style={{color: color}}><b>Total active times for tasks:</b></p>
+            <p style={{ color: color, visibility: visibility, fontSize: '1.2rem' }}>Total active times for tasks:</p>
             {
                 tasksTimes.map((item, index) => {
                     if (item.totalTime !== '00:00:00') {
@@ -150,7 +152,7 @@ function Summary() {
                 })
             }
 
-            <p style={{color: color}}><b>Total active times for tags:</b></p>
+            <p style={{ color: color, visibility: visibility, fontSize: '1.2rem' }}>Total active times for tags:</p>
             {
                 tagsTimes.map((item, index) => {
                     if (item.totalTime !== '00:00:00') {

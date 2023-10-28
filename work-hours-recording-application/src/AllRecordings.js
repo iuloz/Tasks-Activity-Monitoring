@@ -43,6 +43,7 @@ function AllRecordings() {
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
+        setRender(prev => !prev);
     }, [showFilterDropdown, updateTags]);
 
     // Setting array of unique tags
@@ -122,7 +123,7 @@ function AllRecordings() {
             {showFilterDropdown && (
                 <div className='filter-dropdown'>
                     {uniqueTags.map(tag => (
-                        <label id='filter_tag' key={tag} style={{color: color}}>
+                        <label id='filter_tag' key={tag} style={{ color: color }}>
                             <input
                                 name='checkbox'
                                 type='checkbox'

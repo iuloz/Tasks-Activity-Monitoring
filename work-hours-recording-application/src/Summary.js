@@ -111,6 +111,19 @@ function Summary() {
     }
 
 
+    // let periods = [];
+    //     setShowTaskDetails(!showTaskDetails);
+    //     props.recordingsList.forEach((item, index) => {
+    //         for (let i = 0; i < item.start.length; i++) {
+    //             if (item.end[i]) {
+    //                 periods.push({task: item.task, start: item.start[i], end: item.end[i] });
+    //             } else {
+    //                 periods.push({task: item.task, start: item.start[i], end: 'Currently active'});
+    //             }
+    //         }
+    //     })
+
+
 
     return (
         <div>

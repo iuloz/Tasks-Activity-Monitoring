@@ -25,8 +25,6 @@ function TasksItem(props) {
     const tagRefs = useRef([]);
     const tagDeleteRefs = useRef([]);
     const tagEditInputRefs = useRef([]);
-    const [showTaskDetails, setShowTaskDetails] = useState(false);
-    const [activityPeriods, setActivityPeriods] = useState([]);
 
 
 
@@ -288,20 +286,6 @@ function TasksItem(props) {
         }
     };
 
-    const showDetails = () => {
-        let periods = [];
-        setShowTaskDetails(!showTaskDetails);
-        for (let i = 0; i < startTimes.length; i++) {
-            if (endTimes[i]) {
-                periods.push({ start: startTimes[i], end: endTimes[i] });
-            } else {
-                periods.push({ start: startTimes[i], end: 'Currently active' });
-            }
-        }
-        console.log(periods);
-        setActivityPeriods(periods);
-    }
-
 
 
 
@@ -410,25 +394,7 @@ function TasksItem(props) {
                 >+</span>
             )}
             <p>Total active when last paused: {timeTotal}</p>
-
             <p tabIndex={0} ref={buttonRef4} onKeyDown={e => handleKeyDown(e, buttonRef4)} onClick={changeStatus} className='status'>{status}</p>
-
-            <p className='task-details' onClick={showDetails}>Task details</p>
-            {
-                !showTaskDetails ? null : (
-                    <div>
-                        <br /><br />
-                        <div style={{ backgroundColor: 'whitesmoke' }}>
-                            <p>Activity periods:</p>
-                            {
-                                activityPeriods.map((period, index) =>
-                                    <p key={index}>{period.start} - {period.end}</p>
-                                )
-                            }
-                        </div>
-                    </div>
-                )
-            }
         </div>
     );
 }

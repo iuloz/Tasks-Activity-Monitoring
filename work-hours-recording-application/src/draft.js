@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import TaskOfInterest from './TaskOfInterest';
 
 
 
@@ -16,7 +15,7 @@ function Summary() {
     const [tagsTimes, setTagsTimes] = useState([]);
     const [color, setColor] = useState('whitesmoke');
     const [visibility, setVisibility] = useState('hidden');
-    // const [showTaskDetails, setShowTaskDetails] = useState(false);
+    const [showTaskDetails, setShowTaskDetails] = useState(false);
     const [activityPeriods, setActivityPeriods] = useState([]);
 
 
@@ -48,10 +47,9 @@ function Summary() {
         setVisibility('visible');
         setTasksTimes([]);
         let updatedTagsTimes = [];
-        let periods = [];
-        // let periodsStart = [];
-        // let periodsEnd = []
-        // let taskPeriods = [];
+        let periodsStart = [];
+        let periodsEnd = []
+        let taskPeriods = [];
         const observationStartString = observationStart.toLocaleString('ru-RU', {
             day: '2-digit',
             month: '2-digit',
@@ -86,58 +84,50 @@ function Summary() {
 
                     if (startTime >= observationStart && endTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((endTime - startTime) / 1000); // in minutes
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(item.end[i]);
-                        periods.push({ task: item.task, start: item.start[i], end: item.end[i] });
+                        periodsStart.push(item.start[i]);
+                        periodsEnd.push(item.end[i]);
 
                     } else if (startTime >= observationStart && startTime <= observationEnd && endTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - startTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(observationEndString);
-                        periods.push({ task: item.task, start: item.start[i], end: observationEndString });
+                        periodsStart.push(item.start[i]);
+                        periodsEnd.push(observationEndString);
 
                     } else if (startTime <= observationStart && endTime >= observationStart && endTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((endTime - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(item.end[i]);
-                        periods.push({ task: item.task, start: observationStartString, end: item.end[i] });
+                        periodsStart.push(observationStartString);
+                        periodsEnd.push(item.end[i]);
 
                     } else if (startTime <= observationStart && endTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(observationEndString);
-                        periods.push({ task: item.task, start: observationStartString, end: observationEndString });
+                        periodsStart.push(observationStartString);
+                        periodsEnd.push(observationEndString);
                     }
 
                 } else {
                     const lastStartTime = new Date(item.start[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                     if (lastStartTime <= observationStart && dateTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(observationEndString);
-                        periods.push({ task: item.task, start: observationStartString, end: observationEndString });
+                        periodsStart.push(observationStartString);
+                        periodsEnd.push(observationEndString);
 
                     } else if (lastStartTime <= observationStart && dateTime >= observationStart && dateTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((dateTime - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(dateTimeString);
-                        periods.push({ task: item.task, start: observationStartString, end: dateTimeString });
+                        periodsStart.push(observationStartString);
+                        periodsEnd.push(dateTimeString);
 
                     } else if (lastStartTime >= observationStart && dateTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((dateTime - lastStartTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(dateTimeString);
-                        periods.push({ task: item.task, start: item.start[i], end: dateTimeString });
+                        periodsStart.push(item.start[i]);
+                        periodsEnd.push(dateTimeString);
 
                     } else if (lastStartTime >= observationStart && lastStartTime <= observationEnd && dateTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - lastStartTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(dateTimeString);
-                        periods.push({ task: item.task, start: item.start[i], end: dateTimeString });
+                        periodsStart.push(item.start[i]);
+                        periodsEnd.push(observationEndString);
                     }
                 }
             }
-            // taskPeriods.push({ task: item.task, start: [...periodsStart], end: [...periodsEnd] });
+            taskPeriods.push({ task: item.task, start: [...periodsStart], end: [...periodsEnd] });
             // console.log(`periods here: ${taskPeriods[index].task} \nstart: ${periodsStart}\nend: ${periodsEnd}`);
             const hours = Math.floor(totalTimeInSeconds / 3600);
             const minutes = Math.floor((totalTimeInSeconds % 3600) / 60);
@@ -171,9 +161,23 @@ function Summary() {
                 }
             });
             setTagsTimes(updatedTagsTimes);
-            setActivityPeriods(periods);
+            setActivityPeriods(taskPeriods);
         })
     }
+
+
+
+    // let periods = [];
+    //     setShowTaskDetails(!showTaskDetails);
+    //     props.recordingsList.forEach((item, index) => {
+    //         for (let i = 0; i < item.start.length; i++) {
+    //             if (item.end[i]) {
+    //                 periods.push({task: item.task, start: item.start[i], end: item.end[i] });
+    //             } else {
+    //                 periods.push({task: item.task, start: item.start[i], end: 'Currently active'});
+    //             }
+    //         }
+    //     })
 
 
 
@@ -207,28 +211,11 @@ function Summary() {
                 tasksTimes.map((item, index) => {
                     if (item.totalTime !== '00:00:00') {
                         return (
-                            <TaskOfInterest
-                                key={index}
-                                task={item.task}
-                                totalActiveTime={item.totalTime}
-                                activityPeriods={activityPeriods}
-                            />
-
-                            // <div key={index} className='task-of-interest'>
-                            //     <p><b>Task:</b> {item.task}</p>
-                            //     <p><b>Total active time:</b> {item.totalTime}</p>
-                            //     <p key={index} className='task-details' onClick={() => setShowTaskDetails(!showTaskDetails)}>Details</p>
-                            //     {
-                            //         showTaskDetails ? (activityPeriods.map(period => {
-                            //             if (period.task === item.task) {
-                            //                 return <p>{period.start} - {period.end}</p>
-                            //             }
-                            //             return null;
-                            //         }))
-
-                            //             : null
-                            //     }
-                            // </div>
+                            <div key={index} className='task-of-interest'>
+                                <p><b>Task:</b> {item.task}</p>
+                                <p><b>Total active time:</b> {item.totalTime}</p>
+                                <p className='task-details' onClick={() => setShowTaskDetails(!showTaskDetails)}>Details</p>
+                            </div>
                         )
                     }
                     return null;

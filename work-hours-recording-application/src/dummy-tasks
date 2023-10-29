@@ -1,85 +1,55 @@
 {
     "records": [
       {
-        "date": "07.10.2023",
+        "id": "b3c38adc-9908-4dca-a08a-42cf76fe502a",
+        "date": "29.10.2023",
         "status": "Inactive",
-        "task": "Go there",
+        "task": "Feed the cat",
         "tags": [
-          "Some tag",
-          "Joker"
+          "Animals",
+          "Important",
+          "Family"
         ],
-        "start": [
-
-        ],
-        "end": [
-
-        ],
-        "timeTotal": "00:00:00",
-        "id": "2"
+        "start": [],
+        "end": [],
+        "timeTotal": "00:00:00"
       },
       {
-        "date": "07.10.2023",
+        "id": "4b6c4fb9-743d-4b20-a1ed-5032fe3fb59d",
+        "date": "29.10.2023",
         "status": "Inactive",
-        "task": "Sing the song",
+        "task": "Walk the dog",
         "tags": [
-          "New",
-          "Easy"
+          "Animals",
+          "Nature"
         ],
-        "start": [
-
-        ],
-        "end": [
-
-        ],
-        "timeTotal": "00:00:00",
-        "id": "3"
+        "start": [],
+        "end": [],
+        "timeTotal": "00:00:00"
       },
       {
-        "date": "07.10.2023",
+        "id": "42b48502-1615-4fdc-a6a7-02e098c09a0d",
+        "date": "29.10.2023",
         "status": "Inactive",
-        "task": "Take some course now",
+        "task": "Go to the gym",
         "tags": [
-          "good Tag"
+          "Sport",
+          "Hobby"
         ],
-        "start": [
-
-        ],
-        "end": [
-
-        ],
-        "timeTotal": "00:00:00",
-        "id": "4"
+        "start": [],
+        "end": [],
+        "timeTotal": "00:00:00"
       },
       {
-        "date": "11.10.2023",
+        "id": "66464a11-e609-4ce6-95e0-aa7b5ace0db3",
+        "date": "29.10.2023",
         "status": "Inactive",
-        "task": "Think the thought",
+        "task": "Eat the food",
         "tags": [
-          "Philosofy"
+          "Food"
         ],
-        "start": [
-
-        ],
-        "end": [
-
-        ],
-        "timeTotal": "00:00:00",
-        "id": "5"
-      },
-      {
-        "id": "c64a48dd-9a86-4850-85a7-3722231fd0fa",
-        "date": "11.10.2023",
-        "status": "Inactive",
-        "task": "Go there",
-        "tags": [
-          "See"
-        ],
-        "start": [
-
-        ],
-        "end": [
-
-        ],
+        "start": [],
+        "end": [],
         "timeTotal": "00:00:00"
       }
     ],

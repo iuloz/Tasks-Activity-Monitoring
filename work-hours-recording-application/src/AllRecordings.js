@@ -43,7 +43,7 @@ function AllRecordings() {
             .then(response => response.json())
             .then(data => setRecordingList(data))
             .catch(error => console.error('Error fetching data:', error));
-        setRender(prev => !prev);
+        // setRender(prev => !prev);
     }, [showFilterDropdown, updateTags]);
 
     // Setting array of unique tags

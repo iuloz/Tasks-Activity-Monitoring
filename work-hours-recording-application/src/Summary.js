@@ -85,28 +85,28 @@ function Summary() {
                     const endTime = new Date(item.end[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
 
                     if (startTime >= observationStart && endTime <= observationEnd) {
-                        totalTimeInSeconds += Math.floor((endTime - startTime) / 1000); // in minutes
+                        totalTimeInSeconds += Math.floor((endTime - startTime) / 1000);
                         // periodsStart.push(item.start[i]);
                         // periodsEnd.push(item.end[i]);
-                        periods.push({ task: item.task, start: item.start[i], end: item.end[i] });
+                        periods.push({ id: item.id, task: item.task, start: item.start[i], end: item.end[i] });
 
                     } else if (startTime >= observationStart && startTime <= observationEnd && endTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - startTime) / 1000);
                         // periodsStart.push(item.start[i]);
                         // periodsEnd.push(observationEndString);
-                        periods.push({ task: item.task, start: item.start[i], end: observationEndString });
+                        periods.push({ id: item.id, task: item.task, start: item.start[i], end: observationEndString });
 
                     } else if (startTime <= observationStart && endTime >= observationStart && endTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((endTime - observationStart) / 1000);
                         // periodsStart.push(observationStartString);
                         // periodsEnd.push(item.end[i]);
-                        periods.push({ task: item.task, start: observationStartString, end: item.end[i] });
+                        periods.push({ id: item.id, task: item.task, start: observationStartString, end: item.end[i] });
 
                     } else if (startTime <= observationStart && endTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
                         // periodsStart.push(observationStartString);
                         // periodsEnd.push(observationEndString);
-                        periods.push({ task: item.task, start: observationStartString, end: observationEndString });
+                        periods.push({ id: item.id, task: item.task, start: observationStartString, end: observationEndString });
                     }
 
                 } else {
@@ -115,25 +115,25 @@ function Summary() {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
                         // periodsStart.push(observationStartString);
                         // periodsEnd.push(observationEndString);
-                        periods.push({ task: item.task, start: observationStartString, end: observationEndString });
+                        periods.push({ id: item.id, task: item.task, start: observationStartString, end: observationEndString });
 
                     } else if (lastStartTime <= observationStart && dateTime >= observationStart && dateTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((dateTime - observationStart) / 1000);
                         // periodsStart.push(observationStartString);
                         // periodsEnd.push(dateTimeString);
-                        periods.push({ task: item.task, start: observationStartString, end: dateTimeString });
+                        periods.push({ id: item.id, task: item.task, start: observationStartString, end: dateTimeString });
 
                     } else if (lastStartTime >= observationStart && dateTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((dateTime - lastStartTime) / 1000);
                         // periodsStart.push(item.start[i]);
                         // periodsEnd.push(dateTimeString);
-                        periods.push({ task: item.task, start: item.start[i], end: dateTimeString });
+                        periods.push({ id: item.id, task: item.task, start: item.start[i], end: dateTimeString });
 
                     } else if (lastStartTime >= observationStart && lastStartTime <= observationEnd && dateTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - lastStartTime) / 1000);
                         // periodsStart.push(item.start[i]);
                         // periodsEnd.push(dateTimeString);
-                        periods.push({ task: item.task, start: item.start[i], end: dateTimeString });
+                        periods.push({ id: item.id, task: item.task, start: item.start[i], end: dateTimeString });
                     }
                 }
             }
@@ -144,7 +144,7 @@ function Summary() {
             const components = newTimeTotal.split(':');
             let formattedTime = components.map(component => component.padStart(2, '0'));
             formattedTime = formattedTime.join(':');
-            setTasksTimes(prev => [...prev, { task: item.task, totalTime: formattedTime }]);
+            setTasksTimes(prev => [...prev, { id: item.id, task: item.task, totalTime: formattedTime }]);
 
 
             item.tags.forEach(tag => {
@@ -207,6 +207,7 @@ function Summary() {
                         return (
                             <TaskOfInterest
                                 key={index}
+                                id={item.id}
                                 task={item.task}
                                 totalActiveTime={item.totalTime}
                                 activityPeriods={activityPeriods}

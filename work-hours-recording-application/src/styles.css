@@ -247,6 +247,7 @@ select {
     display: inline-block;
     margin: 5px;
     vertical-align: top;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .tag-of-interest {
@@ -255,6 +256,7 @@ select {
     padding: 2px 10px;
     display: inline-block;
     margin: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .apply-interval {

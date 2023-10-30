@@ -137,8 +137,6 @@ function Summary() {
                     }
                 }
             }
-            // taskPeriods.push({ task: item.task, start: [...periodsStart], end: [...periodsEnd] });
-            // console.log(`periods here: ${taskPeriods[index].task} \nstart: ${periodsStart}\nend: ${periodsEnd}`);
             const hours = Math.floor(totalTimeInSeconds / 3600);
             const minutes = Math.floor((totalTimeInSeconds % 3600) / 60);
             const seconds = totalTimeInSeconds % 60;
@@ -200,7 +198,7 @@ function Summary() {
                     timeFormat="HH:mm"
                 />
             </div>
-            <button id='apply_interval' onClick={showTasksAndTimes}>Apply</button>
+            <button className='apply-interval' onClick={showTasksAndTimes}>Apply</button>
 
             <p style={{ color: color, visibility: visibility, fontSize: '1.2rem' }}>Total active times for tasks:</p>
             {
@@ -212,23 +210,8 @@ function Summary() {
                                 task={item.task}
                                 totalActiveTime={item.totalTime}
                                 activityPeriods={activityPeriods}
+                                recordingsList={recordingsList}
                             />
-
-                            // <div key={index} className='task-of-interest'>
-                            //     <p><b>Task:</b> {item.task}</p>
-                            //     <p><b>Total active time:</b> {item.totalTime}</p>
-                            //     <p key={index} className='task-details' onClick={() => setShowTaskDetails(!showTaskDetails)}>Details</p>
-                            //     {
-                            //         showTaskDetails ? (activityPeriods.map(period => {
-                            //             if (period.task === item.task) {
-                            //                 return <p>{period.start} - {period.end}</p>
-                            //             }
-                            //             return null;
-                            //         }))
-
-                            //             : null
-                            //     }
-                            // </div>
                         )
                     }
                     return null;

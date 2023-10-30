@@ -257,7 +257,7 @@ select {
     margin: 5px;
 }
 
-#apply_interval {
+.apply-interval {
     height: 40px;
     width: 100px;
     margin-left: 20px;

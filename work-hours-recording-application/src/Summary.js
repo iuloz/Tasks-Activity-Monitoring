@@ -49,9 +49,6 @@ function Summary() {
         setTasksTimes([]);
         let updatedTagsTimes = [];
         let periods = [];
-        // let periodsStart = [];
-        // let periodsEnd = []
-        // let taskPeriods = [];
         const observationStartString = observationStart.toLocaleString('ru-RU', {
             day: '2-digit',
             month: '2-digit',
@@ -86,26 +83,18 @@ function Summary() {
 
                     if (startTime >= observationStart && endTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((endTime - startTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(item.end[i]);
                         periods.push({ id: item.id, task: item.task, start: item.start[i], end: item.end[i] });
 
                     } else if (startTime >= observationStart && startTime <= observationEnd && endTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - startTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(observationEndString);
                         periods.push({ id: item.id, task: item.task, start: item.start[i], end: observationEndString });
 
                     } else if (startTime <= observationStart && endTime >= observationStart && endTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((endTime - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(item.end[i]);
                         periods.push({ id: item.id, task: item.task, start: observationStartString, end: item.end[i] });
 
                     } else if (startTime <= observationStart && endTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(observationEndString);
                         periods.push({ id: item.id, task: item.task, start: observationStartString, end: observationEndString });
                     }
 
@@ -113,26 +102,18 @@ function Summary() {
                     const lastStartTime = new Date(item.start[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                     if (lastStartTime <= observationStart && dateTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(observationEndString);
                         periods.push({ id: item.id, task: item.task, start: observationStartString, end: observationEndString });
 
                     } else if (lastStartTime <= observationStart && dateTime >= observationStart && dateTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((dateTime - observationStart) / 1000);
-                        // periodsStart.push(observationStartString);
-                        // periodsEnd.push(dateTimeString);
                         periods.push({ id: item.id, task: item.task, start: observationStartString, end: dateTimeString });
 
                     } else if (lastStartTime >= observationStart && dateTime <= observationEnd) {
                         totalTimeInSeconds += Math.floor((dateTime - lastStartTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(dateTimeString);
                         periods.push({ id: item.id, task: item.task, start: item.start[i], end: dateTimeString });
 
                     } else if (lastStartTime >= observationStart && lastStartTime <= observationEnd && dateTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - lastStartTime) / 1000);
-                        // periodsStart.push(item.start[i]);
-                        // periodsEnd.push(dateTimeString);
                         periods.push({ id: item.id, task: item.task, start: item.start[i], end: dateTimeString });
                     }
                 }
@@ -212,6 +193,8 @@ function Summary() {
                                 totalActiveTime={item.totalTime}
                                 activityPeriods={activityPeriods}
                                 recordingsList={recordingsList}
+                                setRecordingList={setRecordingList}
+                                updateTotalTime={showTasksAndTimes}
                             />
                         )
                     }

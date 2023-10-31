@@ -56,7 +56,12 @@ function TaskOfInterest(props) {
 
 
 
-    const showPeriods = () => {
+    const showPeriods = async () => {
+        let recordingsList;
+        await fetch('http://localhost:3010/records')
+            .then(response => response.json())
+            .then(data => { recordingsList = data })
+            .catch(error => console.error('Error fetching data:', error));
         let periods = [];
         const observationStartString = observationStart.toLocaleString('ru-RU', {
             day: '2-digit',
@@ -83,7 +88,7 @@ function TaskOfInterest(props) {
             minute: '2-digit',
             second: '2-digit',
         });
-        props.recordingsList.forEach((item, index) => {
+        recordingsList.forEach((item, index) => {
             for (let i = 0; i < item.start.length; i++) {
                 if (item.end[i]) {
                     const startTime = new Date(item.start[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
@@ -118,91 +123,87 @@ function TaskOfInterest(props) {
                     }
                 }
             }
-            setActivityPeriods(periods);
         })
+        console.log(startTimes);
+        console.log(periods);
+        setActivityPeriods(periods);
     }
 
 
 
-    const deletePeriod = index => {
-        let updatedStarts = [...startTimes];
-        let updatedEnds = [...endTimes];
-        updatedStarts.splice(index, 1);
-        updatedEnds.splice(index, 1);
-        setStartTimes(updatedStarts);
-        setEndTimes(updatedEnds);
-    }
+
 
 
 
     const addPeriod = () => {
         const regex = /^\d{2}\.\d{2}\.\d{4}, \d{2}:\d{2}:\d{2} - \d{2}.\d{2}.\d{4}, \d{2}:\d{2}:\d{2}$/;
-        taskIntervals.forEach(i => console.log(i));
-
         if (regex.test(newPeriod)) {
             let [periodStart, periodEnd] = newPeriod.split(' - ');
             let overlaps = false;
             const startDate = new Date(periodStart.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
             const endDate = new Date(periodEnd.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-            if (endDate <= observationEnd && startDate >= observationStart) {
-                for (const interval of taskIntervals) {
-                    const start = new Date(interval.start.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                    const end = new Date(interval.end.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                    if ((startDate >= start && startDate <= end) || (endDate >= start && endDate <= end) || (startDate <= start && endDate >= end)) {
-                        overlaps = true;
-                        alert('New interval must not overlap with other intervals');
-                        return;
+            if (startDate < endDate) {
+                if (endDate <= observationEnd && startDate >= observationStart) {
+                    for (const interval of taskIntervals) {
+                        const start = new Date(interval.start.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                        const end = new Date(interval.end.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                        if ((startDate >= start && startDate <= end) || (endDate >= start && endDate <= end) || (startDate <= start && endDate >= end)) {
+                            overlaps = true;
+                            alert('New interval must not overlap with other intervals');
+                            return;
+                        }
                     }
-                }
-                if (!overlaps) {
-                    let tempStarts = [...startTimes, periodStart];
-                    let tempEnds = [...endTimes, periodEnd];
-                    setNewPeriod('');
-
-                    const activityStartDates = tempStarts.map(date => {
-                        const periodStartDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                        return periodStartDate;
-                    });
-
-                    const activityEndDates = tempEnds.map(date => {
-                        const periodEndDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                        return periodEndDate;
-                    });
-
-                    const sortedStartDates = activityStartDates.sort((a, b) => a - b);
-                    const sortedEndDates = activityEndDates.sort((a, b) => a - b);
-                    const sortedStarts = sortedStartDates.map(start => {
-                        const startString = start.toLocaleString('ru-RU', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
+                    if (!overlaps) {
+                        let tempStarts = [...startTimes, periodStart];
+                        let tempEnds = [...endTimes, periodEnd];
+                        setNewPeriod('');
+                        const activityStartDates = tempStarts.map(date => {
+                            const periodStartDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                            return periodStartDate;
                         });
-                        return startString;
-                    });
-
-                    const sortedEnds = sortedEndDates.map(end => {
-                        const endString = end.toLocaleString('ru-RU', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            second: '2-digit',
+                        const activityEndDates = tempEnds.map(date => {
+                            const periodEndDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                            return periodEndDate;
                         });
-                        return endString;
-                    });
-                    setStartTimes(sortedStarts);
-                    setEndTimes(sortedEnds);
-                    setAddingPeriod(false);
-                    addToApi('start', [...props.recordingsList[indexInApi].start, periodStart]);
-                    addToApi('end', [...props.recordingsList[indexInApi].end, periodEnd]);
+                        const sortedStartDates = activityStartDates.sort((a, b) => a - b);
+                        const sortedEndDates = activityEndDates.sort((a, b) => a - b);
+                        const sortedStarts = sortedStartDates.map(start => {
+                            const startString = start.toLocaleString('ru-RU', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                            });
+                            return startString;
+                        });
+
+                        const sortedEnds = sortedEndDates.map(end => {
+                            const endString = end.toLocaleString('ru-RU', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                            });
+                            return endString;
+                        });
+                        setStartTimes(sortedStarts);
+                        setEndTimes(sortedEnds);
+                        setAddingPeriod(false);
+                        addToApi('start', [...props.recordingsList[indexInApi].start, periodStart]);
+                        addToApi('end', [...props.recordingsList[indexInApi].end, periodEnd]);
+                        props.updateTotalTime();
+                    }
+                } else {
+                    alert('Stop date must not be later than end and earlier than start of task details interval');
                 }
             } else {
-                alert('Stop date must not be later than end and earlier than start of task details interval');
+                alert('Start date must be earlier than end date');
             }
+
         } else {
             alert('Please type interval in correct format');
         }
@@ -216,28 +217,35 @@ function TaskOfInterest(props) {
         setStartTimes(updatedStarts);
     }
 
-
-
     const editStart = (index, editedStart) => {
+        let allStartsApi = props.recordingsList[indexInApi].start;
+        let allEndsApi = props.recordingsList[indexInApi].end;
         if (editedStart.trim() !== '') {
             const updatedStarts = [...startTimes];
             const editedStartDate = new Date(editedStart.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
             const endDate = new Date(endTimes[index].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-            console.log(endTimes[index - 1]);
             if (endTimes[index - 1]) {
                 const prevEndDate = new Date(endTimes[index - 1].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                 if (editedStartDate >= prevEndDate && editedStartDate <= endDate) {
                     updatedStarts[index] = editedStart;
+                    const startIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
+                    allStartsApi[startIndexInApi] = editedStart;
+                    addToApi('start', allStartsApi);
                     setStartTimes(updatedStarts);
                     setStartEditing(null);
+                    props.updateTotalTime();
                 } else {
                     alert('Date must be after previous stop time and before this stop time');
                 }
             } else {
                 if (editedStartDate <= endDate) {
                     updatedStarts[index] = editedStart;
+                    const startIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
+                    allStartsApi[startIndexInApi] = editedStart;
+                    addToApi('start', allStartsApi);
                     setStartTimes(updatedStarts);
                     setStartEditing(null);
+                    props.updateTotalTime();
                 } else {
                     alert('Date must be before stop time');
                 }
@@ -253,9 +261,9 @@ function TaskOfInterest(props) {
         setEndTimes(updatedEnds);
     }
 
-
-
     const editEnd = (index, editedEnd) => {
+        let allStartsApi = props.recordingsList[indexInApi].start;
+        let allEndsApi = props.recordingsList[indexInApi].end;
         if (editedEnd.trim() !== '') {
             const updatedEnds = [...endTimes];
             const editedEndDate = new Date(editedEnd.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
@@ -264,22 +272,50 @@ function TaskOfInterest(props) {
                 const nextStartDate = new Date(startTimes[index + 1].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                 if (editedEndDate >= startDate && editedEndDate <= nextStartDate) {
                     updatedEnds[index] = editedEnd;
+                    const endIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
+                    allEndsApi[endIndexInApi] = editedEnd;
+                    addToApi('end', allEndsApi);
                     setEndTimes(updatedEnds);
                     setEndEditing(null);
+                    props.updateTotalTime();
                 } else {
                     alert('Date must be after start time and before next start time');
                 }
             } else {
                 if (editedEndDate >= startDate) {
                     updatedEnds[index] = editedEnd;
+                    const endIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
+                    allEndsApi[endIndexInApi] = editedEnd;
+                    addToApi('end', allEndsApi);
                     setEndTimes(updatedEnds);
                     setEndEditing(null);
+                    props.updateTotalTime();
                 } else {
                     alert('Date must be after start time');
                 }
             }
 
         }
+    }
+
+
+
+    const deletePeriod = index => {
+        let allStartsApi = props.recordingsList[indexInApi].start;
+        let allEndsApi = props.recordingsList[indexInApi].end;
+        const startIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
+        const endIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
+        allStartsApi.splice(startIndexInApi, 1);
+        allEndsApi.splice(endIndexInApi, 1);
+        addToApi('start', allStartsApi);
+        addToApi('end', allEndsApi);
+        let updatedStarts = [...startTimes];
+        let updatedEnds = [...endTimes];
+        updatedStarts.splice(index, 1);
+        updatedEnds.splice(index, 1);
+        setStartTimes(updatedStarts);
+        setEndTimes(updatedEnds);
+        props.updateTotalTime();
     }
 
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -18,6 +18,8 @@ function TaskOfInterest(props) {
     const [endEditing, setEndEditing] = useState(null);
     const taskIndexInApi = props.recordingsList.findIndex(obj => obj.id === props.id);
     const [showIntervals, setShowIntervals] = useState(false);
+    const buttonRef1 = useRef();
+    const buttonRef2 = useRef();
 
 
 
@@ -402,13 +404,27 @@ function TaskOfInterest(props) {
     }
 
 
+    const handleKeyDown = (e, buttonRef) => {
+        if (buttonRef.current && (e.key === ' ' || e.key === 'Spacebar')) {
+            e.preventDefault();
+            buttonRef.current.click();
+        }
+    };
+
+
 
 
     return (
         <div className='task-of-interest'>
             <p><b>Task:</b> {props.task}</p>
             <p><b>Total active time:</b> {props.totalActiveTime}</p>
-            <p className='task-details' onClick={() => setShowTaskDetails(!showTaskDetails)}>Details</p>
+            <p
+                tabIndex={0}
+                ref={buttonRef1}
+                onKeyDown={e => handleKeyDown(e, buttonRef1)}
+                className='task-details'
+                onClick={() => setShowTaskDetails(!showTaskDetails)}
+            >Details</p>
             {
                 showTaskDetails ? (
                     <div>
@@ -434,13 +450,14 @@ function TaskOfInterest(props) {
                         {
                             !showIntervals ? null : (
                                 <div>
+                                    <p>Activity periods:</p>
                                     {
                                         startTimes.map((time, index) => {
                                             return (
                                                 <div key={index}>
                                                     {
                                                         (startEditing !== index) ? (
-                                                            <p className='interval' onClick={() => setStartEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{time}</p>
+                                                            <p tabIndex={0} className='interval' onClick={() => setStartEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{time}</p>
                                                         ) : (
                                                             <input
                                                                 type='text'
@@ -454,7 +471,7 @@ function TaskOfInterest(props) {
                                                     <span> - </span>
                                                     {
                                                         (endEditing !== index) ? (
-                                                            <p className='interval' onClick={() => setEndEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{endTimes[index]}</p>
+                                                            <p tabIndex={0} className='interval' onClick={() => setEndEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{endTimes[index]}</p>
                                                         ) : (
                                                             <input
                                                                 type='text'
@@ -466,11 +483,17 @@ function TaskOfInterest(props) {
                                                         )
                                                     }
 
-                                                    <span onClick={() => deletePeriod(index)} className='delete-interval'>⤬</span>
+                                                    <span tabIndex={0} onClick={() => deletePeriod(index)} className='delete-interval'>⤬</span>
                                                 </div>
                                             );
                                         })}
-                                    <p className='add-interval' onClick={() => setAddingPeriod(!addingPeriod)}>+</p>
+                                    <p
+                                        tabIndex={0}
+                                        ref={buttonRef2}
+                                        onKeyDown={e => handleKeyDown(e, buttonRef2)}
+                                        className='add-interval'
+                                        onClick={() => setAddingPeriod(!addingPeriod)}
+                                    >+</p>
                                 </div>
                             )
 

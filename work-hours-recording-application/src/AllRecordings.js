@@ -17,7 +17,7 @@ function AllRecordings() {
     const [updateTags, setUpdateTags] = useState(false);
     const [render, setRender] = useState(false);
     const [taskList, setTaskList] = useState([]);
-    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [], timeTotal: '00:00:00' });
+    const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [] });
 
 
     useEffect(() => {
@@ -157,7 +157,6 @@ function AllRecordings() {
                             endTimes={item.end}
                             existingTags={uniqueTags}
                             uniqueTagsUpdate={newTagsFromTaskItem}
-                            timeTotal={item.timeTotal}
                             setItemStatus={setItemStatus}
                             recordingsList={recordingsList}
                             setNewTaskList={setNewTaskList}
@@ -177,7 +176,6 @@ function AllRecordings() {
                         endTimes={item.end}
                         existingTags={uniqueTags}
                         uniqueTagsUpdate={newTagsFromTaskItem}
-                        timeTotal={item.timeTotal}
                         setItemStatus={setItemStatus}
                         recordingsList={recordingsList}
                         setNewTaskList={setNewTaskList}

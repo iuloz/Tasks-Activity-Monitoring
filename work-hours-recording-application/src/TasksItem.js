@@ -15,7 +15,6 @@ function TasksItem(props) {
     const [startTimes, setStartTimes] = useState(props.startTimes);
     const [endTimes, setEndTimes] = useState(props.endTimes);
     const dragElementRef = useRef(null);
-    const [timeTotal, setTimeTotal] = useState(props.timeTotal);
     const buttonRef1 = useRef();
     const buttonRef2 = useRef();
     const buttonRef3 = useRef();
@@ -63,22 +62,10 @@ function TasksItem(props) {
             props.recordingsList.forEach(async item => {
                 await new Promise(resolve => setTimeout(resolve, 200));
                 if (item.id !== props.id && item.status === 'Active') {
-                    const lastStartTime = new Date(item.start[item.start.length - 1].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                    const lastEndTime = new Date(dateTime.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                    const differenceInSeconds = Math.floor((lastEndTime - lastStartTime) / 1000);
-                    const [prevHours, prevMinutes, prevSeconds] = item.timeTotal.split(':').map(Number);
-                    const newTimeTotalSeconds = prevHours * 3600 + prevMinutes * 60 + prevSeconds + differenceInSeconds;
-                    const hours = Math.floor(newTimeTotalSeconds / 3600);
-                    const minutes = Math.floor((newTimeTotalSeconds % 3600) / 60);
-                    const seconds = newTimeTotalSeconds % 60;
-                    const newTimeTotal = `${hours}:${minutes}:${seconds}`;
-                    const components = newTimeTotal.split(':');
-                    let formattedTime = components.map(component => component.padStart(2, '0'));
-                    formattedTime = formattedTime.join(':');
                     await fetch(`http://localhost:3010/records/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime], timeTotal: formattedTime })
+                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime] })
                     })
                         .then(resp => resp.json())
                         .catch(error => {
@@ -106,27 +93,6 @@ function TasksItem(props) {
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
 
-            if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
-                const dateStartString = updatedStartTimes[updatedStartTimes.length - 1];
-                const dateEndString = updatedEndTimes[updatedEndTimes.length - 1];
-                const dateStart = new Date(dateStartString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                const differenceInMilliseconds = dateEnd - dateStart;
-                const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-                const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-                const newTimeTotalSeconds = prevHours * 3600 + prevMinutes * 60 + prevSeconds + differenceInSeconds;
-                const hours = Math.floor(newTimeTotalSeconds / 3600);
-                const minutes = Math.floor((newTimeTotalSeconds % 3600) / 60);
-                const seconds = newTimeTotalSeconds % 60;
-                const newTimeTotal = `${hours}:${minutes}:${seconds}`;
-                const components = newTimeTotal.split(':');
-                let formattedTime = components.map(component => component.padStart(2, '0'));
-                formattedTime = formattedTime.join(':');
-                setTimeTotal(formattedTime);
-                await addToApi('timeTotal', formattedTime);
-                await new Promise(resolve => setTimeout(resolve, 200));
-            }
-
             fetch('http://localhost:3010/records')
                 .then(response => response.json())
                 .then(data => props.setNewTaskList(data))
@@ -151,27 +117,6 @@ function TasksItem(props) {
                 updatedEndTimes = [...updatedEndTimes, dateTime];
                 setEndTimes(updatedEndTimes);
                 await addToApi('end', updatedEndTimes);
-                await new Promise(resolve => setTimeout(resolve, 200));
-            }
-
-            if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
-                const dateStartString = updatedStartTimes[updatedStartTimes.length - 1];
-                const dateEndString = updatedEndTimes[updatedEndTimes.length - 1];
-                const dateStart = new Date(dateStartString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                const dateEnd = new Date(dateEndString.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
-                const differenceInMilliseconds = dateEnd - dateStart;
-                const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-                const [prevHours, prevMinutes, prevSeconds] = timeTotal.split(':').map(Number);
-                const newTimeTotalSeconds = prevHours*3600 + prevMinutes*60 + prevSeconds + differenceInSeconds;
-                const hours = Math.floor(newTimeTotalSeconds / 3600);
-                const minutes = Math.floor((newTimeTotalSeconds % 3600) / 60);
-                const seconds = newTimeTotalSeconds % 60;
-                const newTimeTotal = `${hours}:${minutes}:${seconds}`;
-                const components = newTimeTotal.split(':');
-                let formattedTime = components.map(component => component.padStart(2, '0'));
-                formattedTime = formattedTime.join(':');
-                setTimeTotal(formattedTime);
-                await addToApi('timeTotal', formattedTime);
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
         }
@@ -400,7 +345,6 @@ function TasksItem(props) {
                     style={{ color: 'green', fontSize: '1.2rem', cursor: 'pointer' }}
                 >+</span>
             )}
-            <p>Total active when last paused: {timeTotal}</p>
             <p tabIndex={0} ref={buttonRef4} onKeyDown={e => handleKeyDown(e, buttonRef4)} onClick={changeStatus} className='status'>{status}</p>
         </div>
     );

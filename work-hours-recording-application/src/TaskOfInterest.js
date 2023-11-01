@@ -162,7 +162,7 @@ function TaskOfInterest(props) {
                     if (!overlaps) {
                         let tempStarts = [...startTimes, periodStart];
                         let tempEnds = [...endTimes, periodEnd];
-                        let intervals = [...taskIntervals, {start: periodStart, end: periodEnd}];
+                        let intervals = [...taskIntervals, { start: periodStart, end: periodEnd }];
                         setNewPeriod('');
                         const activityStartDates = tempStarts.map(date => {
                             const periodStartDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
@@ -227,8 +227,47 @@ function TaskOfInterest(props) {
                                 end: intervalEndString
                             };
                         });
-                        await addToApi('start', [...props.recordingsList[taskIndexInApi].start, periodStart]);
-                        await addToApi('end', [...props.recordingsList[taskIndexInApi].end, periodEnd]);
+
+
+                        let intervalStartApi = [...props.recordingsList[taskIndexInApi].start, periodStart];
+                        const intervalStartApiDates = intervalStartApi.map(start => {
+                            const intervalStart = new Date(start.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                            return intervalStart;
+                        });
+                        const sortedIntervalStartApi = intervalStartApiDates.sort((a, b) => a - b);
+                        const sortedIntervalStartApiString = sortedIntervalStartApi.map(start => {
+                            const startString = start.toLocaleString('ru-RU', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                            });
+                            return startString;
+                        });
+
+
+                        let intervalEndApi = [...props.recordingsList[taskIndexInApi].end, periodEnd];
+                        const intervalEndApiDates = intervalEndApi.map(end => {
+                            const intervalEnd = new Date(end.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                            return intervalEnd;
+                        });
+                        const sortedIntervalEndApi = intervalEndApiDates.sort((a, b) => a - b);
+                        const sortedIntervalEndApiString = sortedIntervalEndApi.map(start => {
+                            const endString = start.toLocaleString('ru-RU', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                            });
+                            return endString;
+                        });
+
+                        await addToApi('start', sortedIntervalStartApiString);
+                        await addToApi('end', sortedIntervalEndApiString);
                         setStartTimes(sortedStarts);
                         setEndTimes(sortedEnds);
                         setTaskIntervals(sortedIntervals);

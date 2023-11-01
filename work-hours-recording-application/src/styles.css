@@ -295,10 +295,11 @@ select {
     cursor: pointer;
     display: inline-block;
     margin-left: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .delete-interval:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .add-interval {
@@ -306,8 +307,21 @@ select {
     font-size: 1.2rem;
     color: green;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .add-interval:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.interval {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0px 3px;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.interval:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }

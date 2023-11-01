@@ -17,6 +17,7 @@ function TaskOfInterest(props) {
     const [startEditing, setStartEditing] = useState(null);
     const [endEditing, setEndEditing] = useState(null);
     const taskIndexInApi = props.recordingsList.findIndex(obj => obj.id === props.id);
+    const [showIntervals, setShowIntervals] = useState(false);
 
 
 
@@ -53,6 +54,7 @@ function TaskOfInterest(props) {
 
 
     const showPeriods = async () => {
+        setShowIntervals(true);
         let periods = [];
         const observationStartString = observationStart.toLocaleString('ru-RU', {
             day: '2-digit',
@@ -430,43 +432,50 @@ function TaskOfInterest(props) {
                         />
                         <button className='apply-interval' onClick={showPeriods}>Apply</button>
                         {
-                            startTimes.map((time, index) => {
-                                return (
-                                    <div key={index}>
-                                        {
-                                            (startEditing !== index) ? (
-                                                <p onClick={() => setStartEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{time}</p>
-                                            ) : (
-                                                <input
-                                                    type='text'
-                                                    value={time}
-                                                    onChange={e => handleStartEdit(index, e.target.value)}
-                                                    onBlur={e => editStart(index, e.target.value)}
-                                                    autoFocus
-                                                />
-                                            )
-                                        }
-                                        <span> - </span>
-                                        {
-                                            (endEditing !== index) ? (
-                                                <p onClick={() => setEndEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{endTimes[index]}</p>
-                                            ) : (
-                                                <input
-                                                    type='text'
-                                                    value={endTimes[index]}
-                                                    onChange={e => handleEndEdit(index, e.target.value)}
-                                                    onBlur={e => editEnd(index, e.target.value)}
-                                                    autoFocus
-                                                />
-                                            )
-                                        }
+                            !showIntervals ? null : (
+                                <div>
+                                    {
+                                        startTimes.map((time, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    {
+                                                        (startEditing !== index) ? (
+                                                            <p className='interval' onClick={() => setStartEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{time}</p>
+                                                        ) : (
+                                                            <input
+                                                                type='text'
+                                                                value={time}
+                                                                onChange={e => handleStartEdit(index, e.target.value)}
+                                                                onBlur={e => editStart(index, e.target.value)}
+                                                                autoFocus
+                                                            />
+                                                        )
+                                                    }
+                                                    <span> - </span>
+                                                    {
+                                                        (endEditing !== index) ? (
+                                                            <p className='interval' onClick={() => setEndEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{endTimes[index]}</p>
+                                                        ) : (
+                                                            <input
+                                                                type='text'
+                                                                value={endTimes[index]}
+                                                                onChange={e => handleEndEdit(index, e.target.value)}
+                                                                onBlur={e => editEnd(index, e.target.value)}
+                                                                autoFocus
+                                                            />
+                                                        )
+                                                    }
 
-                                        <span onClick={() => deletePeriod(index)} className='delete-interval'>⤬</span>
-                                    </div>
-                                );
-                            })
+                                                    <span onClick={() => deletePeriod(index)} className='delete-interval'>⤬</span>
+                                                </div>
+                                            );
+                                        })}
+                                    <p className='add-interval' onClick={() => setAddingPeriod(!addingPeriod)}>+</p>
+                                </div>
+                            )
+
                         }
-                        <p className='add-interval' onClick={() => setAddingPeriod(!addingPeriod)}>+</p>
+
                         {
                             !addingPeriod ? null : (
                                 <input

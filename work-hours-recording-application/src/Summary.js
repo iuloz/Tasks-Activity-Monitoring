@@ -44,7 +44,12 @@ function Summary() {
     };
 
 
-    const showTasksAndTimes = () => {
+    const showTasksAndTimes = async () => {
+        await fetch('http://localhost:3010/records')
+            .then(response => response.json())
+            .then(data => setRecordingList(data))
+            .catch(error => console.error('Error fetching data:', error));
+        console.log(recordingsList[0]);
         setVisibility('visible');
         setTasksTimes([]);
         let updatedTagsTimes = [];
@@ -193,7 +198,6 @@ function Summary() {
                                 totalActiveTime={item.totalTime}
                                 activityPeriods={activityPeriods}
                                 recordingsList={recordingsList}
-                                setRecordingList={setRecordingList}
                                 updateTotalTime={showTasksAndTimes}
                             />
                         )

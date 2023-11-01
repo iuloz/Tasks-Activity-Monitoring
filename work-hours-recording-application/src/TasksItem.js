@@ -89,21 +89,21 @@ function TasksItem(props) {
             setIsActive(!isActive);
             setStatus(isActive ? 'Active' : 'Inactive');
             setColor(isActive ? 'lightgreen' : '#ffd5bb');
-            await new Promise(resolve => setTimeout(resolve, 200));
             await addToApi('status', isActive ? 'Active' : 'Inactive');
+            await new Promise(resolve => setTimeout(resolve, 200));
             let updatedStartTimes = startTimes;
             let updatedEndTimes = endTimes;
 
             if (isActive) {
                 updatedStartTimes = [...updatedStartTimes, dateTime];
                 setStartTimes(updatedStartTimes);
-                await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('start', updatedStartTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
             } else {
                 updatedEndTimes = [...updatedEndTimes, dateTime];
                 setEndTimes(updatedEndTimes);
-                await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('end', updatedEndTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
 
             if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
@@ -123,8 +123,8 @@ function TasksItem(props) {
                 let formattedTime = components.map(component => component.padStart(2, '0'));
                 formattedTime = formattedTime.join(':');
                 setTimeTotal(formattedTime);
-                await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('timeTotal', formattedTime);
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
 
             fetch('http://localhost:3010/records')
@@ -138,20 +138,20 @@ function TasksItem(props) {
             setIsActive(!isActive);
             setStatus(isActive ? 'Active' : 'Inactive');
             setColor(isActive ? 'lightgreen' : '#ffd5bb');
-            await new Promise(resolve => setTimeout(resolve, 200));
             await addToApi('status', isActive ? 'Active' : 'Inactive');
+            await new Promise(resolve => setTimeout(resolve, 200));
             let updatedStartTimes = startTimes;
             let updatedEndTimes = endTimes;
             if (isActive) {
                 updatedStartTimes = [...updatedStartTimes, dateTime];
                 setStartTimes(updatedStartTimes);
-                await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('start', updatedStartTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
             } else {
                 updatedEndTimes = [...updatedEndTimes, dateTime];
                 setEndTimes(updatedEndTimes);
-                await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('end', updatedEndTimes);
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
 
             if (updatedStartTimes.length === updatedEndTimes.length && updatedStartTimes.length > 0) {
@@ -171,26 +171,28 @@ function TasksItem(props) {
                 let formattedTime = components.map(component => component.padStart(2, '0'));
                 formattedTime = formattedTime.join(':');
                 setTimeTotal(formattedTime);
-                await new Promise(resolve => setTimeout(resolve, 200));
                 await addToApi('timeTotal', formattedTime);
+                await new Promise(resolve => setTimeout(resolve, 200));
             }
         }
     }
 
 
-    const editTask = e => {
+    const editTask = async e => {
         if (e.target.value.trim() !== '') {
             setTask(e.target.value);
             setTaskEditing(false);
-            addToApi('task', task);
+            await addToApi('task', task);
+            await new Promise(resolve => setTimeout(resolve, 200));
         }
     }
 
-    const addTag = () => {
+    const addTag = async () => {
         if (newTag.trim() !== '') {
             setTags([...tags, newTag]);
             setNewTag('');
-            addToApi('tags', [...tags, newTag]);
+            await addToApi('tags', [...tags, newTag]);
+            await new Promise(resolve => setTimeout(resolve, 200));
             props.uniqueTagsUpdate();
         }
         setAddingTag(false);
@@ -202,23 +204,25 @@ function TasksItem(props) {
         setTags(updatedTags);
     }
 
-    const editTag = (index, editedTag) => {
+    const editTag = async (index, editedTag) => {
         if (editedTag.trim() !== '') {
             const updatedTags = [...tags];
             updatedTags[index] = editedTag;
             setTags(updatedTags);
-            addToApi('tags', [...tags]);
+            await addToApi('tags', [...tags]);
+            await new Promise(resolve => setTimeout(resolve, 200));
             setEditTagIndex(null);
             props.uniqueTagsUpdate();
         }
     }
 
-    const deleteTag = index => {
+    const deleteTag = async index => {
         if (tags.length > 1) {
             let updatedTags = [...tags];
             updatedTags.splice(index, 1);
             setTags(updatedTags);
-            addToApi('tags', updatedTags);
+            await addToApi('tags', updatedTags);
+            await new Promise(resolve => setTimeout(resolve, 200));
             props.uniqueTagsUpdate();
         }
     }

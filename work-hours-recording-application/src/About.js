@@ -42,8 +42,8 @@ function About() {
             <p>
                 Using of the app is possible as well with keyboard only (besides mouse or touchpad and such). To navigate between buttons, elements inside task components, tasks of interest, input fields in the form 'Tab' button is used ('Tab' to move forward, 'Shift' + 'Tab' to move back). To perform click behavior 'Spacebar' is used. Input fields inside task elements are confirmed by pressing 'Enter'. Form (adding of a new task element) is submitted by pressing 'Enter' key.
             </p>
-            <p>Approximately 150 hours were spend on this application.</p>
-            <p>Most difficult for me was implementing a behavior for single active task at a time mode, where previous active task must become inactive automatically and this change is seen on UI right away.</p>
+            <p>Approximately 200 hours were spend on this application.</p>
+            <p>Most difficult for me was implementing a behavior for single active task at a time mode in Module L, where previous active task must become inactive automatically and this change is seen on UI right away. Also Module J took a lot of time.</p>
         </div>
     )
 }

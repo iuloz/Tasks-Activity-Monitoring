@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TaskOfInterest from './TaskOfInterest';
+import 'react-datepicker/dist/react-datepicker.css';
 
 
 
-// This is recordings list view, made during whole time
 function Summary() {
     const today = new Date();
     today.setHours(0, 0, 0);
@@ -16,7 +16,6 @@ function Summary() {
     const [tagsTimes, setTagsTimes] = useState([]);
     const [color, setColor] = useState('whitesmoke');
     const [visibility, setVisibility] = useState('hidden');
-    // const [showTaskDetails, setShowTaskDetails] = useState(false);
     const [activityPeriods, setActivityPeriods] = useState([]);
 
 
@@ -167,7 +166,7 @@ function Summary() {
     return (
         <div>
             <p style={{ display: 'inline-block', marginRight: '40px', fontSize: '1.3rem', color: color }}>Observation interval:</p>
-            <div style={{ display: 'inline-block', marginRight: '10px' }}>
+            <div style={{ display: 'inline-block'}}>
                 <p style={{ color: color }}>Start:</p>
                 <DatePicker
                     selected={observationStart}

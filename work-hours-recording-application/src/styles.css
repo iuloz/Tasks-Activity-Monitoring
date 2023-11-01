@@ -262,7 +262,6 @@ select {
 .apply-interval {
     height: 40px;
     width: 100px;
-    margin-left: 20px;
     font-size: 1rem;
     background-color: lightgreen;
     border-radius: 3px;
@@ -277,4 +276,38 @@ select {
     border: solid 1px black;
     border-radius: 4px;
     color: black;
+}
+
+/* .react-datepicker {
+    width: 200px;
+} */
+
+.react-datepicker-wrapper {
+    width: 200px;
+  }
+
+.delete-interval {
+    width: 17px;
+    height: 17px;
+    text-align: center;
+    color: red;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.delete-interval:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.add-interval {
+    text-align: center;
+    font-size: 1.2rem;
+    color: green;
+    cursor: pointer;
+}
+
+.add-interval:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function TaskOfInterest(props) {
     const [showTaskDetails, setShowTaskDetails] = useState(false);
@@ -18,24 +19,11 @@ function TaskOfInterest(props) {
     const taskIndexInApi = props.recordingsList.findIndex(obj => obj.id === props.id);
 
 
-    // useEffect(() => {
-    //     fetch('http://localhost:3010/records')
-    //         .then(response => response.json())
-    //         .then(data => setRecordingList(data))
-    //         .catch(error => console.error('Error fetching data:', error));
-    // }, [startTimes, endTimes, ]);
-
 
     useEffect(() => {
         let starts = [];
         let ends = [];
         let intervals = [];
-        // activityPeriods.forEach((interval, index) => {
-        //     if (interval.task === props.task) {
-        //         starts.push(interval.start);
-        //         ends.push(interval.end);
-        //     }
-        // });
         activityPeriods.forEach((interval, index) => {
             if (interval.task === props.task) {
                 starts.push(interval.start);
@@ -65,11 +53,6 @@ function TaskOfInterest(props) {
 
 
     const showPeriods = async () => {
-        // let recordingsList;
-        // await fetch('http://localhost:3010/records')
-        //     .then(response => response.json())
-        //     .then(data => { recordingsList = data })
-        //     .catch(error => console.error('Error fetching data:', error));
         let periods = [];
         const observationStartString = observationStart.toLocaleString('ru-RU', {
             day: '2-digit',
@@ -428,7 +411,9 @@ function TaskOfInterest(props) {
                 showTaskDetails ? (
                     <div>
                         <br /><br /><br />
+                        <p>Task details interval:</p>
                         <DatePicker
+                            className='date-picker'
                             selected={observationStart}
                             onChange={date => setObservationStart(date)}
                             showTimeSelect
@@ -436,6 +421,7 @@ function TaskOfInterest(props) {
                             timeFormat="HH:mm"
                         />
                         <DatePicker
+                            className='date-picker'
                             selected={observationEnd}
                             onChange={date => setObservationEnd(date)}
                             showTimeSelect
@@ -475,12 +461,12 @@ function TaskOfInterest(props) {
                                             )
                                         }
 
-                                        <span onClick={() => deletePeriod(index)} style={{ color: 'red', cursor: 'pointer', marginLeft: '15px' }}>⤬</span>
+                                        <span onClick={() => deletePeriod(index)} className='delete-interval'>⤬</span>
                                     </div>
                                 );
                             })
                         }
-                        <p onClick={() => setAddingPeriod(!addingPeriod)} style={{ color: 'green', cursor: 'pointer' }}>+</p>
+                        <p className='add-interval' onClick={() => setAddingPeriod(!addingPeriod)}>+</p>
                         {
                             !addingPeriod ? null : (
                                 <input

@@ -15,7 +15,6 @@ function TaskOfInterest(props) {
     const [endTimes, setEndTimes] = useState([]); // ['','','','']
     const [startEditing, setStartEditing] = useState(null);
     const [endEditing, setEndEditing] = useState(null);
-    // const [recordingsList, setRecordingList] = useState([]);
     const taskIndexInApi = props.recordingsList.findIndex(obj => obj.id === props.id);
 
 
@@ -163,6 +162,7 @@ function TaskOfInterest(props) {
                     if (!overlaps) {
                         let tempStarts = [...startTimes, periodStart];
                         let tempEnds = [...endTimes, periodEnd];
+                        let intervals = [...taskIntervals, {start: periodStart, end: periodEnd}];
                         setNewPeriod('');
                         const activityStartDates = tempStarts.map(date => {
                             const periodStartDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
@@ -172,8 +172,17 @@ function TaskOfInterest(props) {
                             const periodEndDate = new Date(date.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                             return periodEndDate;
                         });
+                        const intervalsDates = intervals.map(interval => {
+                            const intervalStartDate = new Date(interval.start.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                            const intervalEndDate = new Date(interval.end.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
+                            return {
+                                start: intervalStartDate,
+                                end: intervalEndDate
+                            };
+                        });
                         const sortedStartDates = activityStartDates.sort((a, b) => a - b);
                         const sortedEndDates = activityEndDates.sort((a, b) => a - b);
+                        const sortedIntervalsDates = intervalsDates.sort((a, b) => a.start - b.start);
                         const sortedStarts = sortedStartDates.map(start => {
                             const startString = start.toLocaleString('ru-RU', {
                                 day: '2-digit',
@@ -185,7 +194,6 @@ function TaskOfInterest(props) {
                             });
                             return startString;
                         });
-
                         const sortedEnds = sortedEndDates.map(end => {
                             const endString = end.toLocaleString('ru-RU', {
                                 day: '2-digit',
@@ -197,10 +205,33 @@ function TaskOfInterest(props) {
                             });
                             return endString;
                         });
+                        const sortedIntervals = sortedIntervalsDates.map(interval => {
+                            const intervalStartString = interval.start.toLocaleString('ru-RU', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                            });
+                            const intervalEndString = interval.end.toLocaleString('ru-RU', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                second: '2-digit',
+                            });
+                            return {
+                                start: intervalStartString,
+                                end: intervalEndString
+                            };
+                        });
                         await addToApi('start', [...props.recordingsList[taskIndexInApi].start, periodStart]);
                         await addToApi('end', [...props.recordingsList[taskIndexInApi].end, periodEnd]);
                         setStartTimes(sortedStarts);
                         setEndTimes(sortedEnds);
+                        setTaskIntervals(sortedIntervals);
                         setAddingPeriod(false);
                         props.updateTotalTime();
                     }
@@ -210,7 +241,6 @@ function TaskOfInterest(props) {
             } else {
                 alert('Start date must be earlier than end date');
             }
-
         } else if (newPeriod === '') {
             return;
         } else {
@@ -229,18 +259,22 @@ function TaskOfInterest(props) {
     const editStart = async (index, editedStart) => {
         let allStartsApi = props.recordingsList[taskIndexInApi].start;
         let allEndsApi = props.recordingsList[taskIndexInApi].end;
-        if (editedStart.trim() !== '') {
+        const regex = /^\d{2}\.\d{2}\.\d{4}, \d{2}:\d{2}:\d{2}$/;
+        if (regex.test(editedStart)) {
             const updatedStarts = [...startTimes];
             const editedStartDate = new Date(editedStart.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
             const endDate = new Date(endTimes[index].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
             if (endTimes[index - 1]) {
                 const prevEndDate = new Date(endTimes[index - 1].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                 if (editedStartDate >= prevEndDate && editedStartDate <= endDate) {
+                    let intervals = [...taskIntervals];
                     updatedStarts[index] = editedStart;
-                    const starttaskIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
-                    allStartsApi[starttaskIndexInApi] = editedStart;
+                    intervals[index].start = editedStart;
+                    const startTaskIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
+                    allStartsApi[startTaskIndexInApi] = editedStart;
                     await addToApi('start', allStartsApi);
                     setStartTimes(updatedStarts);
+                    setTaskIntervals(intervals);
                     setStartEditing(null);
                     props.updateTotalTime();
                 } else {
@@ -248,17 +282,22 @@ function TaskOfInterest(props) {
                 }
             } else {
                 if (editedStartDate <= endDate) {
+                    let intervals = [...taskIntervals];
                     updatedStarts[index] = editedStart;
-                    const starttaskIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
-                    allStartsApi[starttaskIndexInApi] = editedStart;
+                    intervals[index].start = editedStart;
+                    const startTaskIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
+                    allStartsApi[startTaskIndexInApi] = editedStart;
                     await addToApi('start', allStartsApi);
                     setStartTimes(updatedStarts);
+                    setTaskIntervals(intervals);
                     setStartEditing(null);
                     props.updateTotalTime();
                 } else {
                     alert('Date must be before stop time');
                 }
             }
+        } else {
+            alert('Please, mind initial format');
         }
     }
 
@@ -273,18 +312,22 @@ function TaskOfInterest(props) {
     const editEnd = async (index, editedEnd) => {
         let allStartsApi = props.recordingsList[taskIndexInApi].start;
         let allEndsApi = props.recordingsList[taskIndexInApi].end;
-        if (editedEnd.trim() !== '') {
+        const regex = /^\d{2}\.\d{2}\.\d{4}, \d{2}:\d{2}:\d{2}$/;
+        if (regex.test(editedEnd)) {
             const updatedEnds = [...endTimes];
             const editedEndDate = new Date(editedEnd.replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
             const startDate = new Date(startTimes[index].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
             if (startTimes[index + 1]) {
                 const nextStartDate = new Date(startTimes[index + 1].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                 if (editedEndDate >= startDate && editedEndDate <= nextStartDate) {
+                    let intervals = [...taskIntervals];
+                    intervals[index].end = editedEnd;
                     updatedEnds[index] = editedEnd;
-                    const endtaskIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
-                    allEndsApi[endtaskIndexInApi] = editedEnd;
+                    const endTaskIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
+                    allEndsApi[endTaskIndexInApi] = editedEnd;
                     await addToApi('end', allEndsApi);
                     setEndTimes(updatedEnds);
+                    setTaskIntervals(intervals);
                     setEndEditing(null);
                     props.updateTotalTime();
                 } else {
@@ -292,18 +335,22 @@ function TaskOfInterest(props) {
                 }
             } else {
                 if (editedEndDate >= startDate) {
+                    let intervals = [...taskIntervals];
+                    intervals[index].end = editedEnd;
                     updatedEnds[index] = editedEnd;
-                    const endtaskIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
-                    allEndsApi[endtaskIndexInApi] = editedEnd;
+                    const endTaskIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
+                    allEndsApi[endTaskIndexInApi] = editedEnd;
                     await addToApi('end', allEndsApi);
                     setEndTimes(updatedEnds);
+                    setTaskIntervals(intervals);
                     setEndEditing(null);
                     props.updateTotalTime();
                 } else {
                     alert('Date must be after start time');
                 }
             }
-
+        } else {
+            alert('Please, mind initial format');
         }
     }
 
@@ -312,18 +359,21 @@ function TaskOfInterest(props) {
     const deletePeriod = async index => {
         let allStartsApi = props.recordingsList[taskIndexInApi].start;
         let allEndsApi = props.recordingsList[taskIndexInApi].end;
-        const starttaskIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
-        const endtaskIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
-        allStartsApi.splice(starttaskIndexInApi, 1);
-        allEndsApi.splice(endtaskIndexInApi, 1);
+        const startTaskIndexInApi = allStartsApi.findIndex(time => time === startTimes[index]);
+        const endTaskIndexInApi = allEndsApi.findIndex(time => time === endTimes[index]);
+        allStartsApi.splice(startTaskIndexInApi, 1);
+        allEndsApi.splice(endTaskIndexInApi, 1);
         await addToApi('start', allStartsApi);
         await addToApi('end', allEndsApi);
         let updatedStarts = [...startTimes];
         let updatedEnds = [...endTimes];
+        let intervals = [...taskIntervals];
         updatedStarts.splice(index, 1);
         updatedEnds.splice(index, 1);
+        intervals.splice(index, 1);
         setStartTimes(updatedStarts);
         setEndTimes(updatedEnds);
+        setTaskIntervals(intervals);
         props.updateTotalTime();
     }
 

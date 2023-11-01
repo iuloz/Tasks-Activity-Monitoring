@@ -45,11 +45,14 @@ function Summary() {
 
 
     const showTasksAndTimes = async () => {
+        let recordings;
         await fetch('http://localhost:3010/records')
             .then(response => response.json())
-            .then(data => setRecordingList(data))
+            .then(data => {
+                recordings = data;
+                setRecordingList(data);
+            })
             .catch(error => console.error('Error fetching data:', error));
-        console.log(recordingsList[0]);
         setVisibility('visible');
         setTasksTimes([]);
         let updatedTagsTimes = [];
@@ -70,7 +73,7 @@ function Summary() {
             minute: '2-digit',
             second: '2-digit',
         });
-        recordingsList.forEach((item, index) => {
+        recordings.forEach((item, index) => {
             let totalTimeInSeconds = 0;
             const dateTime = new Date();
             const dateTimeString = dateTime.toLocaleString('ru-RU', {

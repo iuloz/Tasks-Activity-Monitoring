@@ -18,8 +18,14 @@ function TaskOfInterest(props) {
     const [endEditing, setEndEditing] = useState(null);
     const taskIndexInApi = props.recordingsList.findIndex(obj => obj.id === props.id);
     const [showIntervals, setShowIntervals] = useState(false);
-    const buttonRef1 = useRef();
-    const buttonRef2 = useRef();
+    const buttonRefDetails = useRef();
+    const buttonRefAddButton = useRef();
+    const buttonRefAddInput = useRef();
+    const intervalStartRefs = useRef([]);
+    const intervalEndRefs = useRef([]);
+    const intervalRemoveRefs = useRef([]);
+    const intervalStartEditRefs = useRef([]);
+    const intervalEndEditRefs = useRef([]);
 
 
 
@@ -412,6 +418,29 @@ function TaskOfInterest(props) {
     };
 
 
+    const handleKeyDownAddEnter = (e, buttonRef) => {
+        if (buttonRef.current && (e.key === 'Enter')) {
+            e.preventDefault();
+            buttonRef.current.blur();
+        }
+    };
+
+    const handleKeyDownInterval = (e, index, refs) => {
+        if (refs.current[index] && (e.key === ' ' || e.key === 'Spacebar')) {
+            e.preventDefault();
+            refs.current[index].click();
+        }
+    };
+
+
+    const handleKeyDownIntervalEdit = (e, index, refs) => {
+        if (refs.current[index] && (e.key === 'Enter')) {
+            e.preventDefault();
+            refs.current[index].blur();
+        }
+    };
+
+
 
 
     return (
@@ -420,8 +449,8 @@ function TaskOfInterest(props) {
             <p><b>Total active time:</b> {props.totalActiveTime}</p>
             <p
                 tabIndex={0}
-                ref={buttonRef1}
-                onKeyDown={e => handleKeyDown(e, buttonRef1)}
+                ref={buttonRefDetails}
+                onKeyDown={e => handleKeyDown(e, buttonRefDetails)}
                 className='task-details'
                 onClick={() => setShowTaskDetails(!showTaskDetails)}
             >Details</p>
@@ -457,7 +486,13 @@ function TaskOfInterest(props) {
                                                 <div key={index}>
                                                     {
                                                         (startEditing !== index) ? (
-                                                            <p tabIndex={0} className='interval' onClick={() => setStartEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{time}</p>
+                                                            <p
+                                                                tabIndex={0}
+                                                                className='interval'
+                                                                onClick={() => setStartEditing(index)}
+                                                                ref={ref => intervalStartRefs.current[index] = ref}
+                                                                onKeyDown={e => handleKeyDownInterval(e, index, intervalStartRefs)}
+                                                            >{time}</p>
                                                         ) : (
                                                             <input
                                                                 type='text'
@@ -465,13 +500,21 @@ function TaskOfInterest(props) {
                                                                 onChange={e => handleStartEdit(index, e.target.value)}
                                                                 onBlur={e => editStart(index, e.target.value)}
                                                                 autoFocus
+                                                                ref={ref => intervalStartEditRefs.current[index] = ref}
+                                                                onKeyDown={e => handleKeyDownIntervalEdit(e, index, intervalStartEditRefs)}
                                                             />
                                                         )
                                                     }
                                                     <span> - </span>
                                                     {
                                                         (endEditing !== index) ? (
-                                                            <p tabIndex={0} className='interval' onClick={() => setEndEditing(index)} style={{ display: 'inline-block', cursor: 'pointer' }}>{endTimes[index]}</p>
+                                                            <p
+                                                                tabIndex={0}
+                                                                className='interval'
+                                                                onClick={() => setEndEditing(index)}
+                                                                ref={ref => intervalEndRefs.current[index] = ref}
+                                                                onKeyDown={e => handleKeyDownInterval(e, index, intervalEndRefs)}
+                                                            >{endTimes[index]}</p>
                                                         ) : (
                                                             <input
                                                                 type='text'
@@ -479,18 +522,26 @@ function TaskOfInterest(props) {
                                                                 onChange={e => handleEndEdit(index, e.target.value)}
                                                                 onBlur={e => editEnd(index, e.target.value)}
                                                                 autoFocus
+                                                                ref={ref => intervalEndEditRefs.current[index] = ref}
+                                                                onKeyDown={e => handleKeyDownIntervalEdit(e, index, intervalEndEditRefs)}
                                                             />
                                                         )
                                                     }
 
-                                                    <span tabIndex={0} onClick={() => deletePeriod(index)} className='delete-interval'>⤬</span>
+                                                    <span
+                                                        tabIndex={0}
+                                                        onClick={() => deletePeriod(index)}
+                                                        className='delete-interval'
+                                                        ref={ref => intervalRemoveRefs.current[index] = ref}
+                                                        onKeyDown={e => handleKeyDownInterval(e, index, intervalRemoveRefs)}
+                                                    >⤬</span>
                                                 </div>
                                             );
                                         })}
                                     <p
                                         tabIndex={0}
-                                        ref={buttonRef2}
-                                        onKeyDown={e => handleKeyDown(e, buttonRef2)}
+                                        ref={buttonRefAddButton}
+                                        onKeyDown={e => handleKeyDown(e, buttonRefAddButton)}
                                         className='add-interval'
                                         onClick={() => setAddingPeriod(!addingPeriod)}
                                     >+</p>
@@ -507,8 +558,9 @@ function TaskOfInterest(props) {
                                     onChange={e => setNewPeriod(e.target.value)}
                                     onBlur={addPeriod}
                                     autoFocus
-                                >
-                                </input>
+                                    ref={buttonRefAddInput}
+                                    onKeyDown={e => handleKeyDownAddEnter(e, buttonRefAddInput)}
+                                />
                             )
                         }
                     </div>

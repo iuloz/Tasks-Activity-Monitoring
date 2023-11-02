@@ -32,7 +32,7 @@ function AllRecordings() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setRender(true);
-        }, 100);
+        }, 200);
         return () => clearTimeout(timer);
     }, [render]);
 
@@ -127,7 +127,7 @@ function AllRecordings() {
 
     return !render ? null : (
         <div>
-            <button className='filtering' onClick={() => setShowFilterDropdown(!showFilterDropdown)}>Filter by Tags &#9660;</button>
+            <button className='filtering' onClick={() => setShowFilterDropdown(!showFilterDropdown)}>Filter by Tags ▶</button>
             {showFilterDropdown && (
                 <div className='filter-dropdown'>
                     {uniqueTags.map(tag => (

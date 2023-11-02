@@ -26,7 +26,7 @@ function TasksItem(props) {
     const tagEditInputRefs = useRef([]);
 
 
-
+    // Function for updating API
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
         await fetch(`http://localhost:3010/tasks/${props.id}`, {
@@ -40,7 +40,7 @@ function TasksItem(props) {
             });
     }
 
-
+    // Changing task status in UI and in API, saving start and stop times into API
     const changeStatus = async () => {
         const dateTime = (new Date()).toLocaleString('ru-RU', {
             day: '2-digit',
@@ -58,13 +58,15 @@ function TasksItem(props) {
                 mode = data.mode;
             })
             .catch(error => console.error('Error fetching data:', error));
+
+        // When 'single active task' mode is enabled and activating some task, previous one is stopped
         if (mode === 'one' && isActive) {
             props.allTaskObjects.forEach(async item => {
                 if (item.id !== props.id && item.status === 'Active') {
                     await fetch(`http://localhost:3010/tasks/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime] })
+                        body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime] })  // Adding stopping time in API to previously active task manually since it is stopped not by corresponding function
                     })
                         .then(resp => resp.json())
                         .catch(error => {
@@ -91,13 +93,14 @@ function TasksItem(props) {
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
 
+            // Updating all task objects list in parent component and triggering rerender to see new changes
             await fetch('http://localhost:3010/tasks')
                 .then(response => response.json())
                 .then(data => props.setNewTaskList(data))
                 .catch(error => console.error('Error fetching data:', error));
             props.setItemStatus(false);
 
-        } else {
+        } else {    // If mode is default (multiple active tasks at a time)
 
             setIsActive(!isActive);
             setStatus(isActive ? 'Active' : 'Inactive');
@@ -177,6 +180,8 @@ function TasksItem(props) {
     }
 
 
+    // Handling drag and drop functionality
+
     const onDragStartHandler = (e) => {
         e.dataTransfer.setData('text/plain', e.target.id);
     }
@@ -203,6 +208,8 @@ function TasksItem(props) {
             }
         }
     }
+
+    // Handling keyboard usage
 
     const handleKeyDown = (e, buttonRef) => {
         if (buttonRef.current && (e.key === ' ' || e.key === 'Spacebar')) {

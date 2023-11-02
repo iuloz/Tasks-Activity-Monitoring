@@ -181,6 +181,10 @@ input[type="text"] {
     border: 1px solid #0064cf;
 }
 
+.filter-dropdown {
+    display: inline-block;
+}
+
 #settings_link {
     float: right;
     margin-right: 50px;

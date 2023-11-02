@@ -417,7 +417,7 @@ function TaskOfInterest(props) {
         props.updateTotalTime();
     }
 
-    // Handling keyboard usage
+    // Handling keyboard usage during interaction with app
 
     const handleKeyDown = (e, buttonRef) => {
         if (buttonRef.current && (e.key === ' ' || e.key === 'Spacebar')) {

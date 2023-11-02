@@ -9,6 +9,8 @@ import Summary from './Summary';
 
 
 function App() {
+
+    // Fetching theme to set the colors when app is launched
     useEffect(() => {
         const body = document.getElementsByTagName('body')[0];
         fetch('http://localhost:3010/settings')
@@ -26,7 +28,7 @@ function App() {
             <Routes>
                 <Route path='/' element={null} />
                 <Route path='/about' element={<About />} />
-                <Route path='/recordings' element={<AllRecordings />} />
+                <Route path='/tasks' element={<AllRecordings />} />
                 <Route path='/summary' element={<Summary />} />
                 <Route path='/settings' element={<Settings />} />
             </Routes>

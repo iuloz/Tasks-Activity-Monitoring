@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 function About() {
     const [color, setColor] = useState('whitesmoke');
 
+    // Fetching theme to set the color
     useEffect(() => {
         fetch('http://localhost:3010/settings')
             .then(response => response.json())

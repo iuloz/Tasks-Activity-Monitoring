@@ -1,5 +1,7 @@
 function Form({ task, recordTask, inputChanged }) {
 
+
+    // Form for adding task and tag
     return (
         <div>
             <form onSubmit={recordTask} style={{ marginRight: '20px', marginTop: '10px' }}>

@@ -29,7 +29,7 @@ function TasksItem(props) {
 
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
-        await fetch(`http://localhost:3010/records/${props.id}`, {
+        await fetch(`http://localhost:3010/tasks/${props.id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(requestBody)
@@ -59,10 +59,9 @@ function TasksItem(props) {
             })
             .catch(error => console.error('Error fetching data:', error));
         if (mode === 'one' && isActive) {
-            props.recordingsList.forEach(async item => {
-                await new Promise(resolve => setTimeout(resolve, 200));
+            props.allTaskObjects.forEach(async item => {
                 if (item.id !== props.id && item.status === 'Active') {
-                    await fetch(`http://localhost:3010/records/${item.id}`, {
+                    await fetch(`http://localhost:3010/tasks/${item.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status: 'Inactive', end: [...item.end, dateTime] })
@@ -77,7 +76,6 @@ function TasksItem(props) {
             setStatus(isActive ? 'Active' : 'Inactive');
             setColor(isActive ? 'lightgreen' : '#ffd5bb');
             await addToApi('status', isActive ? 'Active' : 'Inactive');
-            await new Promise(resolve => setTimeout(resolve, 200));
             let updatedStartTimes = startTimes;
             let updatedEndTimes = endTimes;
 
@@ -93,7 +91,7 @@ function TasksItem(props) {
                 await new Promise(resolve => setTimeout(resolve, 200));
             }
 
-            fetch('http://localhost:3010/records')
+            await fetch('http://localhost:3010/tasks')
                 .then(response => response.json())
                 .then(data => props.setNewTaskList(data))
                 .catch(error => console.error('Error fetching data:', error));
@@ -128,7 +126,6 @@ function TasksItem(props) {
             setTask(e.target.value);
             setTaskEditing(false);
             await addToApi('task', task);
-            await new Promise(resolve => setTimeout(resolve, 200));
         }
     }
 
@@ -137,7 +134,6 @@ function TasksItem(props) {
             setTags([...tags, newTag]);
             setNewTag('');
             await addToApi('tags', [...tags, newTag]);
-            await new Promise(resolve => setTimeout(resolve, 200));
             props.uniqueTagsUpdate();
         }
         setAddingTag(false);
@@ -155,7 +151,6 @@ function TasksItem(props) {
             updatedTags[index] = editedTag;
             setTags(updatedTags);
             await addToApi('tags', [...tags]);
-            await new Promise(resolve => setTimeout(resolve, 200));
             setEditTagIndex(null);
             props.uniqueTagsUpdate();
         }
@@ -167,14 +162,13 @@ function TasksItem(props) {
             updatedTags.splice(index, 1);
             setTags(updatedTags);
             await addToApi('tags', updatedTags);
-            await new Promise(resolve => setTimeout(resolve, 200));
             props.uniqueTagsUpdate();
         }
     }
 
     const removeComponent = async () => {
         setRemove(true);
-        await fetch(`http://localhost:3010/records/${props.id}`, {
+        await fetch(`http://localhost:3010/tasks/${props.id}`, {
             method: 'DELETE'
         })
             .then(resp => resp.json())

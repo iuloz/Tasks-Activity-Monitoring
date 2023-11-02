@@ -11,21 +11,22 @@ function Summary() {
     today.setHours(0, 0, 0);
     const [observationStart, setObservationStart] = useState(today);
     const [observationEnd, setObservationEnd] = useState(new Date());
-    const [recordingsList, setRecordingList] = useState([]);
+    const [allTaskObjects, setAllTaskObjects] = useState([]);
     const [tasksTimes, setTasksTimes] = useState([]);
     const [tagsTimes, setTagsTimes] = useState([]);
     const [color, setColor] = useState('whitesmoke');
     const [visibility, setVisibility] = useState('hidden');
     const [activityPeriods, setActivityPeriods] = useState([]);
 
-
+    // Fetching all task objects from db.json
     useEffect(() => {
-        fetch('http://localhost:3010/records')
+        fetch('http://localhost:3010/tasks')
             .then(response => response.json())
-            .then(data => setRecordingList(data))
+            .then(data => setAllTaskObjects(data))
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    // Fetching theme to set the color
     useEffect(() => {
         fetch('http://localhost:3010/settings')
             .then(response => response.json())
@@ -33,29 +34,31 @@ function Summary() {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-
+    // Sets observation interval start date and time
     const handleObservationStart = (date) => {
         setObservationStart(date);
     };
-
+    // Sets observation interval end date and time
     const handleObservationEnd = (date) => {
         setObservationEnd(date);
     };
 
-
+    // Defines what tasks and tags were active within observation interval and calculates total activity time for each
     const showTasksAndTimes = async () => {
-        let recordings;
-        await fetch('http://localhost:3010/records')
+        let tasks;
+        await fetch('http://localhost:3010/tasks')
             .then(response => response.json())
             .then(data => {
-                recordings = data;
-                setRecordingList(data);
+                tasks = data;
+                setAllTaskObjects(data);
             })
             .catch(error => console.error('Error fetching data:', error));
         setVisibility('visible');
         setTasksTimes([]);
         let updatedTagsTimes = [];
         let periods = [];
+
+        // Making a string out of date objects
         const observationStartString = observationStart.toLocaleString('ru-RU', {
             day: '2-digit',
             month: '2-digit',
@@ -72,7 +75,9 @@ function Summary() {
             minute: '2-digit',
             second: '2-digit',
         });
-        recordings.forEach((item, index) => {
+
+        // Calculating total activity time for each task and tag
+        tasks.forEach((item, index) => {
             let totalTimeInSeconds = 0;
             const dateTime = new Date();
             const dateTimeString = dateTime.toLocaleString('ru-RU', {
@@ -84,7 +89,8 @@ function Summary() {
                 second: '2-digit',
             });
             for (let i = 0; i < item.start.length; i++) {
-                if (item.end[i]) {
+                if (item.end[i]) {  // If task is currently inactive
+                    // Converitng date strings into date objects to be able to compare them
                     const startTime = new Date(item.start[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                     const endTime = new Date(item.end[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
 
@@ -105,7 +111,7 @@ function Summary() {
                         periods.push({ id: item.id, task: item.task, start: observationStartString, end: observationEndString });
                     }
 
-                } else {
+                } else {    // If task is currently active
                     const lastStartTime = new Date(item.start[i].replace(/(\d{2}).(\d{2}).(\d{4}), (\d{2}):(\d{2}):(\d{2})/, "$3-$2-$1T$4:$5:$6"));
                     if (lastStartTime <= observationStart && dateTime >= observationEnd) {
                         totalTimeInSeconds += Math.floor((observationEnd - observationStart) / 1000);
@@ -125,18 +131,19 @@ function Summary() {
                     }
                 }
             }
+            // Calcualating total activity time
             const hours = Math.floor(totalTimeInSeconds / 3600);
             const minutes = Math.floor((totalTimeInSeconds % 3600) / 60);
             const seconds = totalTimeInSeconds % 60;
             const newTimeTotal = `${hours}:${minutes}:${seconds}`;
             const components = newTimeTotal.split(':');
-            let formattedTime = components.map(component => component.padStart(2, '0'));
+            let formattedTime = components.map(component => component.padStart(2, '0'));    // making total time format 'hh:mm:ss'
             formattedTime = formattedTime.join(':');
             setTasksTimes(prev => [...prev, { id: item.id, task: item.task, totalTime: formattedTime }]);
 
 
             item.tags.forEach(tag => {
-                if (updatedTagsTimes.findIndex(obj => obj.tag === tag) !== -1) { // If there is same tag already
+                if (updatedTagsTimes.findIndex(obj => obj.tag === tag) !== -1) { // If there is same tag already, total times are summed
                     console.log(`${tag} already exists`);
                     const temp = [...updatedTagsTimes];
                     const index = temp.findIndex(obj => obj.tag === tag);
@@ -166,7 +173,7 @@ function Summary() {
     return (
         <div>
             <p style={{ display: 'inline-block', marginRight: '40px', fontSize: '1.3rem', color: color }}>Observation interval:</p>
-            <div style={{ display: 'inline-block'}}>
+            <div style={{ display: 'inline-block' }}>
                 <p style={{ color: color }}>Start:</p>
                 <DatePicker
                     selected={observationStart}
@@ -191,7 +198,7 @@ function Summary() {
             <p style={{ color: color, visibility: visibility, fontSize: '1.2rem' }}>Total active times for tasks:</p>
             {
                 tasksTimes.map((item, index) => {
-                    if (item.totalTime !== '00:00:00') {
+                    if (item.totalTime !== '00:00:00') { // Displaying only tasks being active within observation interval
                         return (
                             <TaskOfInterest
                                 key={index}
@@ -199,7 +206,7 @@ function Summary() {
                                 task={item.task}
                                 totalActiveTime={item.totalTime}
                                 activityPeriods={activityPeriods}
-                                recordingsList={recordingsList}
+                                allTaskObjects={allTaskObjects}
                                 updateTotalTime={showTasksAndTimes}
                             />
                         )
@@ -211,7 +218,7 @@ function Summary() {
             <p style={{ color: color, visibility: visibility, fontSize: '1.2rem' }}>Total active times for tags:</p>
             {
                 tagsTimes.map((item, index) => {
-                    if (item.totalTime !== '00:00:00') {
+                    if (item.totalTime !== '00:00:00') {    // Displaying only tags being active within observation interval
                         return (
                             <div key={index} className='tag-of-interest'>
                                 <p><b>Tag:</b> {item.tag}</p>

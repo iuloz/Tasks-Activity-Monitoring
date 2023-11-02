@@ -7,15 +7,15 @@ function Settings() {
 
 
 
-
+    // Fetching all tasks objects from db.json
     useEffect(() => {
-        fetch('http://localhost:3010/records')
+        fetch('http://localhost:3010/tasks')
             .then(response => response.json())
             .then(data => setTasks(data))
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
-
+    // Updating db.json settings content
     const addToApi = async (key, value) => {
         const requestBody = { [key]: value };
         await fetch('http://localhost:3010/settings', {
@@ -29,7 +29,7 @@ function Settings() {
             });
     }
 
-
+    // Applying settings
     const applySettings = async () => {
         const newTheme = document.getElementById('theme').value;
         const newMode = document.getElementById('mode').value;
@@ -41,6 +41,8 @@ function Settings() {
             await addToApi('theme', newTheme);
         }
 
+        // Checks the mode. If it is 'single active task' mode, all active tasks become inactive except last one
+        // and status is changed in db.json
         if (mode !== newMode && newMode !== 'default') {
             setMode(newMode);
             await addToApi('mode', newMode);
@@ -49,7 +51,7 @@ function Settings() {
                 for (const task of tasks) {
                     if (task.status === 'Active') {
                         lastActive = task;
-                        await fetch(`http://localhost:3010/records/${task.id}`, {
+                        await fetch(`http://localhost:3010/tasks/${task.id}`, {
                             method: 'PATCH',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ status: 'Inactive' })
@@ -59,11 +61,9 @@ function Settings() {
                                 console.error('Error:', error);
                             });
                     }
-                    await new Promise(resolve => setTimeout(resolve, 200));
                 }
                 if (lastActive !== null) {
-                    await new Promise(resolve => setTimeout(resolve, 200));
-                    await fetch(`http://localhost:3010/records/${lastActive.id}`, {
+                    await fetch(`http://localhost:3010/tasks/${lastActive.id}`, {
                         method: 'PATCH',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ status: 'Active' })

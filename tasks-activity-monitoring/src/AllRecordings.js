@@ -6,9 +6,8 @@ import Form from './Form';
 
 
 
-// This is recordings list view, made during whole time
 function AllRecordings() {
-    const [recordingsList, setRecordingList] = useState([]);
+    const [allTaskObjects, setAllTaskObjects] = useState([]);
     const [color, setColor] = useState('whitesmoke');
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
     const [uniqueTags, setUniqueTags] = useState([]);
@@ -20,6 +19,7 @@ function AllRecordings() {
     const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [] });
 
 
+    // Fetching theme to set the color
     useEffect(() => {
         fetch('http://localhost:3010/settings')
             .then(response => response.json())
@@ -28,34 +28,36 @@ function AllRecordings() {
     }, []);
 
 
+    // Artificial rerendering when in 'single active task' mode, so that status of previous task changes
     useEffect(() => {
         const timer = setTimeout(() => {
             setRender(true);
-        }, 200);
-
+        }, 100);
         return () => clearTimeout(timer);
     }, [render]);
 
 
-    // Fetching all recordings from db.json
+    // Fetching all task objects from db.json
     useEffect(() => {
-        fetch('http://localhost:3010/records')
+        fetch('http://localhost:3010/tasks')
             .then(response => response.json())
-            .then(data => setRecordingList(data))
+            .then(data => setAllTaskObjects(data))
             .catch(error => console.error('Error fetching data:', error));
         // setRender(prev => !prev);
     }, [showFilterDropdown, updateTags]);
 
+
     // Setting array of unique tags
     useEffect(() => {
         const tagsSet = new Set();
-        recordingsList.forEach(item => {
+        allTaskObjects.forEach(item => {
             item.tags.forEach(tag => tagsSet.add(tag));
         });
         setUniqueTags(Array.from(tagsSet));
-    }, [recordingsList]);
+    }, [allTaskObjects]);
 
 
+    // Ticking tag checkbox in filtering
     const toggleTag = (tag) => {
         setSelectedTags(prevTags => (
             prevTags.includes(tag) ? prevTags.filter(t => t !== tag) : [...prevTags, tag]));
@@ -66,20 +68,24 @@ function AllRecordings() {
         setShowFilterDropdown(false);
     }
 
+    // Updating unique tags list from TasksItem component triggering useEffect
     const newTagsFromTaskItem = () => {
         setUpdateTags(!updateTags);
     }
 
+    // Rerendering from child component by triggering useEffect
     const setItemStatus = (stat) => {
         setRender(stat);
     }
 
+    // Updating task objects list
     const setNewTaskList = (list) => {
-        setRecordingList(list);
+        setAllTaskObjects(list);
     }
 
+    // Updating db.json content
     const addTaskToApi = async () => {
-        await fetch('http://localhost:3010/records', {
+        await fetch('http://localhost:3010/tasks', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(task)
@@ -90,20 +96,22 @@ function AllRecordings() {
             });
     }
 
+    // Adding new task component
     const recordTask = async (event) => {
-        await event.preventDefault();
+        event.preventDefault();
         if (task.task === '' || task.tags.length < 1) {
             return;
         } else {
             setTaskList([...taskList, task]);
-            addTaskToApi();
+            await addTaskToApi();
             setUpdateTags(!updateTags);
         }
 
-        // Setting empty fields for start and end to make input fields empty after form submit
+        // Setting empty fields for task and tag to make input fields empty after form submit
         setTask(prev => ({ ...prev, task: '', tags: [] }));
     }
 
+    // Setting new task
     const inputChanged = (event) => {
         const date = (new Date()).toLocaleDateString('fi-FI', {
             day: '2-digit',
@@ -144,7 +152,7 @@ function AllRecordings() {
             <Form task={task} inputChanged={inputChanged} recordTask={recordTask} />
 
             {filterActive ? (
-                recordingsList.map((item, index) => (
+                allTaskObjects.map((item, index) => (
                     selectedTags.every(tag => item.tags.includes(tag)) && (
                         <TasksItem
                             key={index}
@@ -158,13 +166,13 @@ function AllRecordings() {
                             existingTags={uniqueTags}
                             uniqueTagsUpdate={newTagsFromTaskItem}
                             setItemStatus={setItemStatus}
-                            recordingsList={recordingsList}
+                            allTaskObjects={allTaskObjects}
                             setNewTaskList={setNewTaskList}
                         />
                     )
                 ))
             ) : (
-                recordingsList.map((item, index) => (
+                allTaskObjects.map((item, index) => (
                     <TasksItem
                         key={index}
                         id={item.id}
@@ -177,7 +185,7 @@ function AllRecordings() {
                         existingTags={uniqueTags}
                         uniqueTagsUpdate={newTagsFromTaskItem}
                         setItemStatus={setItemStatus}
-                        recordingsList={recordingsList}
+                        allTaskObjects={allTaskObjects}
                         setNewTaskList={setNewTaskList}
                     />
                 )

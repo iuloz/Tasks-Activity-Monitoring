@@ -78,6 +78,7 @@ function TasksItem(props) {
             setStatus(isActive ? 'Active' : 'Inactive');
             setColor(isActive ? 'lightgreen' : '#ffd5bb');
             await addToApi('status', isActive ? 'Active' : 'Inactive');
+            await new Promise(resolve => setTimeout(resolve, 200));
             let updatedStartTimes = startTimes;
             let updatedEndTimes = endTimes;
 

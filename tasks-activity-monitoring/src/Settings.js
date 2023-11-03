@@ -61,6 +61,7 @@ function Settings() {
                                 console.error('Error:', error);
                             });
                     }
+                    await new Promise(resolve => setTimeout(resolve, 200));
                 }
                 if (lastActive !== null) {
                     await fetch(`http://localhost:3010/tasks/${lastActive.id}`, {
@@ -74,6 +75,7 @@ function Settings() {
                             console.error('Error:', error);
                         });
                     console.log('Disabled all tasks but one');
+                    await new Promise(resolve => setTimeout(resolve, 200));
                 }
             }
         }

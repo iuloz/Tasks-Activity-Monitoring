@@ -32,7 +32,7 @@ function AllRecordings() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setRender(true);
-        }, 200);
+        }, 100);
         return () => clearTimeout(timer);
     }, [render]);
 

@@ -1,0 +1,16 @@
+GET (search):
+curl 'http://localhost:8000/api/users/search?first=Gordon&last=Freeman&include=Phone'
+curl 'http://localhost:8000/api/users/search?first=Lisa&op=or&last=Morgan'
+curl 'http://localhost:8000/api/users/search?op=gte&id=2'
+
+POST:
+curl -d '{"first": "Homer", "last": "Simpson", "location": "Springfield"}' -H "Content-Type: application/json" -X POST http://localhost:8000/api/users
+
+PUT:
+curl -d '{"first": "Max", "last": "Payne", "location": "New York"}' -H "Content-Type: application/json" -X PUT http://localhost:8000/api/users/1
+
+PATCH:
+curl -d '{"first": "Ned", "last": "Flanders"}' -H "Content-Type: application/json" -X PATCH http://localhost:8000/api/users/1
+
+DELETE:
+curl -X DELETE http://localhost:8000/api/users/1

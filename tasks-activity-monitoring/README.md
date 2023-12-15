@@ -10,3 +10,4 @@ run the app itself:
 
 
 NB: The project is not done yet. It still has bugs.
+NB: Backend part is in progress...

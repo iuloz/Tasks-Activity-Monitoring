@@ -3,8 +3,8 @@ const app = Router();
 const { getAllUsers, findUsers, getUserById, createUser, patchUser, putUser, deleteUser } = require('../controllers/userController');
 
 
-app.get('/api/users', getAllUsers);
-app.get('/api/users/search', findUsers);
+app.get('/tasks', getAllUsers);
+app.get('/tasks/search', findUsers);
 app.get('/api/users/:id', getUserById);
 app.post('/api/users', createUser);
 app.patch('/api/users/:id', patchUser);

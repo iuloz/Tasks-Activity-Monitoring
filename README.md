@@ -7,6 +7,3 @@ start local server, using *db.json* file (command in terminal):
 
 run the app itself:
 + npm start
-
-
-NB: The project is not done yet. It still has bugs.

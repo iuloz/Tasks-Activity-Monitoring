@@ -1,9 +1,16 @@
 **To run the app:**
-+ git clone repository
-+ in project root directory in terminal run *npm install* to install all modules needed for the app
++ Clone repository
++ In project root directory run
+  ```
+  npm install
+  ```
 
-start local server, using *db.json* file (command in terminal):  
-`npx json-server -H localhost -p 3010 -w ./db.json`
++ Run in terminal following command to start a local server, using *db.json* file:
+  ```
+  npx json-server -h localhost -p 3010 -w ./db.json
+  ```
 
-run the app itself:  
-`npm start`
++ Run the app itself:
+  ```
+  npm run dev
+  ```

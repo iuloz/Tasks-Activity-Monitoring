@@ -1,10 +1,10 @@
+// filepath: /E:/Yulo/source/repos/Tasks-Activity-Monitoring/src/AllRecordings.jsx
 import { useState, useEffect } from 'react';
 import TasksItem from './TasksItem';
 import { v4 as uuidv4 } from 'uuid';
 import Form from './Form';
-
-
-
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import './styles.css';
 
 function AllRecordings() {
   const [allTaskObjects, setAllTaskObjects] = useState([]);
@@ -18,7 +18,6 @@ function AllRecordings() {
   const [taskList, setTaskList] = useState([]);
   const [task, setTask] = useState({ id: '', date: '', status: 'Inactive', task: '', tags: [], start: [], end: [] });
 
-
   // Fetching theme to set the color
   useEffect(() => {
     fetch('http://localhost:3010/settings')
@@ -27,7 +26,6 @@ function AllRecordings() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-
   // Artificial rerendering when in 'single active task' mode, so that status of previous task changes
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,7 +33,6 @@ function AllRecordings() {
     }, 200);
     return () => clearTimeout(timer);
   }, [render]);
-
 
   // Fetching all task objects from db.json
   useEffect(() => {
@@ -46,7 +43,6 @@ function AllRecordings() {
     // setRender(prev => !prev);
   }, [showFilterDropdown, updateTags]);
 
-
   // Setting array of unique tags
   useEffect(() => {
     const tagsSet = new Set();
@@ -55,7 +51,6 @@ function AllRecordings() {
     });
     setUniqueTags(Array.from(tagsSet));
   }, [allTaskObjects]);
-
 
   // Ticking tag checkbox in filtering
   const toggleTag = (tag) => {
@@ -123,7 +118,16 @@ function AllRecordings() {
     setTask({ ...task, id: uuidv4(), date: date, [key]: (key === 'tags') ? [value] : value });
   }
 
+  // Handle drag end
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
 
+    const items = Array.from(allTaskObjects);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setAllTaskObjects(items);
+  }
 
   return !render ? null : (
     <div>
@@ -151,51 +155,76 @@ function AllRecordings() {
 
       <Form task={task} inputChanged={inputChanged} recordTask={recordTask} />
 
-      {filterActive ? (
-        allTaskObjects.map((item, index) => (
-          selectedTags.every(tag => item.tags.includes(tag)) && (
-            <TasksItem
-              key={index}
-              id={item.id}
-              date={item.date}
-              status={item.status}
-              task={item.task}
-              tags={item.tags}
-              startTimes={item.start}
-              endTimes={item.end}
-              existingTags={uniqueTags}
-              uniqueTagsUpdate={newTagsFromTaskItem}
-              setItemStatus={setItemStatus}
-              allTaskObjects={allTaskObjects}
-              setNewTaskList={setNewTaskList}
-            />
-          )
-        ))
-      ) : (
-        allTaskObjects.map((item, index) => (
-          <TasksItem
-            key={index}
-            id={item.id}
-            date={item.date}
-            status={item.status}
-            task={item.task}
-            tags={item.tags}
-            startTimes={item.start}
-            endTimes={item.end}
-            existingTags={uniqueTags}
-            uniqueTagsUpdate={newTagsFromTaskItem}
-            setItemStatus={setItemStatus}
-            allTaskObjects={allTaskObjects}
-            setNewTaskList={setNewTaskList}
-          />
-        )
-        )
-      )
-      }
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="tasks" direction="horizontal">
+          {(provided) => (
+            <div className="tasks-container" {...provided.droppableProps} ref={provided.innerRef}>
+              {filterActive ? (
+                allTaskObjects.map((item, index) => (
+                  selectedTags.every(tag => item.tags.includes(tag)) && (
+                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className={`draggable ${snapshot.isDragging ? 'dragging' : ''}`}
+                        >
+                          <TasksItem
+                            id={item.id}
+                            date={item.date}
+                            status={item.status}
+                            task={item.task}
+                            tags={item.tags}
+                            startTimes={item.start}
+                            endTimes={item.end}
+                            existingTags={uniqueTags}
+                            uniqueTagsUpdate={newTagsFromTaskItem}
+                            setItemStatus={setItemStatus}
+                            allTaskObjects={allTaskObjects}
+                            setNewTaskList={setNewTaskList}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  )
+                ))
+              ) : (
+                allTaskObjects.map((item, index) => (
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className={`draggable ${snapshot.isDragging ? 'dragging' : ''}`}
+                      >
+                        <TasksItem
+                          id={item.id}
+                          date={item.date}
+                          status={item.status}
+                          task={item.task}
+                          tags={item.tags}
+                          startTimes={item.start}
+                          endTimes={item.end}
+                          existingTags={uniqueTags}
+                          uniqueTagsUpdate={newTagsFromTaskItem}
+                          setItemStatus={setItemStatus}
+                          allTaskObjects={allTaskObjects}
+                          setNewTaskList={setNewTaskList}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))
+              )}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </div>
   );
-
 }
-
 
 export default AllRecordings;

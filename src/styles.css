@@ -329,3 +329,28 @@ select {
 .interval:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
+
+.draggable.dragging {
+  background-color: #f0f0f0;
+  opacity: 0.8;
+}
+
+.tasks-container {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+}
+
+.tasks-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tasks-container::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.tasks-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}

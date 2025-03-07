@@ -14,3 +14,8 @@
   ```
   npm run dev
   ```
+
+PS</br>
+It is better to use Chrome rather than Firefox. Firefox has issues with CORS.
+
+
